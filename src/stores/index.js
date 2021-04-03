@@ -3,7 +3,7 @@ import { persistReducer } from "redux-persist";
 import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage/session";
 
-import loginReducer from "./loginState";
+import { LoginReducer } from "./reducers/LoginReducer";
 
 const persistConfig = {
    key: "root",
@@ -11,7 +11,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-   loginReducer,
+   LoginReducer,
 });
 
 const enhancedReducer = persistReducer(persistConfig, rootReducer);

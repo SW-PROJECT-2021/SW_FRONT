@@ -13,6 +13,6 @@ export const LoginReducer = (
       case LOGOUT:
          return () => ({ isLogined: false });
       default:
-         return () => ({ isLogined: false });
+         return state;
    }
 };

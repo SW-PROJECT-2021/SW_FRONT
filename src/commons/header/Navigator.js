@@ -48,7 +48,7 @@ const Navigator = () => {
    const handlePopoverOpen = (event) => {
       setCurOpen(parseInt(event._targetInst.key));
       setAnchorEl(event.currentTarget);
-      setWidth(event.target.clientWidth);
+      setWidth(window.innerWidth > 768 ? event.target.clientWidth : 218);
    };
    const handlePopoverClose = () => {
       setCurOpen(9999);
@@ -71,7 +71,7 @@ const Navigator = () => {
                               key={idx}
                               class="nav-item"
                               onMouseEnter={handlePopoverOpen}
-                              style={liStyle(curOpen === idx ? "#f1f3f5" : "")}
+                              style={liStyle(curOpen === idx ? "#f8f9fa" : "")}
                            >
                               <a key={idx} class="nav-link" href={li.href}>
                                  {li.name}
@@ -91,7 +91,7 @@ const Navigator = () => {
                            style={
                               open
                                  ? {
-                                      backgroundColor: "#f1f3f5",
+                                      backgroundColor: "#f8f9fa",
                                       width: width,
                                    }
                                  : {}

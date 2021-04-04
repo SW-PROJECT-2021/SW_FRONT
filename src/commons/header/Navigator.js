@@ -43,7 +43,7 @@ const liList = [
 const Navigator = () => {
    const [anchorEl, setAnchorEl] = useState(null);
    const [width, setWidth] = useState();
-   const [curOpen, setCurOpen] = useState(9999);
+   const [curOpen, setCurOpen] = useState(2);
 
    const handlePopoverOpen = (event) => {
       setCurOpen(parseInt(event._targetInst.key));
@@ -73,9 +73,15 @@ const Navigator = () => {
                               onMouseEnter={handlePopoverOpen}
                               style={liStyle(curOpen === idx ? "#f8f9fa" : "")}
                            >
-                              <a key={idx} class="nav-link" href={li.href}>
-                                 {li.name}
-                              </a>
+                              {idx === 2 ? (
+                                 <span key={idx} class="nav-link">
+                                    {li.name}
+                                 </span>
+                              ) : (
+                                 <a key={idx} class="nav-link" href={li.href}>
+                                    {li.name}
+                                 </a>
+                              )}
                            </li>
                         );
                      })}

@@ -1,6 +1,13 @@
 import React from "react";
+import Banner from "./Banner";
+import PopularProduct from "./PopularProduct";
 
 function Main() {
-   return <div></div>;
+   return (
+      <div>
+         <Banner />
+         <PopularProduct />
+      </div>
+   );
 }
 export default Main;

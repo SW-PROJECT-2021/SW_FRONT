@@ -1,17 +1,17 @@
-import { HashRouter as Router, Route } from "react-router-dom";
-import Footer from "./commons/Footer";
-import Header from "./commons/header/Header";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import Admin from "./pages/admin";
 import Login from "./pages/login";
-import Main from "./pages/main";
+import User from "./pages/user";
 
 function App() {
    return (
       <>
          <Router>
-            <Header />
-            <Route exact path="/" component={Main} />
-            <Route exact path="/auth" component={Login} />
-            <Footer />
+            <Switch>
+               <Route exact path="/admin" component={Admin} />
+               <Route exact path="/auth" component={Login} />
+               <Route path="/" component={User} />
+            </Switch>
          </Router>
       </>
    );

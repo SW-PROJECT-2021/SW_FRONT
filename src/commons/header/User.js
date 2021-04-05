@@ -10,7 +10,6 @@ const LogoutButton = styled.span`
 `;
 
 const User = ({ isLogined, onLogout }) => {
-   isLogined = true;
    return (
       <div className="col-lg-4">
          <div className="widgets-wrap float-right">

@@ -4,6 +4,7 @@ import Fade from "@material-ui/core/Fade";
 import { useState } from "react";
 import { Paper } from "@material-ui/core";
 import { menuList } from "./NavContent";
+import { ExpandMore } from "@material-ui/icons";
 
 const StyledNav = styled.div`
    width: 100%;
@@ -17,13 +18,30 @@ const StyledNav = styled.div`
       width: 33%;
    }
 `;
-
-function liStyle(bgColor) {
-   return {
-      backgroundColor: `${bgColor}`,
-      padding: "7px 0",
-   };
-}
+const StyledLi = styled.li`
+   padding: 7px 0;
+   position: relative;
+   cursor: pointer;
+   &.open {
+      background-color: #f8f9fa;
+   }
+   @media screen and (max-width: 420px) {
+      height: 50px;
+   }
+`;
+const StyledA = styled.a`
+   display: inline-block;
+   color: #1c1c1c;
+   width: 50%;
+   &.disabled {
+      pointer-events: none;
+   }
+   @media screen and (max-width: 420px) {
+      position: absolute;
+      width: 60%;
+      left: 0px;
+   }
+`;
 
 const liList = [
    {
@@ -36,53 +54,72 @@ const liList = [
    },
    {
       name: "보조",
-      href: "/",
+      href: "",
    },
 ];
 
 const Navigator = () => {
    const [anchorEl, setAnchorEl] = useState(null);
    const [width, setWidth] = useState();
-   const [curOpen, setCurOpen] = useState(2);
+   const [curOpen, setCurOpen] = useState(9999);
 
    const handlePopoverOpen = (event) => {
-      setCurOpen(parseInt(event._targetInst.key));
+      if (event.type === "click" && Boolean(anchorEl)) {
+         handlePopoverClose();
+         return;
+      }
+      setCurOpen(parseInt(event.target.id));
       setAnchorEl(event.currentTarget);
-      setWidth(window.innerWidth > 768 ? event.target.clientWidth : 218);
+      setWidth(event.target.clientWidth > 218 ? event.target.clientWidth : 218);
    };
    const handlePopoverClose = () => {
       setCurOpen(9999);
       setAnchorEl(null);
    };
+
+   const ExpandButton = (key) => (
+      <ExpandMore
+         id={key}
+         style={{
+            position: "absolute",
+            right: "10px",
+            cursor: "pointer",
+            zIndex: "-100",
+         }}
+      />
+   );
    const open = Boolean(anchorEl);
 
    return (
       <nav
-         class="navbar navbar-main navbar-expand navbar-light border-bottom"
+         className="navbar navbar-main navbar-expand navbar-light border-bottom"
          style={{ paddingTop: "0px", paddingBottom: "0px" }}
       >
-         <div class="container">
-            <div class="collapse navbar-collapse" id="main_nav">
+         <div className="container">
+            <div className="collapse navbar-collapse" id="main_nav">
                <StyledNav onMouseLeave={handlePopoverClose}>
-                  <ul class="navbar-nav">
+                  <ul className="navbar-nav">
                      {liList.map((li, idx) => {
                         return (
-                           <li
+                           <StyledLi
+                              id={idx}
                               key={idx}
-                              class="nav-item"
+                              className={`nav-item ${
+                                 curOpen === idx && "open"
+                              }`}
                               onMouseEnter={handlePopoverOpen}
-                              style={liStyle(curOpen === idx ? "#f8f9fa" : "")}
+                              onClick={handlePopoverOpen}
                            >
-                              {idx === 2 ? (
-                                 <span key={idx} class="nav-link">
+                              <span id={idx} className="nav-link">
+                                 <StyledA
+                                    href={li.href}
+                                    className={!li.href && "disabled"}
+                                 >
                                     {li.name}
-                                 </span>
-                              ) : (
-                                 <a key={idx} class="nav-link" href={li.href}>
-                                    {li.name}
-                                 </a>
-                              )}
-                           </li>
+                                 </StyledA>
+                                 {ExpandButton(idx)}
+                              </span>
+                           </StyledLi>
                         );
                      })}
                   </ul>
@@ -94,14 +131,10 @@ const Navigator = () => {
                   >
                      <Fade in={true} timeout={350}>
                         <Paper
-                           style={
-                              open
-                                 ? {
-                                      backgroundColor: "#f8f9fa",
-                                      width: width,
-                                   }
-                                 : {}
-                           }
+                           style={{
+                              backgroundColor: "#f8f9fa",
+                              width: width,
+                           }}
                         >
                            {menuList[curOpen]}
                         </Paper>

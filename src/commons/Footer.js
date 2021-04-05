@@ -1,12 +1,12 @@
 const Footer = () => {
    return (
-      <footer class="section-footer border-top bg">
-         <div class="container">
-            <section class="footer-top  padding-y">
-               <div class="row">
-                  <aside class="col-md col-6">
-                     <h6 class="title">Brands</h6>
-                     <ul class="list-unstyled">
+      <footer className="section-footer border-top bg">
+         <div className="container">
+            <section className="footer-top  padding-y">
+               <div className="row">
+                  <aside className="col-md col-6">
+                     <h6 className="title">Brands</h6>
+                     <ul className="list-unstyled">
                         <li>
                            {" "}
                            <a href="/">Adidas</a>
@@ -25,9 +25,9 @@ const Footer = () => {
                         </li>
                      </ul>
                   </aside>
-                  <aside class="col-md col-6">
-                     <h6 class="title">Company</h6>
-                     <ul class="list-unstyled">
+                  <aside className="col-md col-6">
+                     <h6 className="title">Company</h6>
+                     <ul className="list-unstyled">
                         <li>
                            {" "}
                            <a href="/">About us</a>
@@ -50,9 +50,9 @@ const Footer = () => {
                         </li>
                      </ul>
                   </aside>
-                  <aside class="col-md col-6">
-                     <h6 class="title">Help</h6>
-                     <ul class="list-unstyled">
+                  <aside className="col-md col-6">
+                     <h6 className="title">Help</h6>
+                     <ul className="list-unstyled">
                         <li>
                            {" "}
                            <a href="/">Contact us</a>
@@ -75,9 +75,9 @@ const Footer = () => {
                         </li>
                      </ul>
                   </aside>
-                  <aside class="col-md col-6">
-                     <h6 class="title">Account</h6>
-                     <ul class="list-unstyled">
+                  <aside className="col-md col-6">
+                     <h6 className="title">Account</h6>
+                     <ul className="list-unstyled">
                         <li>
                            {" "}
                            <a href="/"> User Login </a>
@@ -96,50 +96,52 @@ const Footer = () => {
                         </li>
                      </ul>
                   </aside>
-                  <aside class="col-md">
-                     <h6 class="title">Social</h6>
-                     <ul class="list-unstyled">
+                  <aside className="col-md">
+                     <h6 className="title">Social</h6>
+                     <ul className="list-unstyled">
                         <li>
                            <a href="/">
                               {" "}
-                              <i class="fab fa-facebook"></i> Facebook{" "}
+                              <i className="fab fa-facebook"></i> Facebook{" "}
                            </a>
                         </li>
                         <li>
                            <a href="/">
                               {" "}
-                              <i class="fab fa-twitter"></i> Twitter{" "}
+                              <i className="fab fa-twitter"></i> Twitter{" "}
                            </a>
                         </li>
                         <li>
                            <a href="/">
                               {" "}
-                              <i class="fab fa-instagram"></i> Instagram{" "}
+                              <i className="fab fa-instagram"></i> Instagram{" "}
                            </a>
                         </li>
                         <li>
                            <a href="/">
                               {" "}
-                              <i class="fab fa-youtube"></i> Youtube{" "}
+                              <i className="fab fa-youtube"></i> Youtube{" "}
                            </a>
                         </li>
                      </ul>
                   </aside>
                </div>
             </section>
-            <section class="footer-bottom row">
-               <div class="col-md-2">
-                  <p class="text-muted"> 2021 Company name </p>
+            <section className="footer-bottom row">
+               <div className="col-md-2">
+                  <p className="text-muted"> 2021 SE 6팀 </p>
                </div>
-               <div class="col-md-8 text-md-center">
-                  <span class="px-2">info@com</span>
-                  <span class="px-2">+000-000-0000</span>
-                  <span class="px-2">Street name 123, ABC</span>
+               <div className="col-md-8 text-md-center">
+                  <span className="px-2">info@com</span>
+                  <span className="px-2">+000-000-0000</span>
+                  <span className="px-2">
+                     서울시 노원구 공릉로 232 서울과학기술대학교
+                  </span>
                </div>
-               <div class="col-md-2 text-md-right text-muted">
-                  <i class="fab fa-lg fa-cc-visa"></i>
-                  <i class="fab fa-lg fa-cc-paypal"></i>
-                  <i class="fab fa-lg fa-cc-mastercard"></i>
+               <div className="col-md-2 text-md-right text-muted">
+                  <i className="fab fa-lg fa-cc-visa"></i>
+                  <i className="fab fa-lg fa-cc-paypal"></i>
+                  <i className="fab fa-lg fa-cc-mastercard"></i>
                </div>
             </section>
          </div>

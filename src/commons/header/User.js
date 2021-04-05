@@ -10,28 +10,31 @@ const LogoutButton = styled.span`
 `;
 
 const User = ({ isLogined, onLogout }) => {
+   isLogined = true;
    return (
-      <div class="col-lg-4">
-         <div class="widgets-wrap float-right">
-            <div class="widget-header  mr-3">
-               <a href="/" class="icon icon-sm rounded-circle border">
-                  <i class="fa fa-shopping-cart"></i>
+      <div className="col-lg-4">
+         <div className="widgets-wrap float-right">
+            <div className="widget-header  mr-3">
+               <a href="/" className="icon icon-sm rounded-circle border">
+                  <i className="fa fa-shopping-cart"></i>
                </a>
-               <span class="badge badge-pill badge-danger notify">0</span>
+               <span className="badge badge-pill badge-danger notify">0</span>
             </div>
             {isLogined && (
                <>
-                  <div class="widget-header  mr-3">
-                     <a href="/" class="icon icon-sm rounded-circle border">
-                        <i class="fa fa-user"></i>
+                  <div className="widget-header  mr-3">
+                     <a href="/" className="icon icon-sm rounded-circle border">
+                        <i className="fa fa-user"></i>
                      </a>
                   </div>
                </>
             )}
-            <div class="widget-header icontext">
-               <div class="text">
+            <div className="widget-header icontext">
+               <div className="text">
                   {" "}
-                  {isLogined && <div class="text-muted">님, 환영합니다.</div>}
+                  {isLogined && (
+                     <div className="text-muted">님, 환영합니다.</div>
+                  )}
                   <div>
                      {isLogined ? (
                         <LogoutButton onClick={() => onLogout()}>

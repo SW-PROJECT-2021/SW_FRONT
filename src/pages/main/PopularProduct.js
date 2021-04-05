@@ -1,124 +1,124 @@
 const PopularProduct = () => {
    return (
-      <section class="section-name padding-y-sm">
-         <div class="container">
-            <header class="section-heading">
-               <a href="/" class="btn btn-outline-primary float-right">
-                  See all
+      <section className="section-name padding-y-sm">
+         <div className="container">
+            <header className="section-heading">
+               <a href="/" className="btn btn-outline-primary float-right">
+                  전체보기
                </a>
-               <h3 class="section-title">Popular products</h3>
+               <h3 className="section-title">인기 상품</h3>
             </header>
 
-            <div class="row">
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+            <div className="row">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/1.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Just another product name
+                     <figcaption className="info-wrap">
+                        <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$179.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/2.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Some item name here
+                     <figcaption className="info-wrap">
+                     <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$280.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/3.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Great product name here
+                     <figcaption className="info-wrap">
+                     <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$56.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/4.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Just another product name
+                     <figcaption className="info-wrap">
+                     <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$179.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/5.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Just another product name
+                     <figcaption className="info-wrap">
+                     <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$179.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/6.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Some item name here
+                     <figcaption className="info-wrap">
+                     <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$280.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/7.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Great product name here
+                     <figcaption className="info-wrap">
+                     <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$56.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <div href="/" class="card card-product-grid">
-                     <a href="/" class="img-wrap">
+               <div className="col-md-3">
+                  <div href="/" className="card card-product-grid">
+                     <a href="/" className="img-wrap">
                         {" "}
                         <img src="assets/images/items/9.jpg" alt="img" />{" "}
                      </a>
-                     <figcaption class="info-wrap">
-                        <a href="/" class="title">
-                           Just another product name
+                     <figcaption className="info-wrap">
+                        <a href="/" className="title">
+                           상품이름
                         </a>
-                        <div class="price mt-1">$179.00</div>
+                        <div className="price mt-1">1,700,000</div>
                      </figcaption>
                   </div>
                </div>

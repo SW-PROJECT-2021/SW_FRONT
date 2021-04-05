@@ -22,7 +22,7 @@ export const menuList = [
       <List component="nav" aria-label="main mailbox folders">
          <ListItemLink href="/">
             <ListItemIcon>
-               <i class="fas fa-walking fa-lg" />
+               <i className="fas fa-walking fa-lg" />
             </ListItemIcon>
             <ListItemText primary="런닝머신" />
          </ListItemLink>
@@ -44,19 +44,19 @@ export const menuList = [
          </ListItemLink>
          <ListItemLink href="/">
             <ListItemIcon>
-               <i class="fas fa-dumbbell fa-lg" />
+               <i className="fas fa-dumbbell fa-lg" />
             </ListItemIcon>
             <ListItemText primary="덤벨" />
          </ListItemLink>
          <ListItemLink href="/">
             <ListItemIcon>
-               <i class="fas fa-life-ring  fa-lg" />
+               <i className="fas fa-life-ring  fa-lg" />
             </ListItemIcon>
             <ListItemText primary="원판" />
          </ListItemLink>
          <ListItemLink href="/">
             <ListItemIcon>
-               <i class="fas fa-torii-gate fa-lg" />
+               <i className="fas fa-torii-gate fa-lg" />
             </ListItemIcon>
             <ListItemText primary="기구" />
          </ListItemLink>
@@ -66,7 +66,7 @@ export const menuList = [
       <List component="nav" aria-label="main mailbox folders">
          <ListItemLink href="/">
             <ListItemIcon>
-               <i class="fas fa-universal-access fa-lg" />
+               <i className="fas fa-universal-access fa-lg" />
             </ListItemIcon>
             <ListItemText primary="운동보조기구" />
          </ListItemLink>
@@ -85,13 +85,13 @@ export const menuList = [
             </ListItemLink>
             <ListItemLink href="/">
                <ListItemIcon>
-                  <i class="fas fa-band-aid fa-lg" />
+                  <i className="fas fa-band-aid fa-lg" />
                </ListItemIcon>
                <ListItemText primary="벨트" />
             </ListItemLink>
             <ListItemLink href="/">
                <ListItemIcon>
-                  <i class="fas fa-hashtag fa-lg" />
+                  <i className="fas fa-hashtag fa-lg" />
                </ListItemIcon>
                <ListItemText primary="기구" />
             </ListItemLink>
@@ -101,14 +101,14 @@ export const menuList = [
       <List component="nav" aria-label="secondary mailbox folders">
          <ListItemLink href="/">
             <ListItemIcon>
-               <i class="fas fa-hand-holding-heart fa-lg" />
+               <i className="fas fa-hand-holding-heart fa-lg" />
             </ListItemIcon>
             <ListItemText primary="마사지 기구" />
          </ListItemLink>
          <List component="div" disablePadding style={{ paddingLeft: "10px" }}>
             <ListItemLink href="/">
                <ListItemIcon>
-                  <i class="fas fa-grip-lines fa-lg" />
+                  <i className="fas fa-grip-lines fa-lg" />
                </ListItemIcon>
                <ListItemText primary="폼롤러" />
             </ListItemLink>

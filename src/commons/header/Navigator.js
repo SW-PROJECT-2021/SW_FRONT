@@ -46,11 +46,11 @@ const StyledA = styled.a`
 const liList = [
    {
       name: "유산소",
-      href: "/",
+      href: "/#/list?range=유산소",
    },
    {
       name: "웨이트",
-      href: "/",
+      href: "/#/list?range=웨이트",
    },
    {
       name: "보조",

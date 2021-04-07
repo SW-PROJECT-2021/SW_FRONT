@@ -33,17 +33,17 @@ const Header = () => {
          <section className="header-main border-bottom">
             <div className="container">
                <div className="row align-items-center">
+                  <div className="col-lg-2 col-4">
+                     <a href="/">
+                        <img
+                           src="assets/images/logos/logo5.png"
+                           className="w-100 rounded"
+                           alt="img"
+                        />
+                     </a>
+                  </div>
                   {lessThan992 ? (
                      <>
-                        <div className="col-lg-2 col-4">
-                           <a href="/">
-                              <img
-                                 src="assets/images/logos/logo5.png"
-                                 className="w-100 rounded"
-                                 alt="img"
-                              />
-                           </a>
-                        </div>
                         <UserDiv>
                            <User />
                         </UserDiv>
@@ -51,15 +51,6 @@ const Header = () => {
                      </>
                   ) : (
                      <>
-                        <div className="col-lg-2 col-4">
-                           <a href="/">
-                              <img
-                                 src="assets/images/logos/logo5.png"
-                                 className="w-100 rounded"
-                                 alt="img"
-                              />
-                           </a>
-                        </div>
                         <Search /> <User />
                      </>
                   )}

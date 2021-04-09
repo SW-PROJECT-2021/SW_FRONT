@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { logout } from "../../stores/actions/actions";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const LogoutButton = styled.span`
    &:hover {
@@ -41,7 +42,8 @@ const User = ({ isLogined, onLogout }) => {
                         </LogoutButton>
                      ) : (
                         <>
-                           <a href="/">로그인</a> | <a href="/">회원가입</a>
+                           <Link to="/auth">로그인</Link> |{" "}
+                           <Link to="/">회원가입</Link>
                         </>
                      )}
                   </div>

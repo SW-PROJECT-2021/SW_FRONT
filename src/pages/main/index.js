@@ -8,13 +8,13 @@ import ProductList from "../productList";
 
 function Main() {
    return (
-      <Router>
+      <>
          <Header />
          <Route exact path="/" component={Home} />
          <Route exact path="/cart" component={ShoppingCart} />
          <Route path="/list" component={ProductList} />
          <Footer />
-      </Router>
+      </>
    );
 }
 export default Main;

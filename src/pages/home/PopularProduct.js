@@ -1,5 +1,3 @@
-import zIndex from "@material-ui/core/styles/zIndex";
-
 const list = [
    {
       src: "assets/images/items/1.jpg",

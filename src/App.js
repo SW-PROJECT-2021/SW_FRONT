@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Admin from "./pages/admin";
 import Login from "./pages/login";
-import User from "./pages/main";
+import Main from "./pages/main";
 
 function App() {
    return (
@@ -10,7 +10,7 @@ function App() {
             <Switch>
                <Route exact path="/admin" component={Admin} />
                <Route exact path="/auth" component={Login} />
-               <Route path="/" component={User} />
+               <Route path="/" component={Main} />
             </Switch>
          </Router>
       </>

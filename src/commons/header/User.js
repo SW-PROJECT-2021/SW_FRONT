@@ -14,7 +14,7 @@ const User = ({ isLogined, onLogout }) => {
       <div className="col-lg-4">
          <div className="widgets-wrap float-right">
             <div className="widget-header  mr-3">
-               <a href="/#/cart" className="icon icon-sm rounded-circle border">
+               <a href="/cart" className="icon icon-sm rounded-circle border">
                   <i className="fa fa-shopping-cart"></i>
                </a>
                <span className="badge badge-pill badge-danger notify">0</span>

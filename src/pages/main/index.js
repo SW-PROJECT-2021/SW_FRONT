@@ -1,13 +1,20 @@
 import React from "react";
-import Banner from "./Banner";
-import PopularProduct from "./PopularProduct";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Home from "../home";
+import Header from "../../commons/header/Header";
+import Footer from "../../commons/Footer";
+import ShoppingCart from "../shoppingCart";
+import ProductList from "../productList";
 
 function Main() {
    return (
-      <div>
-         <Banner />
-         <PopularProduct />
-      </div>
+      <Router>
+         <Header />
+         <Route exact path="/" component={Home} />
+         <Route exact path="/cart" component={ShoppingCart} />
+         <Route path="/list" component={ProductList} />
+         <Footer />
+      </Router>
    );
 }
 export default Main;

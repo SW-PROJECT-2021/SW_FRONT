@@ -2,19 +2,18 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Admin from "./pages/admin";
 import Login from "./pages/login";
 import Main from "./pages/main";
-
+import SignUp from "./pages/signup";
 function App() {
-   return (
-      <>
-         <Router>
-            <Switch>
-               <Route exact path="/admin" component={Admin} />
-               <Route exact path="/auth" component={Login} />
-               <Route path="/" component={Main} />
-            </Switch>
-         </Router>
-      </>
-   );
+  return (
+    <>
+      <Switch>
+        <Route path="/admin" component={Admin} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/" component={Main} />
+      </Switch>
+    </>
+  );
 }
 
 export default App;

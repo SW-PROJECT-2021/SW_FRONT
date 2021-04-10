@@ -1,20 +1,19 @@
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Admin from "./pages/admin";
 import Login from "./pages/login";
 import User from "./pages/user";
-
+import SignUp from "./pages/signup";
 function App() {
-   return (
-      <>
-         <Router>
-            <Switch>
-               <Route exact path="/admin" component={Admin} />
-               <Route exact path="/auth" component={Login} />
-               <Route path="/" component={User} />
-            </Switch>
-         </Router>
-      </>
-   );
+  return (
+    <>
+      <Switch>
+        <Route path="/admin" component={Admin} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/" exact={true} component={User} />
+      </Switch>
+    </>
+  );
 }
 
 export default App;

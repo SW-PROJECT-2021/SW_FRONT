@@ -40,9 +40,10 @@ const User = () => {
         {isLogined && (
           <>
             <div className="widget-header  mr-3">
-              <a href="/" className="icon icon-sm rounded-circle border">
-                <i className="fa fa-user"></i>
+              <a href="/cart" className="icon icon-sm rounded-circle border">
+                <i className="fa fa-shopping-cart"></i>
               </a>
+              <span className="badge badge-pill badge-danger notify">0</span>
             </div>
           </>
         )}

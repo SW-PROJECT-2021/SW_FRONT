@@ -1,47 +1,27 @@
-const list = [
-   {
-      src: "assets/images/items/1.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-   {
-      src: "assets/images/items/2.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-   {
-      src: "assets/images/items/3.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-   {
-      src: "assets/images/items/4.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-   {
-      src: "assets/images/items/5.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-   {
-      src: "assets/images/items/6.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-   {
-      src: "assets/images/items/7.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-   {
-      src: "assets/images/items/9.jpg",
-      name: "상품이름",
-      price: "1,700,000",
-   },
-];
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const PopularProduct = () => {
+   const [list, setList] = useState([]);
+
+   useEffect(() => {
+      const getList = async () => {
+         await axios
+            .get("http://15.164.20.183:3003/product")
+            .then((res) => {
+               let random = Math.floor(Math.random() * res.data.data.length);
+               if (random > res.data.data.length - 8) {
+                  random = res.data.data.length - 8;
+               }
+               setList(res.data.data.slice(random, random + 8));
+            })
+            .catch((error) => {
+               console.log(error);
+            });
+      };
+      getList();
+   }, []);
+
    return (
       <section className="section-name padding-y-sm">
          <div className="container">
@@ -59,7 +39,7 @@ const PopularProduct = () => {
                         <div href="/" className="card card-product-grid">
                            <a href="/" className="img-wrap">
                               {" "}
-                              <img src={item.src} alt="img" />{" "}
+                              <img src={item.img} alt="img" />{" "}
                            </a>
                            <figcaption className="info-wrap">
                               <a href="/" className="title">

@@ -1,16 +1,18 @@
 import React from "react";
 
-function List() {
+function List({ list }) {
    return (
       <main className="col-md-9">
          <header className="border-bottom mb-4 pb-3">
             <div className="form-inline">
-               <span className="mr-md-auto">32 Items found </span>
+               <span className="mr-md-auto">
+                  {list.length} 항목이 있습니다.
+               </span>
                <select className="mr-2 form-control">
-                  <option>Latest items</option>
-                  <option>Trending</option>
-                  <option>Most Popular</option>
-                  <option>Cheapest</option>
+                  <option>최신 순</option>
+                  <option>오래된 순</option>
+                  <option>가격 높은 순</option>
+                  <option>가격 낮은 순</option>
                </select>
                <div className="btn-group">
                   <a
@@ -33,192 +35,33 @@ function List() {
             </div>
          </header>
          <div className="row">
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <span className="badge badge-danger"> NEW </span>
-                     <img src="assets/images/items/1.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
-                  </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Great item name goes here
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                           <del className="price-old">$1980</del>
+            {list.map((item, idx) => {
+               return (
+                  <div key={idx} className="col-md-4">
+                     <figure className="card card-product-grid">
+                        <div className="img-wrap">
+                           <img src={item.img} alt="error" />
+                           <a className="btn-overlay" href="/">
+                              <i className="fa fa-search-plus"></i> Quick view
+                           </a>
                         </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <img src="assets/images/items/2.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
+                        <figcaption className="info-wrap">
+                           <div className="fix-height">
+                              <a href="/" className="title">
+                                 {item.name}
+                              </a>
+                              <div className="price-wrap mt-2">
+                                 <span className="price">{item.price}</span>
+                              </div>
+                           </div>
+                           <a href="/" className="btn btn-block btn-primary">
+                              장바구니 추가{" "}
+                           </a>
+                        </figcaption>
+                     </figure>
                   </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Product name goes here just for demo item
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                        </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <img src="assets/images/items/3.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
-                  </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Product name goes here just for demo item
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                        </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <img src="assets/images/items/4.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
-                  </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Product name goes here just for demo item
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                        </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <img src="assets/images/items/5.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
-                  </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Product name goes here just for demo item
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                        </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <img src="assets/images/items/6.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
-                  </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Product name goes here just for demo item
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                        </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <img src="assets/images/items/7.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
-                  </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Product name goes here just for demo item
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                        </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
-            <div className="col-md-4">
-               <figure className="card card-product-grid">
-                  <div className="img-wrap">
-                     <img src="assets/images/items/1.jpg" alt="error" />
-                     <a className="btn-overlay" href="/">
-                        <i className="fa fa-search-plus"></i> Quick view
-                     </a>
-                  </div>
-                  <figcaption className="info-wrap">
-                     <div className="fix-height">
-                        <a href="/" className="title">
-                           Product name goes here just for demo item
-                        </a>
-                        <div className="price-wrap mt-2">
-                           <span className="price">$1280</span>
-                        </div>
-                     </div>
-                     <a href="/" className="btn btn-block btn-primary">
-                        Add to cart{" "}
-                     </a>
-                  </figcaption>
-               </figure>
-            </div>
+               );
+            })}
          </div>
          <nav className="mt-4" aria-label="Page navigation sample">
             <ul className="pagination">
@@ -253,3 +96,18 @@ function List() {
    );
 }
 export default List;
+
+/*할인 된 거 일때
+
+가격 밑에 이거 추가
+
+   <del className="price-old">$1980</del>
+
+
+   
+   새로운 아이템일 경우  
+    <div className="img-wrap"> 밑에
+
+   <span className="badge badge-danger"> NEW </span>
+   이거 추가
+*/

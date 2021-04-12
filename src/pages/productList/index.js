@@ -6,33 +6,6 @@ import axios from "axios";
 import { useLocation } from "react-router";
 import qs from "qs";
 
-const temp = [
-   {
-      id: 8,
-      name: "깔삼한 요가매트",
-      img:
-         "https://sw6team-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1617775775906.png",
-      price: 12000,
-      count: 300,
-      isDeleted: false,
-      createdAt: "2021-04-08T08:25:17.000Z",
-      updatedAt: "2021-04-08T08:25:17.000Z",
-      CategoryId: 11,
-   },
-   {
-      id: 9,
-      name: "겁나 큰 매트",
-      img:
-         "https://sw6team-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1618062361340.png",
-      price: 30000,
-      count: 100,
-      isDeleted: false,
-      createdAt: "2021-04-10T13:46:01.000Z",
-      updatedAt: "2021-04-10T13:46:01.000Z",
-      CategoryId: 11,
-   },
-];
-
 const changeName = (name) => {
    if (name === "유산소") return "aerobic";
    else if (name === "웨이트") return "weight";
@@ -59,7 +32,6 @@ function ProductList() {
 
    useEffect(() => {
       const getResult = async (search) => {
-         console.log(search);
          await axios
             .get(`http://15.164.20.183:3003/product/${search}`)
             .then((res) => {
@@ -99,7 +71,7 @@ function ProductList() {
             <div className="container">
                <div className="row">
                   <Filter />
-                  <List list={list} />
+                  <List list={list} setList={setList} />
                </div>
             </div>
          </section>

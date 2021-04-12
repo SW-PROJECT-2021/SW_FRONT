@@ -1,6 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function List({ list }) {
+const changeValue = (value) => {
+   if (value === "younger") {
+      return { orderBy: "updatedAt", cmp: "lower" };
+   } else if (value === "older") {
+      return { orderBy: "updatedAt", cmp: "greater" };
+   } else if (value === "priceHigher") {
+      return { orderBy: "price", cmp: "lower" };
+   } else if (value === "priveLower") {
+      return { orderBy: "price", cmp: "greater" };
+   }
+};
+
+function List({ list, setList }) {
+   const onChange = (e) => {
+      const {
+         target: { value },
+      } = e;
+      const orderList = (list, order) => {
+         list.sort(function (a, b) {
+            let av = a[order.orderBy],
+               bv = b[order.orderBy];
+            if (order.orderBy === "updatedAt") {
+               av = Date.parse(av);
+               bv = Date.parse(bv);
+            }
+
+            if (order.cmp === "greater") return av - bv;
+            else return bv - av;
+         });
+         return list;
+      };
+      setList((prev) => orderList(prev, changeValue(value)));
+   };
    return (
       <main className="col-md-9">
          <header className="border-bottom mb-4 pb-3">
@@ -8,11 +40,11 @@ function List({ list }) {
                <span className="mr-md-auto">
                   {list.length} 항목이 있습니다.
                </span>
-               <select className="mr-2 form-control">
-                  <option>최신 순</option>
-                  <option>오래된 순</option>
-                  <option>가격 높은 순</option>
-                  <option>가격 낮은 순</option>
+               <select onChange={onChange} className="mr-2 form-control">
+                  <option value="younger">최신 순</option>
+                  <option value="older">오래된 순</option>
+                  <option value="priceHigher">가격 높은 순</option>
+                  <option value="priveLower">가격 낮은 순</option>
                </select>
                <div className="btn-group">
                   <a

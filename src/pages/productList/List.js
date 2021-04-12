@@ -17,8 +17,9 @@ function List({ list, setList }) {
       const {
          target: { value },
       } = e;
+      if (value === "dummy") return;
       const orderList = (list, order) => {
-         list.sort(function (a, b) {
+         return [...list].sort(function (a, b) {
             let av = a[order.orderBy],
                bv = b[order.orderBy];
             if (order.orderBy === "updatedAt") {
@@ -29,7 +30,6 @@ function List({ list, setList }) {
             if (order.cmp === "greater") return av - bv;
             else return bv - av;
          });
-         return list;
       };
       setList((prev) => orderList(prev, changeValue(value)));
    };
@@ -41,6 +41,7 @@ function List({ list, setList }) {
                   {list.length} 항목이 있습니다.
                </span>
                <select onChange={onChange} className="mr-2 form-control">
+                  <option value="dummy">정렬</option>
                   <option value="younger">최신 순</option>
                   <option value="older">오래된 순</option>
                   <option value="priceHigher">가격 높은 순</option>

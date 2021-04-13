@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import OrderList from "../../utils/OrderList";
 
 const changeValue = (value) => {
    if (value === "younger") {
@@ -18,20 +19,7 @@ function List({ list, setList }) {
          target: { value },
       } = e;
       if (value === "dummy") return;
-      const orderList = (list, order) => {
-         return [...list].sort(function (a, b) {
-            let av = a[order.orderBy],
-               bv = b[order.orderBy];
-            if (order.orderBy === "updatedAt") {
-               av = Date.parse(av);
-               bv = Date.parse(bv);
-            }
-
-            if (order.cmp === "greater") return av - bv;
-            else return bv - av;
-         });
-      };
-      setList((prev) => orderList(prev, changeValue(value)));
+      setList((prev) => OrderList(prev, changeValue(value)));
    };
    return (
       <main className="col-md-9">

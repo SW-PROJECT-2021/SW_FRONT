@@ -7,7 +7,8 @@ import { useLocation } from "react-router";
 import qs from "qs";
 
 const changeName = (name) => {
-   if (name === "유산소") return "aerobic";
+   if (name === "전체보기") return "";
+   else if (name === "유산소") return "aerobic";
    else if (name === "웨이트") return "weight";
    else if (name === "보조") return "assistant";
    else if (name === "운동보조기구") return "aids";
@@ -35,7 +36,7 @@ function ProductList() {
          await axios
             .get(`http://15.164.20.183:3003/product/${search}`)
             .then((res) => {
-               setList((prev) => prev.concat(res.data.data));
+               setList((prev) => prev.concat(res.data.data)); //다른 카테고리 고르면 새로고침일어나서 지워짐. 따라서 검색때만 연속가능
             })
             .catch((err) => {
                console.log(err);
@@ -43,6 +44,7 @@ function ProductList() {
       };
 
       if (location.state && location.state.search) {
+         setList([]);
          location.state.search.forEach((title) => {
             getResult(`search?title=${title}`);
          });
@@ -70,7 +72,7 @@ function ProductList() {
          <section className="section-content padding-y">
             <div className="container">
                <div className="row">
-                  <Filter />
+                  <Filter list={list} setList={setList} />
                   <List list={list} setList={setList} />
                </div>
             </div>

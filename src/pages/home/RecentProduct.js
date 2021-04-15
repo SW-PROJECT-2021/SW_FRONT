@@ -27,7 +27,10 @@ const RecentProduct = () => {
       <section className="section-name padding-y-sm">
          <div className="container">
             <header className="section-heading">
-               <a href="/" className="btn btn-outline-primary float-right">
+               <a
+                  href="/list?range=전체보기"
+                  className="btn btn-outline-primary float-right"
+               >
                   전체보기
                </a>
                <h3 className="section-title">최신 상품</h3>

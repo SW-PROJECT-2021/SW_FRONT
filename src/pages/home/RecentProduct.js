@@ -1,19 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import OrderList from "../../utils/OrderList";
 
-const PopularProduct = () => {
+const RecentProduct = () => {
    const [list, setList] = useState([]);
-
    useEffect(() => {
       const getList = async () => {
          await axios
             .get("http://15.164.20.183:3003/product")
             .then((res) => {
-               let random = Math.floor(Math.random() * res.data.data.length);
-               if (random > res.data.data.length - 8) {
-                  random = res.data.data.length - 8;
-               }
-               setList(res.data.data.slice(random, random + 8));
+               setList(
+                  OrderList(res.data.data, {
+                     orderBy: "updatedAt",
+                     cmp: "lower",
+                  }).slice(0, 8)
+               );
             })
             .catch((error) => {
                console.log(error);
@@ -29,7 +30,7 @@ const PopularProduct = () => {
                <a href="/" className="btn btn-outline-primary float-right">
                   전체보기
                </a>
-               <h3 className="section-title">인기 상품</h3>
+               <h3 className="section-title">최신 상품</h3>
             </header>
 
             <div className="row">
@@ -57,4 +58,4 @@ const PopularProduct = () => {
    );
 };
 
-export default PopularProduct;
+export default RecentProduct;

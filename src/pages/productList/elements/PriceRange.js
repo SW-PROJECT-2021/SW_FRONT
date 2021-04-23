@@ -1,15 +1,35 @@
+import { Slider } from "@material-ui/core";
 import React, { useState } from "react";
 
 function PriceRange({ list, setList }) {
-   const [min, setMin] = useState(0);
-   const [max, setMax] = useState(5000000);
+   const [min, setMin] = useState();
+   const [max, setMax] = useState();
+   const [range, setRange] = React.useState([20, 37]);
 
+   const handleChange = (event, newRange) => {
+      setRange(newRange);
+      setMin(newRange[0] * 10000);
+      setMax(newRange[1] * 10000);
+   };
    const onChangeMin = (e) => {
-      setMin(e.target.value);
+      const {
+         target: { value },
+      } = e;
+      if (!parseInt(value) || parseInt(value) >= 0) {
+         setMin(value);
+         setRange((prev) => [value / 10000, prev[1]]);
+      }
    };
    const onChangeMax = (e) => {
-      setMax(e.target.value);
+      const {
+         target: { value },
+      } = e;
+      if (!parseInt(value) || parseInt(value) <= 1000000) {
+         setMax(value);
+         setRange((prev) => [prev[0], value / 10000]);
+      }
    };
+   //다시 못되돌아옴
    const onClickMinMax = (e) => {
       e.preventDefault();
       setList((prev) =>
@@ -33,12 +53,10 @@ function PriceRange({ list, setList }) {
             </header>
             <div className="filter-content collapse show" id="collapse_3">
                <div className="card-body">
-                  <input
-                     type="range"
-                     className="custom-range"
-                     min="0"
-                     max="5000000"
-                     name=""
+                  <Slider
+                     value={range}
+                     onChange={handleChange}
+                     aria-labelledby="range-slider"
                   />
                   <div className="form-row">
                      <div className="form-group col-md-6">
@@ -52,10 +70,10 @@ function PriceRange({ list, setList }) {
                         />
                      </div>
                      <div className="form-group text-right col-md-6">
-                        <label>500만원</label>
+                        <label>100만원</label>
                         <input
                            className="form-control"
-                           placeholder="500만원"
+                           placeholder="100만원"
                            type="number"
                            value={max}
                            onChange={onChangeMax}

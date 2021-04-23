@@ -13,7 +13,7 @@ const RecentProduct = () => {
                   OrderList(res.data.data, {
                      orderBy: "updatedAt",
                      cmp: "lower",
-                  }).slice(0, 8)
+                  }).slice(0, 4)
                );
             })
             .catch((error) => {

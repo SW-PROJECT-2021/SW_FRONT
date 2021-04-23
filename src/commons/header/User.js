@@ -29,7 +29,7 @@ const User = () => {
       [dispatch]
    );
    return (
-      <div className="col-lg-4">
+      <div className="col-lg-3">
          <div className="widgets-wrap float-right">
             <div className="widget-header  mr-3">
                <a href="/cart" className="icon icon-sm rounded-circle border">

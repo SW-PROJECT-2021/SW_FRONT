@@ -73,6 +73,7 @@ const Navigator = () => {
       setWidth(event.target.clientWidth > 218 ? event.target.clientWidth : 218);
    };
    const handlePopoverClose = () => {
+      console.log(213123);
       setCurOpen(9999);
       setAnchorEl(null);
    };
@@ -128,6 +129,7 @@ const Navigator = () => {
                      open={open}
                      anchorEl={anchorEl || null}
                      transition
+                     style={{ zIndex: "2" }}
                   >
                      <Fade in={true} timeout={350}>
                         <Paper

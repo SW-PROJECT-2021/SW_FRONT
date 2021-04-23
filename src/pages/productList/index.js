@@ -45,9 +45,7 @@ function ProductList() {
 
       if (location.state && location.state.search) {
          setList([]);
-         location.state.search.forEach((title) => {
-            getResult(`search?title=${title}`);
-         });
+         getResult(`search?title=${location.state.search}`);
          setTitle({ range: "검색" });
       } else if (location.search) {
          const query = qs.parse(location.search, {

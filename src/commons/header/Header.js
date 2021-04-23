@@ -36,7 +36,7 @@ const Header = () => {
                   <div className="col-lg-2 col-4">
                      <a href="/">
                         <img
-                           src="assets/images/logos/logo5.png"
+                           src="assets/images/logos/logo.jpg"
                            className="w-100 rounded"
                            alt="img"
                         />

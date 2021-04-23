@@ -71,25 +71,25 @@ export const menuList = [
             <ListItemText primary="운동보조기구" />
          </ListItemLink>
          <List component="div" disablePadding style={{ paddingLeft: "10px" }}>
-            <ListItemLink href="/list?range=보조&category=운동보조기구&category2=밴드">
+            <ListItemLink href="/list?range=보조&category=운동보조기구&subcategory=밴드">
                <ListItemIcon>
                   <Healing />
                </ListItemIcon>
                <ListItemText primary="밴드" />
             </ListItemLink>
-            <ListItemLink href="/list?range=보조&category=운동보조기구&category2=스트랩">
+            <ListItemLink href="/list?range=보조&category=운동보조기구&subcategory=스트랩">
                <ListItemIcon>
                   <Voicemail />
                </ListItemIcon>
                <ListItemText primary="스트랩" />
             </ListItemLink>
-            <ListItemLink href="/list?range=belt">
+            <ListItemLink href="/list?range=보조&category=운동보조기구&subcategory=벨트">
                <ListItemIcon>
                   <i className="fas fa-band-aid fa-lg" />
                </ListItemIcon>
                <ListItemText primary="벨트" />
             </ListItemLink>
-            <ListItemLink href="/list?range=보조&category=운동보조기구&category2=기구">
+            <ListItemLink href="/list?range=보조&category=운동보조기구&subcategory=기구">
                <ListItemIcon>
                   <i className="fas fa-hashtag fa-lg" />
                </ListItemIcon>
@@ -106,13 +106,13 @@ export const menuList = [
             <ListItemText primary="마사지 기구" />
          </ListItemLink>
          <List component="div" disablePadding style={{ paddingLeft: "10px" }}>
-            <ListItemLink href="/list?range=보조&category=마사지기구&category2=폼롤러">
+            <ListItemLink href="/list?range=보조&category=마사지기구&subcategory=폼롤러">
                <ListItemIcon>
                   <i className="fas fa-grip-lines fa-lg" />
                </ListItemIcon>
                <ListItemText primary="폼롤러" />
             </ListItemLink>
-            <ListItemLink href="/list?range=보조&category=마사지기구&category2=요가매트">
+            <ListItemLink href="/list?range=보조&category=마사지기구&subcategory=요가매트">
                <ListItemIcon>
                   <ViewCarousel />
                </ListItemIcon>

@@ -1,35 +1,50 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import PriceRange from "./elements/PriceRange";
+import DetailSearch from "./elements/DetailSearch";
 
 const Search = () => {
    const [search, setSearch] = useState("");
-   const [min, setMin] = useState();
-   const [max, setMax] = useState();
+   const [price, setPrice] = useState({
+      min: null,
+      max: null,
+   });
    const history = useHistory();
+   const [anchorEl, setAnchorEl] = useState(null);
+   const [category, setCategory] = useState(null);
 
    const onChange = (e) => {
       setSearch(e.target.value);
    };
-   const onChangeMin = (e) => {
+   const onChangePrice = (e) => {
+      if (e.type === "init") {
+         setPrice({ min: null, max: null });
+         return;
+      }
       const {
-         target: { value },
+         target: { value, name },
       } = e;
       if (!parseInt(value) || parseInt(value) >= 0) {
-         setMin(value);
-      }
-   };
-   const onChangeMax = (e) => {
-      const {
-         target: { value },
-      } = e;
-      if (!parseInt(value)) {
-         setMax(value);
+         if (name === "min") {
+            setPrice((prev) => ({ ...prev, min: value }));
+         } else {
+            setPrice((prev) => ({ ...prev, max: value }));
+         }
       }
    };
    const onSubmit = (e) => {
       e.preventDefault();
-      history.push({ pathname: "/list", state: { search: search } });
+      const priceRange = {
+         min: price.min ? price.min : 0,
+         max: price.max ? price.max : 999999999,
+      };
+      history.push({
+         pathname: "/list",
+         state: { search: search, price: priceRange },
+      });
+      setSearch("");
+      setPrice({ min: null, max: null });
+      setAnchorEl(null);
+      setCategory(null);
    };
 
    return (
@@ -48,11 +63,13 @@ const Search = () => {
                      <i className="fa fa-search"></i>
                   </button>
                </div>
-               <PriceRange
-                  min={min}
-                  max={max}
-                  onChangeMin={onChangeMin}
-                  onChangeMax={onChangeMax}
+               <DetailSearch
+                  price={price}
+                  onChange={onChangePrice}
+                  anchorEl={anchorEl}
+                  setAnchorEl={setAnchorEl}
+                  category={category}
+                  setCategory={setCategory}
                />
             </div>
          </form>

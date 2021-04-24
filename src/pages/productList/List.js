@@ -22,7 +22,7 @@ function List({ list, setList }) {
       setList((prev) => OrderList(prev, changeValue(value)));
    };
    return (
-      <main className="col-md-9">
+      <main className="col-md-12">
          <header className="border-bottom mb-4 pb-3">
             <div className="form-inline">
                <span className="mr-md-auto">
@@ -58,7 +58,7 @@ function List({ list, setList }) {
          <div className="row">
             {list.map((item, idx) => {
                return (
-                  <div key={idx} className="col-md-4">
+                  <div key={idx} className="col-md-3">
                      <figure className="card card-product-grid">
                         <div className="img-wrap">
                            <img src={item.img} alt="error" />

@@ -73,7 +73,6 @@ const Navigator = () => {
       setWidth(event.target.clientWidth > 218 ? event.target.clientWidth : 218);
    };
    const handlePopoverClose = () => {
-      console.log(213123);
       setCurOpen(9999);
       setAnchorEl(null);
    };
@@ -136,6 +135,9 @@ const Navigator = () => {
                            style={{
                               backgroundColor: "#f8f9fa",
                               width: width,
+
+                              borderRadius: "0px",
+                              boxShadow: "0px 0px",
                            }}
                         >
                            {menuList[curOpen]}

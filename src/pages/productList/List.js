@@ -1,4 +1,7 @@
+import { makeStyles } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
 import React from "react";
+import { useState } from "react";
 import OrderList from "../../utils/OrderList";
 
 const changeValue = (value) => {
@@ -13,13 +16,30 @@ const changeValue = (value) => {
    }
 };
 
+const useStyles = makeStyles((theme) => ({
+   root: {
+      "& > *": {
+         marginTop: theme.spacing(2),
+      },
+   },
+   align: {
+      maxWidth: `${38 * 9}px`,
+      margin: "0px auto",
+   },
+}));
 function List({ list, setList }) {
+   const classes = useStyles();
+   const pageNum = Math.floor(list.length / 12 + 1);
+   const [page, setPage] = useState(1);
    const onChange = (e) => {
       const {
          target: { value },
       } = e;
       if (value === "dummy") return;
       setList((prev) => OrderList(prev, changeValue(value)));
+   };
+   const onChangePage = (e, page) => {
+      setPage(page);
    };
    return (
       <main className="col-md-12">
@@ -35,28 +55,10 @@ function List({ list, setList }) {
                   <option value="priceHigher">가격 높은 순</option>
                   <option value="priveLower">가격 낮은 순</option>
                </select>
-               <div className="btn-group">
-                  <a
-                     href="/"
-                     className="btn btn-outline-secondary"
-                     data-toggle="tooltip"
-                     title="List view"
-                  >
-                     <i className="fa fa-bars"></i>
-                  </a>
-                  <a
-                     href="/"
-                     className="btn  btn-outline-secondary active"
-                     data-toggle="tooltip"
-                     title="Grid view"
-                  >
-                     <i className="fa fa-th"></i>
-                  </a>
-               </div>
             </div>
          </header>
          <div className="row">
-            {list.map((item, idx) => {
+            {list.slice((page - 1) * 12, page * 12).map((item, idx) => {
                return (
                   <div key={idx} className="col-md-3">
                      <figure className="card card-product-grid">
@@ -75,44 +77,25 @@ function List({ list, setList }) {
                                  <span className="price">{item.price}</span>
                               </div>
                            </div>
-                           <a href="/" className="btn btn-block btn-primary">
-                              장바구니 추가{" "}
-                           </a>
                         </figcaption>
                      </figure>
                   </div>
                );
             })}
          </div>
-         <nav className="mt-4" aria-label="Page navigation sample">
-            <ul className="pagination">
-               <li className="page-item disabled">
-                  <a className="page-link" href="/">
-                     Previous
-                  </a>
-               </li>
-               <li className="page-item active">
-                  <a className="page-link" href="/">
-                     1
-                  </a>
-               </li>
-               <li className="page-item">
-                  <a className="page-link" href="/">
-                     2
-                  </a>
-               </li>
-               <li className="page-item">
-                  <a className="page-link" href="/">
-                     3
-                  </a>
-               </li>
-               <li className="page-item">
-                  <a className="page-link" href="/">
-                     Next
-                  </a>
-               </li>
-            </ul>
-         </nav>
+         <div className={classes.root}>
+            <div
+               className={classes.align}
+               style={{ width: `${38 * (pageNum + 2)}px` }}
+            >
+               <Pagination
+                  count={pageNum}
+                  shape="rounded"
+                  className={classes.ul}
+                  onChange={onChangePage}
+               />
+            </div>
+         </div>
       </main>
    );
 }

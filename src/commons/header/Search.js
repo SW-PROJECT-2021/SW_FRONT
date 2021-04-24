@@ -39,7 +39,7 @@ const Search = () => {
       };
       history.push({
          pathname: "/list",
-         state: { search: search, price: priceRange },
+         state: { search: search, price: priceRange, category: category },
       });
       setSearch("");
       setPrice({ min: null, max: null });

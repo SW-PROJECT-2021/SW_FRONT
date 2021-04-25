@@ -1,9 +1,40 @@
-import React from "react";
-import { useHistory } from "react-router";
+import React, { useEffect, useState } from "react";
 import Table from "./Table";
 
+const list = [
+   {
+      id: 0,
+      src: "assets/images/items/1.jpg",
+      name: "Some name of item goes here nice",
+      info: "Size: XL, Color: blue",
+      quantity: 3,
+      price: 30000,
+   },
+   {
+      id: 1,
+      src: "assets/images/items/2.jpg",
+      name: "Product name goes here nice",
+      info: "Size: XL, Color: blue",
+      quantity: 1,
+      price: 10000,
+   },
+   {
+      id: 2,
+      src: "assets/images/items/3.jpg",
+      name: " Another name of some product goes just here",
+      info: "Size: XL, Color: blue",
+      quantity: 2,
+      price: 20000,
+   },
+];
+
 function ShoppingCart() {
-   const history = useHistory();
+   const [cartList, setCartList] = useState([]);
+
+   useEffect(() => {
+      setCartList(list);
+   }, []);
+
    return (
       <div>
          <section className="section-pagetop bg">
@@ -16,7 +47,7 @@ function ShoppingCart() {
             <div className="container">
                <div className="row">
                   <main className="col-md-9">
-                     <Table />
+                     <Table cartList={cartList} setCartList={setCartList} />
                   </main>
                   <aside className="col-md-3">
                      <div className="card mb-3">

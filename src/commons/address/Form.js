@@ -13,7 +13,6 @@ import {
    Paper,
 } from "@material-ui/core";
 import DaumPostcode from "react-daum-postcode";
-import { Info } from "@material-ui/icons";
 
 const postCodeStyle = {
    display: "block",
@@ -69,10 +68,10 @@ function Form({ setAddressList, length }) {
 
    const onSubmit = () => {
       if (history.location.state) {
+         //업데이트
          setAddressList((prev) =>
             prev.map((item) => {
                if (item.createdAt === info.createdAt) {
-                  console.log(item);
                   return info;
                } else {
                   return item;
@@ -80,7 +79,10 @@ function Form({ setAddressList, length }) {
             })
          );
       } else {
-         setAddressList((prev) => [...prev, { ...info, id: new Date() }]);
+         setAddressList((prev) => [
+            ...prev,
+            { ...info, createdAt: Date.now() },
+         ]);
       }
       //여기선 등록 후, 다시 되돌아가면 됨.
       // + 배송지 다시 받아오기

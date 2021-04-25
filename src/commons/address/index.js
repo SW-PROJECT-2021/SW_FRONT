@@ -25,7 +25,7 @@ const list = [
       default: false,
    },
 ];
-
+//수정, 삭제에 createdat 이 필요없어지면 지우기 작업
 function Address() {
    //여기서 리스트 받아오고, 넣어주면됨.
    const [addressList, setAddressList] = useState(list);

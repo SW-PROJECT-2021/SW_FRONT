@@ -18,27 +18,28 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-// import { mainListItems, secondaryListItems } from "./listItems";
-// import Chart from "./Chart";
-// import Deposits from "./Deposits";
-// import Orders from "./Orders";
+import { mainListItems, secondaryListItems } from "./listItems";
+
+import { Route } from "react-router-dom";
+
+import AdminMain from "./AdminMain";
+import Event from "./Event";
+import ProductManage from "./ProductManage/ProductManage";
+import PostProduct from "./ProductManage/PostProduct";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
       {new Date().getFullYear()}
       {"."}
+      SW 6팀
     </Typography>
   );
 }
-
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
@@ -99,15 +100,18 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
+    marginTop: "50px",
     height: "100vh",
     overflow: "auto",
   },
   container: {
-    paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(10),
     paddingBottom: theme.spacing(4),
+    height: "100vh",
   },
   paper: {
     padding: theme.spacing(2),
+    height: "100%",
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
@@ -126,7 +130,6 @@ export default function Admin() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -155,15 +158,13 @@ export default function Admin() {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            Sw 6팀 관리페이지{" "}
           </Typography>
-          /* 필요없는것
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          */
         </Toolbar>
       </AppBar>
       <Drawer
@@ -179,32 +180,13 @@ export default function Admin() {
           </IconButton>
         </div>
         <Divider />
-        {/* <List>{mainListItems}</List> */}
+        <List>{mainListItems}</List>
         <Divider />
-        {/* <List>{secondaryListItems}</List> */}
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>{/* <Chart /> */}</Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>{/* <Deposits /> */}</Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>{/* <Orders /> */}</Paper>
-            </Grid>
-          </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
+      </Drawer>{" "}
+      <Route path="/admin" exact component={AdminMain} />
+      <Route path="/admin/Event" exact component={Event} />
+      <Route path="/admin/ProductManage" exact component={ProductManage} />
+      <Route path="/admin/ProductManage/PostProduct" component={PostProduct} />
     </div>
   );
 }

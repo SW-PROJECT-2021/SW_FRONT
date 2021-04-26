@@ -1,16 +1,15 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Search = () => {
    const [search, setSearch] = useState("");
-
+   const history = useHistory();
    const onChange = (e) => {
-      const {
-         target: { value },
-      } = e;
-      setSearch(value);
+      setSearch(e.target.value);
    };
    const onSubmit = (e) => {
       e.preventDefault();
+      history.push({ pathname: "/list", state: { search: search.split(" ") } });
    };
 
    return (

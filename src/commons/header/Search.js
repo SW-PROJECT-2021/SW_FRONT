@@ -37,6 +37,7 @@ const Search = () => {
          min: price.min ? price.min : 0,
          max: price.max ? price.max : 999999999,
       };
+      //여기서 검색하고 받아서 넘기기
       history.push({
          pathname: "/list",
          state: { search: search, price: priceRange, category: category },

@@ -1,20 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import OrderList from "../../utils/OrderList";
 
 const RecentProduct = () => {
    const [list, setList] = useState([]);
    useEffect(() => {
       const getList = async () => {
          await axios
-            .get("http://15.164.20.183:3003/product")
+            .get("http://15.164.20.183:3003/product/recent")
             .then((res) => {
-               setList(
-                  OrderList(res.data.data, {
-                     orderBy: "updatedAt",
-                     cmp: "lower",
-                  }).slice(0, 4)
-               );
+               setList(res.data.data);
             })
             .catch((error) => {
                console.log(error);

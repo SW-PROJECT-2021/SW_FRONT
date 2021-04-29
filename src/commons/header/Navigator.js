@@ -128,12 +128,16 @@ const Navigator = () => {
                      open={open}
                      anchorEl={anchorEl || null}
                      transition
+                     style={{ zIndex: "2" }}
                   >
                      <Fade in={true} timeout={350}>
                         <Paper
                            style={{
                               backgroundColor: "#f8f9fa",
                               width: width,
+
+                              borderRadius: "0px",
+                              boxShadow: "0px 0px",
                            }}
                         >
                            {menuList[curOpen]}

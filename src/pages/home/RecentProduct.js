@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 const RecentProduct = () => {
    const [list, setList] = useState([]);
+   const history = useHistory();
    useEffect(() => {
       const getList = async () => {
          await axios
@@ -17,6 +19,9 @@ const RecentProduct = () => {
       getList();
    }, []);
 
+   const goDetail = (item) => {
+      history.push({ pathname: "/list/detail", state: item });
+   };
    return (
       <section className="section-name padding-y-sm">
          <div className="container">
@@ -33,16 +38,17 @@ const RecentProduct = () => {
             <div className="row">
                {list.map((item, idx) => {
                   return (
-                     <div className="col-md-3" key={idx}>
-                        <div href="/" className="card card-product-grid">
-                           <a href="/" className="img-wrap">
-                              {" "}
+                     <div
+                        className="col-md-3"
+                        key={idx}
+                        onClick={() => goDetail(item)}
+                     >
+                        <div className="card card-product-grid">
+                           <span className="img-wrap">
                               <img src={item.img} alt="img" />{" "}
-                           </a>
+                           </span>
                            <figcaption className="info-wrap">
-                              <a href="/" className="title">
-                                 {item.name}
-                              </a>
+                              {item.name}
                               <div className="price mt-1">{item.price}</div>
                            </figcaption>
                         </div>

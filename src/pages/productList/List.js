@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import React from "react";
 import { useState } from "react";
+import { useHistory } from "react-router";
 import OrderList from "../../utils/OrderList";
 
 const changeValue = (value) => {
@@ -31,6 +32,7 @@ function List({ list, setList }) {
    const classes = useStyles();
    const pageNum = Math.floor(list.length / 12 + 1);
    const [page, setPage] = useState(1);
+   const history = useHistory();
    const onChange = (e) => {
       const {
          target: { value },
@@ -40,6 +42,9 @@ function List({ list, setList }) {
    };
    const onChangePage = (e, page) => {
       setPage(page);
+   };
+   const goDetail = (item) => {
+      history.push({ pathname: "/list/detail", state: item });
    };
    return (
       <main className="col-md-12">
@@ -60,19 +65,18 @@ function List({ list, setList }) {
          <div className="row">
             {list.slice((page - 1) * 12, page * 12).map((item, idx) => {
                return (
-                  <div key={idx} className="col-md-3">
+                  <div
+                     key={idx}
+                     className="col-md-3"
+                     onClick={() => goDetail(item)}
+                  >
                      <figure className="card card-product-grid">
                         <div className="img-wrap">
                            <img src={item.img} alt="error" />
-                           <a className="btn-overlay" href="/">
-                              <i className="fa fa-search-plus"></i> Quick view
-                           </a>
                         </div>
                         <figcaption className="info-wrap">
                            <div className="fix-height">
-                              <a href="/" className="title">
-                                 {item.name}
-                              </a>
+                              {item.name}
                               <div className="price-wrap mt-2">
                                  <span className="price">{item.price}</span>
                               </div>

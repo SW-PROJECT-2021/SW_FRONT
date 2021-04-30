@@ -14,7 +14,7 @@ function Main() {
          <Route exact path="/" component={Home} />
          <Route exact path="/cart" component={ShoppingCart} />
          <Route exact path="/list" component={ProductList} />
-         <Route path="/list/detail" component={ProductDetail} />
+         <Route path="/detail" component={ProductDetail} />
          <Footer />
       </>
    );

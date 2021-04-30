@@ -19,7 +19,7 @@ function DetailHeader({ product }) {
                <aside className="col-md-6">
                   <article className="gallery-wrap">
                      <div className="card img-big-wrap">
-                        <span>
+                        <span style={{ textAlign: "center" }}>
                            <img
                               src={product.img}
                               alt="error"

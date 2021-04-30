@@ -44,7 +44,7 @@ function List({ list, setList }) {
       setPage(page);
    };
    const goDetail = (item) => {
-      history.push({ pathname: "/list/detail", state: item });
+      history.push({ pathname: "/detail", state: item });
    };
    return (
       <main className="col-md-12">

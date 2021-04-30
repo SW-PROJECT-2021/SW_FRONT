@@ -20,7 +20,7 @@ const RecentProduct = () => {
    }, []);
 
    const goDetail = (item) => {
-      history.push({ pathname: "/list/detail", state: item });
+      history.push({ pathname: "/detail", state: item });
    };
    return (
       <section className="section-name padding-y-sm">

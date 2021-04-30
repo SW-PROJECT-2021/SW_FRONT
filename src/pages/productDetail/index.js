@@ -6,8 +6,8 @@ function ProductDetail() {
    const location = useLocation();
    return (
       <div>
-         <section class="section-content padding-y bg">
-            <div class="container">
+         <section className="section-content padding-y bg">
+            <div className="container">
                <DetailHeader product={location.state} />
                <Detail detail={location.state.detail} />
             </div>

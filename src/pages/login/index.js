@@ -44,12 +44,18 @@ const Form = styled.form`
     margin: 20px 0px 20px 10px;
     padding: 0;
   }
+  img {
+    width: 50%;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
 `;
 function Login(props) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-
+  const { kakao } = window;
+  console.log(kakao);
   const { isLogined, isAdmin } = useSelector(
     (state) => state.LoginReducer.users
   );
@@ -90,6 +96,9 @@ function Login(props) {
     },
     [password, id]
   );
+  const KakaoLogin = useCallback((e) => {
+    console.log("hello");
+  });
   return (
     <AuthTemplate>
       <Form onSubmit={onSubmitHandler}>
@@ -129,6 +138,7 @@ function Login(props) {
             <Link to="/signup">가입하기</Link>
           </p>
         </NewAccountBlcok>
+        <img src="assets/images/logos/kakao_login.png" onClick={KakaoLogin} />
       </Form>
     </AuthTemplate>
   );

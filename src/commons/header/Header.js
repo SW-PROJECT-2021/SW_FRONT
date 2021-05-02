@@ -33,7 +33,7 @@ const Header = () => {
          <section className="header-main border-bottom">
             <div className="container">
                <div className="row align-items-center">
-                  <div className="col-lg-2 col-4">
+                  <div className="col-lg-2 col-3">
                      <a href="/">
                         <img
                            src="assets/images/logos/logo.jpg"

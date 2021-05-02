@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import List from "./List";
-import Filter from "./Filter";
 import Title from "./Title";
 import axios from "axios";
 import { useLocation } from "react-router";
@@ -43,11 +42,9 @@ function ProductList() {
             });
       };
 
-      if (location.state && location.state.search) {
+      if (location.state) {
          setList([]);
-         location.state.search.forEach((title) => {
-            getResult(`search?title=${title}`);
-         });
+         //getResult(`search?title=${location.state.search}`);
          setTitle({ range: "검색" });
       } else if (location.search) {
          const query = qs.parse(location.search, {
@@ -72,7 +69,6 @@ function ProductList() {
          <section className="section-content padding-y">
             <div className="container">
                <div className="row">
-                  <Filter list={list} setList={setList} />
                   <List list={list} setList={setList} />
                </div>
             </div>

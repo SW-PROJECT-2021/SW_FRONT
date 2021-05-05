@@ -78,7 +78,7 @@ function Login(props) {
         };
         dispatch(logined(body))
           .then((response) => {
-            if (response.data.isAdmin === true) {
+            if (response.data.data.isAdmin === true) {
               props.history.push("/admin");
             } else props.history.push("/");
           })

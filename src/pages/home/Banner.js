@@ -16,9 +16,6 @@ const Banner = () => {
                <img src="assets/images/banners/1.png" alt="error" />
             </div>
             <div>
-               <img src="assets/images/banners/2.png" alt="error" />
-            </div>
-            <div>
                <img src="assets/images/banners/3.png" alt="error" />
             </div>
          </Carousel>

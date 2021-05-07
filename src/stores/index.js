@@ -6,7 +6,7 @@ import logger from "redux-logger";
 import ReduxThunk from "redux-thunk";
 import promiseMiddleware from "redux-promise";
 
-import { LoginReducer } from "./reducers/LoginReducer";
+import { UserReducer } from "./reducers/UserReducer";
 
 const persistConfig = {
   key: "root",
@@ -14,7 +14,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  LoginReducer,
+  UserReducer,
 });
 
 const enhancedReducer = persistReducer(persistConfig, rootReducer);

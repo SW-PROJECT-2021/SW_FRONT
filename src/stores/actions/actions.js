@@ -1,28 +1,49 @@
-import { LOGINED, LOGOUT } from "./types";
-import axios from "axios";
+import {
+  LOGINED,
+  LOGINED_SUCCESS,
+  LOGINED_ERROR,
+  LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR,
+  SIGNUP,
+  SIGNUP_SUCCESS,
+  SIGNUP_ERROR,
+  SIGNUP_CLEAR,
+} from "./types";
+import * as userApi from "../api/userApi";
 
 export const logined = (dataSubmit) => async (dispatch) => {
+  dispatch({ type: LOGINED });
   try {
-    const response = await axios.post(
-      "http://15.164.20.183:3003/user/login",
-      dataSubmit,
-      { withCredentials: true }
-    );
-    console.log(response);
-    dispatch({ type: LOGINED, payload: response.data.data });
-    return response;
+    const response = await userApi.Userlogin(dataSubmit);
+    dispatch({ type: LOGINED_SUCCESS, payload: response.data.data });
   } catch (error) {
-    console.log(error);
+    dispatch({ type: LOGINED_ERROR, error: error });
   }
 };
 
 export const logout = () => async (dispatch) => {
+  dispatch({ type: LOGOUT });
   try {
-    const response = await axios.get("http://15.164.20.183:3003/user/logout", {
-      withCredentials: true,
-    });
-    dispatch({ type: LOGOUT });
+    const response = await userApi.UserLogout();
+    console.log(response);
+    dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
-    console.log(error);
+    dispatch({ type: LOGOUT_ERROR });
   }
 };
+
+export const signup = (dataSubmit) => async (dispatch) => {
+  dispatch({ type: SIGNUP });
+  try {
+    const response = await userApi.UserSignUp(dataSubmit);
+    console.log(response);
+    dispatch({ type: SIGNUP_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: SIGNUP_ERROR, error: error });
+  }
+};
+
+export const signupClear = () => ({
+  type: SIGNUP_CLEAR,
+});

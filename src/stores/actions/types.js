@@ -1,3 +1,10 @@
 export const LOGINED = "LOGINED";
+export const LOGINED_SUCCESS = "LOGINED_SUCCESS";
+export const LOGINED_ERROR = "LOGINED_ERROR";
 export const LOGOUT = "LOGOUT";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_ERROR = "LOGOUT_ERROR";
 export const SIGNUP = "SIGNUP";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_ERROR = "SIGNUP_ERROR";
+export const SIGNUP_CLEAR = "SIGNUP_CLEAR";

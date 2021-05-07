@@ -131,7 +131,7 @@ function PostProduct() {
       */
       console.log(formData);
       axios
-        .post("http://15.164.20.183:3003/product", formData, {
+        .post("/product", formData, {
           headers: { withCredentials: true },
         })
         .then((response) => console.log(response.headers));

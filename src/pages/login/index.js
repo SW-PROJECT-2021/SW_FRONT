@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import AuthTemplate from "../template/AuthTemplate";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logined } from "../../stores/actions/actions";
 
@@ -54,13 +54,11 @@ function Login(props) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { kakao } = window;
-  console.log(kakao);
-  const { isLogined, isAdmin } = useSelector(
-    (state) => state.LoginReducer.users
-  );
-  console.log(isLogined);
-  console.log(isAdmin);
+  const history = useHistory();
+  //const { Kakao } = window;
+
+  const { data, error } = useSelector((state) => state.UserReducer.users);
+
   const onIdHandler = useCallback(
     (e) => {
       setId(e.target.value);
@@ -73,32 +71,67 @@ function Login(props) {
     },
     [password]
   );
+
   const onSubmitHandler = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (password && id) {
+    async (e) => {
+      try {
+        e.preventDefault();
         //dispatch.
         let body = {
           id: id,
           password: password,
         };
-        dispatch(logined(body))
-          .then((response) => {
-            if (response.data.data.isAdmin === true) {
-              props.history.push("/admin");
-            } else props.history.push("/");
-          })
-          .catch((err) => {
-            console.log(err);
-            alert("아이디 혹은 비밀번호가 일치하지 않습니다.");
-          });
+        //
+        dispatch(logined(body));
+      } catch (e) {
+        console.error(e);
       }
     },
     [password, id]
   );
+
+  useEffect(() => {
+    console.log(data);
+    if (data) {
+      if (data.isAdmin) {
+        console.log(data.isAdmin);
+        alert("관리자님 환영합니다.");
+        history.push("/admin");
+      } else {
+        console.log(data.isAdmin);
+        alert(`${data.loginId}님 환영합니다.`);
+        history.push("/");
+      }
+    }
+  }, [data]);
+
+  /* 카카오 Oauth
   const KakaoLogin = useCallback((e) => {
-    console.log("hello");
+    Kakao.Auth.login({
+      success: (response) => {
+        console.log(response);
+
+        axios({
+          method: "get",
+          url: "/oauth/kakao",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: response.access_token,
+          },
+        }).then((res) => {
+          console.log(res);
+          //localStorage.setItem("Set-Cookie", res.data.token);
+          alert("로그인 되었습니다.");
+          props.history.push("/");
+        });
+      },
+      fail: (error) => {
+        alert(JSON.stringify(error));
+      },
+    });
   });
+ */
+
   return (
     <AuthTemplate>
       <Form onSubmit={onSubmitHandler}>
@@ -138,7 +171,7 @@ function Login(props) {
             <Link to="/signup">가입하기</Link>
           </p>
         </NewAccountBlcok>
-        <img src="assets/images/logos/kakao_login.png" onClick={KakaoLogin} />
+        <img src="assets/images/logos/kakao_login.png" onClick={""} />
       </Form>
     </AuthTemplate>
   );

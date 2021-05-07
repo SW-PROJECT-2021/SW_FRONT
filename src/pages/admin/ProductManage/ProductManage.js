@@ -28,7 +28,7 @@ const StyledGrid = styled.div`
   width: 100%;
   height: 100vh;
   grid-template-columns: 1fr 4fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
   .search {
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
@@ -127,13 +127,6 @@ function ProductManage() {
               </React.Fragment>
             </Paper>
           </Grid>
-          <div className="iteminfo">
-            <Paper className={classes.paper}>
-              {" "}
-              <div>현재 등록된 제품 수 : {AllData.length}</div>
-              약간 추가 정보가 들어갈 공간이라고 생각 중
-            </Paper>
-          </div>
         </StyledGrid>
       </Container>
     </main>

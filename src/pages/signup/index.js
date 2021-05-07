@@ -1,10 +1,12 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import AuthTemplate from "../template/AuthTemplate";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
-import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { signup, signupClear } from "../../stores/actions/actions";
+import * as UserApi from "../../stores/api/userApi";
 import { checkEmail, checkPassword, checkId } from "../../utils/RegExpCheck";
 const ReadMe = styled.p`
   font-family: NanumSquareRegular;
@@ -43,7 +45,7 @@ const Form = styled.form`
     padding: 0;
   }
 `;
-function SignUp(props) {
+function SignUp() {
   //입력 상태 관리
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -55,6 +57,12 @@ function SignUp(props) {
     emailMessage: false,
     passwordMessage: false,
   });
+  const dispatch = useDispatch();
+  const { loading, data, error } = useSelector(
+    (state) => state.UserReducer.sign
+  );
+  console.log(data);
+  const history = useHistory();
   //중복확인
   const [idOverLapCheck, setIdOverLapCheck] = useState(false);
   const [emailOverLapCheck, setEmailOverLapCheck] = useState(false);
@@ -79,7 +87,7 @@ function SignUp(props) {
     (e) => {
       setName(e.target.value);
     },
-    [email]
+    [name]
   );
   const onPasswordHandler = useCallback(
     (e) => {
@@ -94,6 +102,16 @@ function SignUp(props) {
     [passwordCheck]
   );
 
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      alert("회원가입 성공");
+      history.push("/login");
+      dispatch(signupClear());
+    } else if (error) {
+      alert("회원가입 실패");
+    }
+  }, [data]);
   // 서버에 id 중복 체크
   const IdCheckHandler = useCallback(
     (e) => {
@@ -102,11 +120,11 @@ function SignUp(props) {
       setIdOverLapCheck(false);
       if (checkId(id)) {
         console.log("서버로 id중복 확인");
-        axios
-          .get(`http://15.164.20.183:3003/user/check/id/${id}`)
+        UserApi.IdCheck(id)
           .then((response) => setIdOverLapCheck(response.data.data.checkId))
           .catch((err) => {
             console.log(err);
+            alert("중복된id입니다.");
             setIdOverLapCheck(false);
             console.log(idOverLapCheck);
           });
@@ -132,13 +150,13 @@ function SignUp(props) {
       setEmailOverLapCheck(false);
       if (checkEmail(email) && email) {
         console.log("서버로 Email중복 확인");
-        axios
-          .get(`http://15.164.20.183:3003/user/check/email/${email}`)
+        UserApi.EmailCheck(email)
           .then((response) =>
             setEmailOverLapCheck(response.data.data.checkEmail)
           )
           .catch((error) => {
             console.log(error.response);
+            alert("중복된email입니다.");
             setEmailOverLapCheck(false);
             console.log(emailOverLapCheck);
           });
@@ -180,15 +198,8 @@ function SignUp(props) {
               userName: name,
               password: password,
             };
-            axios
-              .post("http://15.164.20.183:3003/user/signup", body)
-              .then((response) => {
-                if (response.data.success === true) {
-                  alert("가입되셨습니다!");
-                  props.history.push("/login");
-                }
-              })
-              .catch((error) => console.log(error.response));
+            console.log("123");
+            dispatch(signup(body));
           } else if (!name) {
             alert("이름을 적어야 합니다");
           } else if (!idOverLapCheck) {

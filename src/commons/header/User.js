@@ -15,11 +15,11 @@ const LogoutButton = styled.button`
 `;
 
 const User = () => {
-   console.log(useSelector((state) => state.LoginReducer.users));
    const dispatch = useDispatch();
    const { userName, isLogined } = useSelector(
       (state) => state.LoginReducer.users
    );
+   const { cartLength } = useSelector((state) => state.CartReducer.length);
 
    const onLogOutHandler = useCallback(
       (e) => {
@@ -28,17 +28,23 @@ const User = () => {
       },
       [dispatch]
    );
+
    return (
       <div className="col-lg-3">
          <div className="widgets-wrap float-right">
-            <div className="widget-header  mr-3">
-               <a href="/cart" className="icon icon-sm rounded-circle border">
-                  <i className="fa fa-shopping-cart"></i>
-               </a>
-               <span className="badge badge-pill badge-danger notify">0</span>
-            </div>
             {isLogined && (
                <>
+                  <div className="widget-header  mr-3">
+                     <a
+                        href="/cart"
+                        className="icon icon-sm rounded-circle border"
+                     >
+                        <i className="fa fa-shopping-cart"></i>
+                     </a>
+                     <span className="badge badge-pill badge-danger notify">
+                        {cartLength || 0}
+                     </span>
+                  </div>
                   <div className="widget-header  mr-3">
                      <a
                         href="/user"

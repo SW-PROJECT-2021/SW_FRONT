@@ -6,6 +6,7 @@ import Footer from "../../commons/Footer";
 import ShoppingCart from "../shoppingCart";
 import ProductList from "../productList";
 import ProductDetail from "../productDetail";
+import User from "../user";
 
 function Main() {
    return (
@@ -14,6 +15,7 @@ function Main() {
          <Route exact path="/" component={Home} />
          <Route exact path="/cart" component={ShoppingCart} />
          <Route exact path="/list" component={ProductList} />
+         <Route exact path="/user" component={User} />
          <Route path="/detail" component={ProductDetail} />
          <Footer />
       </>

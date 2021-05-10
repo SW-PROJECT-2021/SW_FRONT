@@ -1,39 +1,50 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { ThousandSeperator } from "../../utils/ThousandSeperator";
 import Table from "./Table";
 
 const list = [
    {
       id: 0,
-      src: "assets/images/items/1.jpg",
-      name: "Some name of item goes here nice",
-      info: "Size: XL, Color: blue",
-      quantity: 3,
-      price: 30000,
+      productImg: "assets/images/items/1.jpg",
+      productName: "Some name of item goes here nice",
+      count: 3,
+      productPrice: 30000,
    },
    {
       id: 1,
-      src: "assets/images/items/2.jpg",
-      name: "Product name goes here nice",
-      info: "Size: XL, Color: blue",
-      quantity: 1,
-      price: 10000,
+      productImg: "assets/images/items/2.jpg",
+      productName: "Product name goes here nice",
+      count: 1,
+      productPrice: 10000,
    },
    {
       id: 2,
-      src: "assets/images/items/3.jpg",
-      name: " Another name of some product goes just here",
-      info: "Size: XL, Color: blue",
-      quantity: 2,
-      price: 20000,
+      productImg: "assets/images/items/3.jpg",
+      productName: " Another name of some product goes just here",
+      count: 2,
+      productPrice: 20000,
    },
 ];
 
 function ShoppingCart() {
    const [cartList, setCartList] = useState([]);
+   const [totalPrice, setTotalPrice] = useState(0);
+
+   const { cartItems } = useSelector((state) => state.CartReducer);
 
    useEffect(() => {
-      setCartList(list);
-   }, []);
+      if (cartItems) {
+         setCartList(cartItems);
+         let total = 0;
+         cartItems.forEach((item) => {
+            total += item.productPrice * item.count;
+         });
+         setTotalPrice(total);
+      } else {
+         setCartList([]);
+      }
+   }, [cartItems]);
 
    return (
       <div>
@@ -76,7 +87,9 @@ function ShoppingCart() {
                         <div className="card-body">
                            <dl className="dlist-align">
                               <dt>가격 : </dt>
-                              <dd className="text-right">USD 568</dd>
+                              <dd className="text-right">
+                                 {ThousandSeperator(totalPrice)}원
+                              </dd>
                            </dl>
                            <dl className="dlist-align">
                               <dt>할인 :</dt>
@@ -85,7 +98,9 @@ function ShoppingCart() {
                            <dl className="dlist-align">
                               <dt>총 가격:</dt>
                               <dd className="text-right  h5">
-                                 <strong>$1,650</strong>
+                                 <strong>
+                                    {ThousandSeperator(totalPrice)}원
+                                 </strong>
                               </dd>
                            </dl>
                            <hr />
@@ -100,32 +115,6 @@ function ShoppingCart() {
                      </div>
                   </aside>
                </div>
-            </div>
-         </section>
-
-         <section className="section-name bg padding-y">
-            <div className="container">
-               <h6>Payment and refund policy</h6>
-               <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-               </p>
-               <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-               </p>
             </div>
          </section>
       </div>

@@ -4,6 +4,7 @@ import {
    Modal,
    NativeSelect,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
@@ -20,6 +21,7 @@ function Table({ cartList, setCartList }) {
    const history = useHistory();
    const [loading, setLoading] = useState(false);
    const classes = useStyles();
+
    //만약 양 더 필요해지면, lab -> autocomplte -> Controllable states 사용하기
    const onChangeQuantity = (e, id) => {
       //여기서 로딩 넣기
@@ -45,20 +47,23 @@ function Table({ cartList, setCartList }) {
             <td>
                <figure className="itemside">
                   <div className="aside">
-                     <img src={item.src} className="img-sm" alt="error" />
+                     <img
+                        src={item.productImg}
+                        className="img-sm"
+                        alt="error"
+                     />
                   </div>
                   <figcaption className="info">
                      <a href="/" className="title text-dark">
-                        {item.name}
+                        {item.productName}
                      </a>
-                     <p className="text-muted small">{item.info}</p>
                   </figcaption>
                </figure>
             </td>
             <td>
                <NativeSelect
                   onChange={(e) => onChangeQuantity(e, item.id)}
-                  value={item.quantity}
+                  value={item.count}
                >
                   <option>1</option>
                   <option>2</option>
@@ -75,11 +80,11 @@ function Table({ cartList, setCartList }) {
             <td>
                <div className="price-wrap">
                   <var className="price">
-                     {ThousandSeperator(item.quantity * item.price)}원
+                     {ThousandSeperator(item.count * item.productPrice)}원
                   </var>
                   <small className="text-muted">
                      {" "}
-                     개당 {ThousandSeperator(item.price)}원{" "}
+                     개당 {ThousandSeperator(item.productPrice)}원{" "}
                   </small>
                </div>
             </td>
@@ -97,28 +102,31 @@ function Table({ cartList, setCartList }) {
    };
    return (
       <div className="card">
-         <table className="table table-borderless table-shopping-cart">
-            <thead className="text-muted">
-               <tr className="small text-uppercase">
-                  <th scope="col">상품</th>
-                  <th scope="col" width="120">
-                     수량
-                  </th>
-                  <th scope="col" width="120">
-                     가격
-                  </th>
-                  <th scope="col" className="text-right" width="200">
-                     {" "}
-                  </th>
-               </tr>
-            </thead>
-            <tbody>{cartList.map((item, idx) => getItem(item, idx))}</tbody>
-         </table>
-
+         {cartList ? (
+            <Alert severity="info">아직 장바구니에 넣은 상품이 없습니다!</Alert>
+         ) : (
+            <table className="table table-borderless table-shopping-cart">
+               <thead className="text-muted">
+                  <tr className="small text-uppercase">
+                     <th scope="col">상품</th>
+                     <th scope="col" width="120">
+                        수량
+                     </th>
+                     <th scope="col" width="120">
+                        가격
+                     </th>
+                     <th scope="col" className="text-right" width="200">
+                        {" "}
+                     </th>
+                  </tr>
+               </thead>
+               <tbody>{cartList.map((item, idx) => getItem(item, idx))}</tbody>
+            </table>
+         )}
          <div className="card-body border-top">
             <a href="/" className="btn btn-primary float-md-right">
                {" "}
-               Make Purchase <i className="fa fa-chevron-right"></i>{" "}
+               구매하기 <i className="fa fa-chevron-right"></i>{" "}
             </a>
             <button onClick={() => history.goBack()} className="btn btn-light">
                {" "}

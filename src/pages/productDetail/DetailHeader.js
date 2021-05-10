@@ -1,6 +1,7 @@
 import { NativeSelect } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
 function DetailHeader({ product }) {
@@ -12,6 +13,14 @@ function DetailHeader({ product }) {
          "top=10, left=10, width=500, height=600"
       );
    };
+   const { isLogined } = useSelector((state) => state.LoginReducer.users);
+
+   const onShoppingCart = () => {
+      if (!isLogined) {
+         alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
+      }
+   };
+
    return (
       <article className="card">
          <div className="card-body">
@@ -48,19 +57,11 @@ function DetailHeader({ product }) {
                      <hr />
 
                      <div className="mb-3">
-                        <h6>Short description</h6>
-                        <ul className="list-dots mb-0">
-                           <li>Made in Russia</li>
-                           <li>Wolf leather </li>
-                           <li>Rubber material bottom</li>
-                           <li>Dark blue color</li>
-                        </ul>
-                     </div>
-                     <div className="mb-3">
                         <var className="price h4">
-                           &#8361;{ThousandSeperator(product.price)}
+                           &#8361;&nbsp;{ThousandSeperator(product.price)}
                         </var>{" "}
                      </div>
+                     <br />
                      <div>
                         <span 
                            className="col-lg-1"
@@ -94,7 +95,10 @@ function DetailHeader({ product }) {
                      </div>
                      <br />
                      <div className="mb-6">
-                        <button className="btn btn-outline-secondary btn-lg col-lg-3">
+                        <button
+                           className="btn btn-outline-secondary btn-lg col-lg-3"
+                           onClick={onShoppingCart}
+                        >
                            장바구니
                         </button>
                         &nbsp;

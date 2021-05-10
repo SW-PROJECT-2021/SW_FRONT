@@ -3,6 +3,8 @@ import Navigator from "./Navigator";
 import Search from "./Search";
 import User from "./User";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { updateCart } from "../../stores/actions/actions";
 
 const UserDiv = styled.div`
    flex: auto;
@@ -10,6 +12,8 @@ const UserDiv = styled.div`
 
 const Header = () => {
    const [lessThan992, setLessThan992] = useState(false);
+   const dispatch = useDispatch();
+
    useEffect(() => {
       const mediase = window.matchMedia("(max-width: 992px)");
 
@@ -21,13 +25,16 @@ const Header = () => {
          }
       };
 
+      dispatch(updateCart());
+
       mediase.addEventListener("change", handle);
 
       handle();
       return () => {
          mediase.removeEventListener("change", handle);
       };
-   }, []);
+   }, [dispatch]);
+
    return (
       <header className="section-header">
          <section className="header-main border-bottom">

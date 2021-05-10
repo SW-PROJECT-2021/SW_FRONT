@@ -7,23 +7,25 @@ import ReduxThunk from "redux-thunk";
 import promiseMiddleware from "redux-promise";
 
 import { LoginReducer } from "./reducers/LoginReducer";
+import { CartReducer } from "./reducers/CartReducer";
 
 const persistConfig = {
-  key: "root",
-  storage,
+   key: "root",
+   storage,
 };
 
 const rootReducer = combineReducers({
-  LoginReducer,
+   LoginReducer,
+   CartReducer,
 });
 
 const enhancedReducer = persistReducer(persistConfig, rootReducer);
 
 export default function configureStore() {
-  const store = createStore(
-    enhancedReducer,
-    applyMiddleware(promiseMiddleware, ReduxThunk, logger)
-  );
-  const persistor = persistStore(store);
-  return { store, persistor };
+   const store = createStore(
+      enhancedReducer,
+      applyMiddleware(promiseMiddleware, ReduxThunk, logger)
+   );
+   const persistor = persistStore(store);
+   return { store, persistor };
 }

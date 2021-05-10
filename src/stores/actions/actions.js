@@ -32,7 +32,9 @@ export const logout = () => async (dispatch) => {
 
 export const updateCart = () => async (dispatch) => {
    try {
-      const response = await axios.get("http://15.164.20.183:3003/basket");
+      const response = await axios.get("http://15.164.20.183:3003/basket", {
+         withCredentials: true,
+      });
       console.log(response.data);
       dispatch({ type: UPDATECART, payload: response.data.data });
    } catch (error) {

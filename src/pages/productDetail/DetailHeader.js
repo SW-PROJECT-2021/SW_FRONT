@@ -63,7 +63,7 @@ function DetailHeader({ product }) {
                      </div>
                      <br />
                      <div>
-                        <span
+                        <span 
                            className="col-lg-1"
                            style={{ paddingLeft: "0px" }}
                         >

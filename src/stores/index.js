@@ -7,7 +7,7 @@ import ReduxThunk from "redux-thunk";
 import promiseMiddleware from "redux-promise";
 
 import { UserReducer } from "./reducers/UserReducer";
-
+import { ProductReducer } from "./reducers/ProductReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -15,6 +15,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   UserReducer,
+  ProductReducer,
 });
 
 const enhancedReducer = persistReducer(persistConfig, rootReducer);

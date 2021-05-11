@@ -26,10 +26,11 @@ import AdminMain from "./AdminMain";
 import Event from "./Event";
 import ProductManage from "./ProductManage/ProductManage";
 import PostProduct from "./ProductManage/PostProduct";
-
+import ProductDetail from "./ProductManage/ProductDetail";
+import UpdateProduct from "./ProductManage/UpdateProduct";
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography>
       {"Copyright © "}
       {new Date().getFullYear()}
       {"."}
@@ -105,7 +106,7 @@ export const useStyles = makeStyles((theme) => ({
     overflow: "auto",
   },
   container: {
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(5),
     paddingBottom: theme.spacing(4),
     height: "100vh",
   },
@@ -187,6 +188,14 @@ export default function Admin() {
       <Route path="/admin/Event" exact component={Event} />
       <Route path="/admin/ProductManage" exact component={ProductManage} />
       <Route path="/admin/ProductManage/PostProduct" component={PostProduct} />
+      <Route
+        path="/admin/ProductManage/ProductDetail/:id"
+        component={ProductDetail}
+      />
+      <Route
+        path="/admin/ProductManage/UpdateProduct/:id"
+        component={UpdateProduct}
+      />
     </div>
   );
 }

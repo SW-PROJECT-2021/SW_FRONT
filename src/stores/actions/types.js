@@ -1,3 +1,4 @@
+//user action
 export const LOGINED = "LOGINED";
 export const LOGINED_SUCCESS = "LOGINED_SUCCESS";
 export const LOGINED_ERROR = "LOGINED_ERROR";
@@ -8,3 +9,22 @@ export const SIGNUP = "SIGNUP";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_ERROR = "SIGNUP_ERROR";
 export const SIGNUP_CLEAR = "SIGNUP_CLEAR";
+
+//product action
+//제품전체
+export const GET_PRODUCTS = "GET_PRODUCTS";
+export const GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS";
+export const GET_PRODUCTS_ERROR = "GET_PRODUCTS_ERROR";
+//제품1개조회
+export const GET_PRODUCT = "GET_PRODUCT";
+export const GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
+export const GET_PRODUCT_ERROR = "GET_PRODUCT_ERROR";
+//상품 등록
+export const POST_PRODUCT = "POST_PRODUCT";
+export const POST_PRODUCT_SUCCESS = "POST_PRODUCT_SUCCESS";
+export const POST_PRODUCT_ERROR = "POST_PRODUCT_ERROR";
+export const POST_PRODUCT_CLEAR = "POST_PRODUCT_CLEAR";
+//상품 수정
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const UPDATE_PRODUCT_SUCCESS = "UPDATE_PRODUCT_SUCCESS";
+export const UPDATE_PRODUCT_ERROR = "UPDATE_PRODUCT_ERROR";

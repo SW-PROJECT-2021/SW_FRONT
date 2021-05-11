@@ -1,63 +1,69 @@
-import React, { useState, useCallback } from "react";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import ProductDetail from "./ProductDetail";
+import React, { useCallback } from "react";
+import { Link } from "react-router-dom";
+import { TableRow, TableCell, Update, Option } from "./ManageStyle";
+import { CategoryMappingById } from "../../../utils/CategoryMapping";
+import * as ProductApi from "../../../stores/api/productApi";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import styled from "styled-components";
 
-const CategoryMapping = {
-  1: "유산소-러닝머신",
-  2: "유산소-사이클",
-  3: "웨이트-바벨",
-  4: "웨이트-덤벨",
-  5: "웨이트-원판",
-  6: "웨이트-머신",
-  7: "운동보조기구-밴드",
-  8: "운동보조기구-스트랩",
-  9: "운동보조기구-벨트",
-  10: "마사지기구-폼롤러",
-  11: "마사지기구-요가매트",
-};
+const Button = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 0px solid rgb(65, 83, 175);
+  background-color: #ffffff;
+  cursor: pointer;
+  padding: 0;
+`;
 
 function ProductList({ posts }) {
-  const [modalState, setModalState] = useState(false);
-  const [modalData, setModalData] = useState("");
+  console.log("test");
 
-  const DetailButtonHandler = useCallback(
-    (id) => {
-      console.log(modalData);
-      setModalState(true);
-      setModalData(posts.filter((data) => data.id === id));
-      console.log(modalData);
-    },
-    [modalState, posts]
-  );
+  const onDelete = useCallback(async (id) => {
+    const result = window.confirm("제품을 삭제하시겠습니까?");
+    if (result) {
+      const response = await ProductApi.DeleteProduct(id);
+      console.log(response);
+      window.location.reload();
+    }
+  });
   return (
     <>
       {posts.map((row) => (
-        <>
-          <TableRow key={row.id}>
-            <TableCell>{row.id}</TableCell>
-            <TableCell align="left">
-              {CategoryMapping[row.CategoryId]}
-            </TableCell>
-            <TableCell align="left">{row.name}</TableCell>
-            <TableCell align="center">
-              <button onClick={() => DetailButtonHandler(row.id)}>
-                상세정보
-              </button>
-            </TableCell>
-            <TableCell align="right">
-              <button>삭제</button>
-            </TableCell>
-          </TableRow>
-        </>
+        <TableRow key={row.id}>
+          <TableCell>{row.id}</TableCell>
+          <TableCell align="left">
+            {row.isDeleted === true ? (
+              <del>{CategoryMappingById[row.CategoryId]}</del>
+            ) : (
+              CategoryMappingById[row.CategoryId]
+            )}
+          </TableCell>
+          <TableCell align="left">{row.name}</TableCell>
+          <TableCell align="right">
+            <Option>
+              <Link
+                to={`/admin/ProductManage/ProductDetail/${row.id}`}
+                style={{ textDecoration: "none", color: "rgb(65, 83, 175)" }}
+              >
+                <Update>상세정보</Update>
+              </Link>
+              <Button onClick={() => onDelete(row.id)}>
+                <DeleteIcon />
+              </Button>
+              <Link
+                to={`/admin/ProductManage/UpdateProduct/${row.id}`}
+                style={{ textDecoration: "none", color: "rgb(65, 83, 175)" }}
+              >
+                <Button>
+                  <EditIcon />
+                </Button>
+              </Link>
+            </Option>
+          </TableCell>
+        </TableRow>
       ))}
-      {modalState && (
-        <ProductDetail
-          modalData={modalData}
-          setModalState={setModalState}
-          modalState={modalState}
-        />
-      )}
     </>
   );
 }

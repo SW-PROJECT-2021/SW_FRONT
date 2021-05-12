@@ -7,7 +7,7 @@ const PageUl = styled.ul`
   border-radius: 3px;
 
   padding: 1px;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(232, 237, 244);
 `;
 const PageLi = styled.li`
   display: inline-block;

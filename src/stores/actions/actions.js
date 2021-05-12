@@ -1,43 +1,108 @@
-import { LOGINED, LOGOUT, UPDATECART } from "./types";
+import {
+  LOGINED,
+  LOGINED_SUCCESS,
+  LOGINED_ERROR,
+  LOGOUT,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR,
+  SIGNUP,
+  SIGNUP_SUCCESS,
+  SIGNUP_ERROR,
+  SIGNUP_CLEAR,
+  GET_PRODUCTS,
+  GET_PRODUCTS_SUCCESS,
+  GET_PRODUCTS_ERROR,
+  GET_PRODUCT,
+  GET_PRODUCT_SUCCESS,
+  GET_PRODUCT_ERROR,
+  POST_PRODUCT,
+  POST_PRODUCT_SUCCESS,
+  POST_PRODUCT_ERROR,
+  POST_PRODUCT_CLEAR,
+  UPDATECART,
+} from "./types";
 import axios from "axios";
-
+import * as userApi from "../api/userApi";
+import * as productApi from "../api/productApi";
 export const logined = (dataSubmit) => async (dispatch) => {
-   try {
-      const response = await axios.post(
-         "http://15.164.20.183:3003/user/login",
-         dataSubmit,
-         { withCredentials: true }
-      );
-      console.log(response);
-      dispatch({ type: LOGINED, payload: response.data.data });
-      return response;
-   } catch (error) {
-      console.log(error);
-   }
+  dispatch({ type: LOGINED });
+  try {
+    const response = await userApi.Userlogin(dataSubmit);
+    dispatch({ type: LOGINED_SUCCESS, payload: response.data.data });
+  } catch (error) {
+    dispatch({ type: LOGINED_ERROR, error: error });
+  }
 };
 
 export const logout = () => async (dispatch) => {
-   try {
-      const response = await axios.get(
-         "http://15.164.20.183:3003/user/logout",
-         {
-            withCredentials: true,
-         }
-      );
-      dispatch({ type: LOGOUT });
-   } catch (error) {
-      console.log(error);
-   }
+  dispatch({ type: LOGOUT });
+  try {
+    const response = await userApi.UserLogout();
+    console.log(response);
+    dispatch({ type: LOGOUT_SUCCESS });
+  } catch (error) {
+    dispatch({ type: LOGOUT_ERROR, error: error });
+  }
 };
 
-export const updateCart = () => async (dispatch) => {
-   try {
-      const response = await axios.get("http://15.164.20.183:3003/basket", {
-         withCredentials: true,
-      });
-      console.log(response.data);
-      dispatch({ type: UPDATECART, payload: response.data.data });
-   } catch (error) {
-      console.log(error);
-   }
+export const signup = (dataSubmit) => async (dispatch) => {
+  dispatch({ type: SIGNUP });
+  try {
+    const response = await userApi.UserSignUp(dataSubmit);
+    console.log(response);
+    dispatch({ type: SIGNUP_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: SIGNUP_ERROR, error: error });
+  }
 };
+
+export const signupClear = () => ({
+  type: SIGNUP_CLEAR,
+});
+
+export const getProduct = () => async (dispatch) => {
+  dispatch({ type: GET_PRODUCTS });
+  try {
+    const response = await productApi.GetProductList();
+    console.log(response);
+    dispatch({ type: GET_PRODUCTS_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: GET_PRODUCTS_ERROR, error: error });
+  }
+};
+
+export const getProductById = (id) => async (dispatch) => {
+  dispatch({ type: GET_PRODUCT });
+  try {
+    const response = await productApi.GetProductById(id);
+    console.log(response);
+    dispatch({ type: GET_PRODUCT_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: GET_PRODUCT_ERROR, error: error });
+  }
+};
+
+export const postProduct = (dataSubmit) => async (dispatch) => {
+  dispatch({ type: POST_PRODUCT });
+  try {
+    const response = await productApi.PostProduct(dataSubmit);
+    console.log(response);
+    dispatch({ type: POST_PRODUCT_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: POST_PRODUCT_ERROR, error: error });
+  }
+};
+export const updateCart = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://15.164.20.183:3003/basket", {
+      withCredentials: true,
+    });
+    console.log(response.data);
+    dispatch({ type: UPDATECART, payload: response.data.data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const postProductClear = () => ({
+  type: POST_PRODUCT_CLEAR,
+});

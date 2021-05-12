@@ -17,6 +17,8 @@ const LogoutButton = styled.button`
 const User = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.UserReducer.users);
+  const { cartLength } = useSelector((state) => state.CartReducer.length);
+
   const onLogOutHandler = useCallback(
     (e) => {
       e.preventDefault();
@@ -31,7 +33,10 @@ const User = () => {
           <a href="/cart" className="icon icon-sm rounded-circle border">
             <i className="fa fa-shopping-cart"></i>
           </a>
-          <span className="badge badge-pill badge-danger notify">0</span>
+          <span className="badge badge-pill badge-danger notify">
+            {" "}
+            {cartLength || 0}
+          </span>
         </div>
         {data && (
           <>
@@ -48,18 +53,16 @@ const User = () => {
             {data && (
               <div className="text-muted">{data.loginId}님, 환영합니다.</div>
             )}
-            <div>
-              {data ? (
-                <LogoutButton type="submit" onClick={onLogOutHandler}>
-                  로그아웃
-                </LogoutButton>
-              ) : (
-                <>
-                  <Link to="/login">로그인</Link> |{" "}
-                  <Link to="/signup">회원가입</Link>
-                </>
-              )}
-            </div>
+            {data ? (
+              <LogoutButton type="submit" onClick={onLogOutHandler}>
+                로그아웃
+              </LogoutButton>
+            ) : (
+              <>
+                <Link to="/login">로그인</Link> |{" "}
+                <Link to="/signup">회원가입</Link>
+              </>
+            )}
           </div>
         </div>
       </div>

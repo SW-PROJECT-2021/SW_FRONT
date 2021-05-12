@@ -149,7 +149,6 @@ function DetailSearch({
                                  <option value="band">밴드</option>
                                  <option value="strap">스트랩</option>
                                  <option value="belt">벨트</option>
-                                 <option value={10}>기구</option>
                                  <option value="roller">폼롤러</option>
                                  <option value="mat">요가매트</option>
                               </optgroup>

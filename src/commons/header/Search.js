@@ -1,6 +1,16 @@
+import { CircularProgress, makeStyles, Modal } from "@material-ui/core";
+import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import DetailSearch from "./elements/DetailSearch";
+
+const useStyles = makeStyles(() => ({
+   loading: {
+      position: "absolute",
+      top: "47%",
+      left: "47%",
+   },
+}));
 
 const Search = () => {
    const [search, setSearch] = useState("");
@@ -11,6 +21,8 @@ const Search = () => {
    const history = useHistory();
    const [anchorEl, setAnchorEl] = useState(null);
    const [category, setCategory] = useState(null);
+   const classes = useStyles();
+   const [loading, setLoading] = useState(false);
 
    const onChange = (e) => {
       setSearch(e.target.value);
@@ -31,17 +43,38 @@ const Search = () => {
          }
       }
    };
-   const onSubmit = (e) => {
+   const onSubmit = async (e) => {
       e.preventDefault();
-      const priceRange = {
-         min: price.min ? price.min : 0,
-         max: price.max ? price.max : 999999999,
-      };
+      setLoading(true);
       //여기서 검색하고 받아서 넘기기
-      history.push({
-         pathname: "/list",
-         state: { search: search, price: priceRange, category: category },
-      });
+      let priceRange = {
+         min: price.min,
+         max: price.max,
+      };
+      if (price.min && price.max && price.min > price.max) {
+         priceRange.min = price.max;
+         priceRange.max = price.min;
+      }
+      await axios
+         .get(
+            `http://15.164.20.183:3003/product/search/detail?title=${search}&category=${
+               category || ""
+            }&minPrice=${priceRange.min || ""}&maxPrice=${priceRange.max || ""}`
+         )
+         .then((res) => {
+            setLoading(false);
+            history.push({
+               pathname: "/list",
+               state: res.data.data,
+            });
+         })
+         .catch((err) => {
+            history.push({
+               pathname: "/list",
+               state: {},
+            });
+         });
+
       setSearch("");
       setPrice({ min: null, max: null });
       setAnchorEl(null);
@@ -74,6 +107,10 @@ const Search = () => {
                />
             </div>
          </form>
+
+         <Modal open={loading}>
+            <CircularProgress color="secondary" className={classes.loading} />
+         </Modal>
       </div>
    );
 };

@@ -19,7 +19,9 @@ import {
   POST_PRODUCT_SUCCESS,
   POST_PRODUCT_ERROR,
   POST_PRODUCT_CLEAR,
+  UPDATECART,
 } from "./types";
+import axios from "axios";
 import * as userApi from "../api/userApi";
 import * as productApi from "../api/productApi";
 export const logined = (dataSubmit) => async (dispatch) => {
@@ -88,6 +90,17 @@ export const postProduct = (dataSubmit) => async (dispatch) => {
     dispatch({ type: POST_PRODUCT_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: POST_PRODUCT_ERROR, error: error });
+  }
+};
+export const updateCart = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://15.164.20.183:3003/basket", {
+      withCredentials: true,
+    });
+    console.log(response.data);
+    dispatch({ type: UPDATECART, payload: response.data.data });
+  } catch (error) {
+    console.log(error);
   }
 };
 export const postProductClear = () => ({

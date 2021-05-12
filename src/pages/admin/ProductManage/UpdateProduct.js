@@ -96,7 +96,7 @@ function UpdateProduct({ match }) {
       setProductName(data.data.name);
       setProductPrice(data.data.price);
       setProductCount(data.data.count);
-      setProductImg({ ImgFile: data.data.img });
+      setProductImg(data.data.img);
       setProductDetail(data.data.detail);
     }
   }, [data]);

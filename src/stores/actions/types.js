@@ -31,7 +31,8 @@ export const UPDATE_PRODUCT_ERROR = "UPDATE_PRODUCT_ERROR";
 
 //카트
 export const UPDATECART = "UPDATECART";
-
+export const DELETECART = "DELETECART";
+export const CHANGE_COUNT_CART = "CHANGE_COUNT_CART";
 //admin 상품 정렬
 export const ORDER_PRODUCT = "ORDER_PRODUCT";
 //admin Search

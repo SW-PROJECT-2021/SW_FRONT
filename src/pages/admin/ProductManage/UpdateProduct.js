@@ -20,6 +20,7 @@ import {
   CategoryList,
   CategoryMapping,
 } from "../../../utils/CategoryMapping";
+import { UpdateProductId } from "../../../stores/actions/actions";
 const Body = styled.div`
   width: 100%;
   height: auto;
@@ -145,6 +146,27 @@ function UpdateProduct({ match }) {
   );
   const onSubmitHandler = useCallback((e) => {
     e.preventDefault();
+    if (
+      productImg &&
+      productName &&
+      productPrice &&
+      productCount &&
+      productDetail &&
+      category.age
+    ) {
+      const formData = new FormData();
+      formData.append("id", match.params.id);
+      formData.append("img", productImg);
+      formData.append("name", productName);
+      formData.append("price", productPrice);
+      formData.append("count", productCount);
+      formData.append("detail", productDetail);
+      formData.append("category", CategoryMapping[category.age]);
+
+      dispatch(UpdateProductId(formData));
+    } else {
+      alert("빈칸을 채워주세요!");
+    }
   });
   if (loading) return <div>loading</div>;
   if (error) return <div>error</div>;

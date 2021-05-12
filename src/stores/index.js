@@ -9,7 +9,7 @@ import promiseMiddleware from "redux-promise";
 import { UserReducer } from "./reducers/UserReducer";
 import { ProductReducer } from "./reducers/ProductReducer";
 import { CartReducer } from "./reducers/CartReducer";
-
+import { BannerReducer } from "./reducers/BannerReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
   UserReducer,
   ProductReducer,
   CartReducer,
+  BannerReducer,
 });
 
 const enhancedReducer = persistReducer(persistConfig, rootReducer);

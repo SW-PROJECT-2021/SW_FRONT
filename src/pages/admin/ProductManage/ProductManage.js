@@ -24,7 +24,7 @@ import {
   getProductAction,
   OrderProductAction,
   SearchProductAction,
-} from "../../../stores/actions/actions";
+} from "../../../stores/actions/productActions";
 import OrderList from "../../../utils/OrderList";
 import ProductList from "./ProductList";
 import Pagination from "./Pagination";

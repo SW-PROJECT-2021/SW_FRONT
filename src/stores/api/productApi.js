@@ -32,3 +32,21 @@ export const DeleteProduct = async (id) => {
   });
   return response;
 };
+
+export const UpdateProduct = async (dataSubmit) => {
+  const response = await axios({
+    url: "/product",
+    method: "put",
+    data: dataSubmit,
+  });
+
+  return response;
+};
+
+export const SearchProduct = async (data) => {
+  const response = await axios({
+    url: `/product/search/detail?title=${data}&category=&minPrice=&maxPrice=`,
+    method: "get",
+  });
+  return response;
+};

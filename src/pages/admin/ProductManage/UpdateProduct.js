@@ -11,7 +11,6 @@ import Button from "@material-ui/core/Button";
 
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getProductById } from "../../../stores/actions/actions";
 import styled from "styled-components";
 import { useStyles } from "../index";
 import Container from "@material-ui/core/Container";
@@ -20,7 +19,10 @@ import {
   CategoryList,
   CategoryMapping,
 } from "../../../utils/CategoryMapping";
-import { UpdateProductId } from "../../../stores/actions/actions";
+import {
+  UpdateProductId,
+  getProductById,
+} from "../../../stores/actions/productActions";
 const Body = styled.div`
   width: 100%;
   height: auto;

@@ -46,6 +46,7 @@ const list = [
     productPrice: 20000,
   },
 ];
+
 const getItem = (item, idx) => {
   return (
     <tr key={idx}>
@@ -97,7 +98,8 @@ function OrderRecord() {
     }
   };
 
-  const singleOrderRecord = () => {
+  const singleOrderRecord = (list) => {
+    let totalPrice = 0;
     return (
       <>
         <div className={classes.orderRecord}>
@@ -109,7 +111,7 @@ function OrderRecord() {
             ))}
           </Stepper>
           <Typography variant="h6" className={classes.h6}>
-            주문한 날짜 :
+            2021.05.12 주문
           </Typography>
           <Typography variant="h6" className={classes.h6}>
             배송지 :
@@ -129,7 +131,12 @@ function OrderRecord() {
                 </th>
               </tr>
             </thead>
-            <tbody>{list.map((item, idx) => getItem(item, idx))}</tbody>
+            <tbody>
+              {list.map((item, idx) => {
+                totalPrice += item.count * item.productPrice;
+                return getItem(item, idx);
+              })}
+            </tbody>
           </table>
           <div className="card-body border-top">
             <button
@@ -150,7 +157,9 @@ function OrderRecord() {
                 <>상품평</>
               )}
             </button>
-            <div className={`${classes.totalPrice} col-3`}>총가격 : </div>
+            <div className={`${classes.totalPrice} col-3`}>
+              Total : {ThousandSeperator(totalPrice)} 원
+            </div>
           </div>
         </div>
       </>
@@ -163,7 +172,7 @@ function OrderRecord() {
         <Typography variant="h3" className={classes.h3}>
           주문내역
         </Typography>
-        {singleOrderRecord()}
+        {singleOrderRecord(list)}
       </div>
     </>
   );

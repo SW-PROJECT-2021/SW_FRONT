@@ -20,10 +20,14 @@ import {
   POST_PRODUCT_ERROR,
   POST_PRODUCT_CLEAR,
   UPDATECART,
+  DELETECART,
+  CHANGE_COUNT_CART,
 } from "./types";
 import axios from "axios";
 import * as userApi from "../api/userApi";
 import * as productApi from "../api/productApi";
+import * as cartApi from "../api/cartApi";
+
 export const logined = (dataSubmit) => async (dispatch) => {
   dispatch({ type: LOGINED });
   try {
@@ -94,10 +98,40 @@ export const postProduct = (dataSubmit) => async (dispatch) => {
 };
 export const updateCart = () => async (dispatch) => {
   try {
-    const response = await axios.get("/basket", {
-      withCredentials: true,
-    });
+    const response = await cartApi.UpdateCart();
     dispatch({ type: UPDATECART, payload: response.data.data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const deleteCart = (id) => async (dispatch) => {
+  try {
+    await cartApi
+      .DeleteCart(id)
+      .then((res) => {
+        console.log(res);
+        dispatch({ type: DELETECART, payload: id });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const changeCountCart = (id, count) => async (dispatch) => {
+  try {
+    await cartApi
+      .ChangeCountCart({ ProductId: id, count: count })
+      .then((res) => {
+        dispatch({
+          type: CHANGE_COUNT_CART,
+          payload: { ProductId: id, count: count },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   } catch (error) {
     console.log(error);
   }

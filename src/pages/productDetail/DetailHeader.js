@@ -1,123 +1,128 @@
 import { NativeSelect } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
+import axios from "axios";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCart } from "../../stores/actions/actions";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
 function DetailHeader({ product }) {
-   const [quantity, setQuantity] = useState(1);
-   const openPopup = () => {
-      window.open(
-         "/address",
-         "shipment",
-         "top=10, left=10, width=500, height=600"
-      );
-   };
-   const { isLogined } = useSelector((state) => state.UserReducer.users);
-   const onShoppingCart = () => {
-      if (!isLogined) {
-         alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
-      }
-   };
-   const onSelectAddress = () => {
-      if (!isLogined) {
+  const [quantity, setQuantity] = useState(1);
+  const openPopup = () => {
+    window.open(
+      "/address",
+      "shipment",
+      "top=10, left=10, width=500, height=600"
+    );
+  };
+  const { userName } = useSelector((state) => state.UserReducer.users.data);
+  const dispatch = useDispatch();
+  const onShoppingCart = async () => {
+    if (!userName) {
+      alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
+    } else {
+      await axios
+        .post("/basket", {
+          ProductId: product.id,
+          count: quantity,
+        })
+        .then((res) => {
+          console.log(res);
+          dispatch(updateCart());
+        })
+        .catch((err) => {});
+    }
+  };
+  const onSelectAddress = () => {
+    if (!userName) {
       alert("로그인 하셔야 배송지를 선택할 수 있습니다.");
-   } else {
-      openPopup()
-   }
-}
+    } else {
+      openPopup();
+    }
+  };
 
+  return (
+    <article className="card">
+      <div className="card-body">
+        <div className="row">
+          <aside className="col-md-6">
+            <article className="gallery-wrap">
+              <div className="card img-big-wrap">
+                <span style={{ textAlign: "center" }}>
+                  <img
+                    src={product.img}
+                    alt="error"
+                    style={{ maxWidth: "100%" }}
+                  />
+                </span>
+              </div>
+            </article>
+          </aside>
+          <main className="col-md-6">
+            <article>
+              <h3 className="title">{product.name}</h3>
+              <div>
+                <Rating name="read-only" value={5} readOnly className="col-3" />
+                <a href="/" className="btn-link  mr-3 text-muted">
+                  {" "}
+                  <i className="fa fa-heart"></i> 찜하기{" "}
+                </a>
+              </div>
 
-   return (
-      <article className="card">
-         <div className="card-body">
-            <div className="row">
-               <aside className="col-md-6">
-                  <article className="gallery-wrap">
-                     <div className="card img-big-wrap">
-                        <span style={{ textAlign: "center" }}>
-                           <img
-                              src={product.img}
-                              alt="error"
-                              style={{ maxWidth: "100%" }}
-                           />
-                        </span>
-                     </div>
-                  </article>
-               </aside>
-               <main className="col-md-6">
-                  <article>
-                     <h3 className="title">{product.name}</h3>
-                     <div>
-                        <Rating
-                           name="read-only"
-                           value={5}
-                           readOnly
-                           className="col-3"
-                        />
-                        <a href="/" className="btn-link  mr-3 text-muted">
-                           {" "}
-                           <i className="fa fa-heart"></i> 찜하기{" "}
-                        </a>
-                     </div>
+              <hr />
 
-                     <hr />
-
-                     <div className="mb-3">
-                        <var className="price h4">
-                           &#8361;&nbsp;{ThousandSeperator(product.price)}
-                        </var>{" "}
-                     </div>
-                     <br />
-                     <div>
-                        <span 
-                           className="col-lg-1"
-                           style={{ paddingLeft: "0px" }}
-                        >
-                           수량 :
-                        </span>
-                        <NativeSelect
-                           onChange={(e) => setQuantity(e.target.value)}
-                           value={quantity}
-                           className="col-lg-2"
-                        >
-                           <option>1</option>
-                           <option>2</option>
-                           <option>3</option>
-                           <option>4</option>
-                           <option>5</option>
-                           <option>6</option>
-                           <option>7</option>
-                           <option>8</option>
-                           <option>9</option>
-                           <option>10</option>
-                        </NativeSelect>
-                        &nbsp;
-                        <button
-                           onClick={onSelectAddress}
-                           className="btn btn-outline-secondary  btn-lg col-lg-3"
-                        >
-                           배송지 선택
-                        </button>
-                     </div>
-                     <br />
-                     <div className="mb-6">
-                        <button
-                           className="btn btn-outline-secondary btn-lg col-lg-3"
-                           onClick={onShoppingCart}
-                        >
-                           장바구니
-                        </button>
-                        &nbsp;
-                        <button className="btn btn-outline-secondary btn-lg col-lg-3">
-                           구매
-                        </button>
-                     </div>
-                  </article>
-               </main>
-            </div>
-         </div>
-      </article>
-   );
+              <div className="mb-3">
+                <var className="price h4">
+                  &#8361;&nbsp;{ThousandSeperator(product.price)}
+                </var>{" "}
+              </div>
+              <br />
+              <div>
+                <span className="col-lg-1" style={{ paddingLeft: "0px" }}>
+                  수량 :
+                </span>
+                <NativeSelect
+                  onChange={(e) => setQuantity(e.target.value)}
+                  value={quantity}
+                  className="col-lg-2"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                </NativeSelect>
+                &nbsp;
+                <button
+                  onClick={onSelectAddress}
+                  className="btn btn-outline-secondary  btn-lg col-lg-3"
+                >
+                  배송지 선택
+                </button>
+              </div>
+              <br />
+              <div className="mb-6">
+                <button
+                  className="btn btn-outline-secondary btn-lg col-lg-3"
+                  onClick={onShoppingCart}
+                >
+                  장바구니
+                </button>
+                &nbsp;
+                <button className="btn btn-outline-secondary btn-lg col-lg-3">
+                  구매
+                </button>
+              </div>
+            </article>
+          </main>
+        </div>
+      </div>
+    </article>
+  );
 }
 export default DetailHeader;

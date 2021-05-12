@@ -22,7 +22,7 @@ export const mainListItems = (
         <ListItemText primary="메인" />
       </ListItem>
     </Link>
-    <Link to="/admin/Event" style={{ textDecoration: "none", color: "black" }}>
+    <Link to="/admin/Banner" style={{ textDecoration: "none", color: "black" }}>
       <ListItem button>
         <ListItemIcon>
           <EventNoteIcon />

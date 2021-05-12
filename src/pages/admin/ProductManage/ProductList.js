@@ -16,10 +16,19 @@ const Button = styled.button`
   cursor: pointer;
   padding: 0;
 `;
+const changeValue = (value) => {
+  if (value === "younger") {
+    return { orderBy: "updatedAt", cmp: "lower" };
+  } else if (value === "older") {
+    return { orderBy: "updatedAt", cmp: "greater" };
+  } else if (value === "priceHigher") {
+    return { orderBy: "price", cmp: "lower" };
+  } else if (value === "priveLower") {
+    return { orderBy: "price", cmp: "greater" };
+  }
+};
 
 function ProductList({ posts }) {
-  console.log("test");
-
   const onDelete = useCallback(async (id) => {
     const result = window.confirm("제품을 삭제하시겠습니까?");
     if (result) {

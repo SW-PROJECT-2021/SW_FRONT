@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
@@ -11,10 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -23,7 +18,9 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import { Route } from "react-router-dom";
 
 import AdminMain from "./AdminMain";
-import Event from "./Event";
+import Banner from "./BannerEvent/Banner";
+import BannerDetail from "./BannerEvent/BannerDetail";
+import PostBanner from "./BannerEvent/PostBanner";
 import ProductManage from "./ProductManage/ProductManage";
 import PostProduct from "./ProductManage/PostProduct";
 import ProductDetail from "./ProductManage/ProductDetail";
@@ -185,7 +182,13 @@ export default function Admin() {
         <Divider />
       </Drawer>{" "}
       <Route path="/admin" exact component={AdminMain} />
-      <Route path="/admin/Event" exact component={Event} />
+      <Route path="/admin/Banner" exact component={Banner} />
+      <Route
+        path="/admin/Banner/BannerDetail/:id"
+        exact
+        component={BannerDetail}
+      />
+      <Route path="/admin/Banner/PostBanner" exact component={PostBanner} />
       <Route path="/admin/ProductManage" exact component={ProductManage} />
       <Route path="/admin/ProductManage/PostProduct" component={PostProduct} />
       <Route

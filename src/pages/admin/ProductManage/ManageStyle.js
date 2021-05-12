@@ -31,7 +31,7 @@ export const TableCell = styled.td`
 `;
 
 export const Header = styled.div`
-  width: 50vw;
+  width: 100%;
   height: auto;
   display: block;
   margin-bottom: 20px;

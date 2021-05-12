@@ -6,7 +6,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { useSelector, useDispatch } from "react-redux";
 import { DateChange } from "../../../utils/DateChange";
-import { getProductById } from "../../../stores/actions/actions";
+import { getProductById } from "../../../stores/actions/productActions";
 import styled from "styled-components";
 import { useStyles } from "../index";
 import Container from "@material-ui/core/Container";
@@ -62,8 +62,8 @@ function ProductDetail({ match }) {
     dispatch(getProductById(match.params.id));
   }, [dispatch]);
 
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error</div>;
+  if (loading) return <div style={{ zIndex: "5" }}>loading</div>;
+  if (error) return <div style={{ zIndex: "5" }}>error</div>;
   if (!data) return null;
   return (
     <main className={classes.content}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useStyles } from "../index";
 import Grid from "@material-ui/core/Grid";
@@ -20,10 +20,25 @@ import {
 } from "./ManageStyle";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getProduct } from "../../../stores/actions/actions";
-
+import {
+  getProductAction,
+  OrderProductAction,
+  SearchProductAction,
+} from "../../../stores/actions/productActions";
+import OrderList from "../../../utils/OrderList";
 import ProductList from "./ProductList";
 import Pagination from "./Pagination";
+const changeValue = (value) => {
+  if (value === "younger") {
+    return { orderBy: "updatedAt", cmp: "lower" };
+  } else if (value === "older") {
+    return { orderBy: "updatedAt", cmp: "greater" };
+  } else if (value === "priceHigher") {
+    return { orderBy: "price", cmp: "lower" };
+  } else if (value === "priveLower") {
+    return { orderBy: "price", cmp: "greater" };
+  }
+};
 
 function ProductManage() {
   const classes = useStyles();
@@ -33,12 +48,29 @@ function ProductManage() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
+  const [searchInput, setSearchInput] = useState(null);
   /*전체 상품 조회 */
   useEffect(() => {
-    dispatch(getProduct());
+    dispatch(getProductAction());
     console.log(data);
   }, []);
 
+  const searchInputHandler = useCallback((e) => {
+    setSearchInput(e.target.value);
+  });
+  const onChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    if (value === "dummy") return;
+    console.log("test");
+    dispatch(OrderProductAction(OrderList(data, changeValue(value))));
+  };
+  const onSearch = () => {
+    if (searchInput) {
+      dispatch(SearchProductAction(searchInput));
+    } else alert("검색할 값을 입력하세요");
+  };
   /*페이지 나누기 */
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
@@ -65,8 +97,26 @@ function ProductManage() {
                   <UploadButton>제품 등록</UploadButton>
                 </Link>
                 <FilterButton>Filter</FilterButton>
-                <SearchInput placeholder="Search Name" />
-                <SearchButton>검색</SearchButton>
+                <SearchInput
+                  placeholder="Search Name"
+                  value={searchInput}
+                  onChange={searchInputHandler}
+                />
+                <SearchButton onClick={onSearch}>검색</SearchButton>
+                <select
+                  onChange={onChange}
+                  style={{
+                    width: "80px",
+                    height: "40px",
+                    float: "right",
+                  }}
+                >
+                  <option value="dummy">정렬</option>
+                  <option value="younger">최신 순</option>
+                  <option value="older">오래된 순</option>
+                  <option value="priceHigher">가격 높은 순</option>
+                  <option value="priveLower">가격 낮은 순</option>
+                </select>
               </Header>
               <Table size="small">
                 <TableHead>
@@ -79,11 +129,11 @@ function ProductManage() {
                 </TableHead>
                 <TableBody>
                   {/* 목록구현  */}
-                  <ProductList posts={slicePost(data.data)} />
+                  <ProductList posts={slicePost(data)} />
                 </TableBody>
                 <Pagination
                   postsPerPage={postsPerPage}
-                  totalPost={data.data.length}
+                  totalPost={data.length}
                   setCurrentPage={setCurrentPage}
                 />
               </Table>

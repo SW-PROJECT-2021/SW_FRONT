@@ -14,7 +14,10 @@ import Button from "@material-ui/core/Button";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { postProduct, postProductClear } from "../../../stores/actions/actions";
+import {
+  postProduct,
+  postProductClear,
+} from "../../../stores/actions/productActions";
 import { CategoryList, CategoryMapping } from "../../../utils/CategoryMapping";
 const Form = styled.form`
   div {

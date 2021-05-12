@@ -9,23 +9,12 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
   SIGNUP_CLEAR,
-  GET_PRODUCTS,
-  GET_PRODUCTS_SUCCESS,
-  GET_PRODUCTS_ERROR,
-  GET_PRODUCT,
-  GET_PRODUCT_SUCCESS,
-  GET_PRODUCT_ERROR,
-  POST_PRODUCT,
-  POST_PRODUCT_SUCCESS,
-  POST_PRODUCT_ERROR,
-  POST_PRODUCT_CLEAR,
   UPDATECART,
   DELETECART,
   CHANGE_COUNT_CART,
 } from "./types";
 import axios from "axios";
 import * as userApi from "../api/userApi";
-import * as productApi from "../api/productApi";
 import * as cartApi from "../api/cartApi";
 
 export const logined = (dataSubmit) => async (dispatch) => {
@@ -64,38 +53,6 @@ export const signupClear = () => ({
   type: SIGNUP_CLEAR,
 });
 
-export const getProduct = () => async (dispatch) => {
-  dispatch({ type: GET_PRODUCTS });
-  try {
-    const response = await productApi.GetProductList();
-    console.log(response);
-    dispatch({ type: GET_PRODUCTS_SUCCESS, payload: response.data });
-  } catch (error) {
-    dispatch({ type: GET_PRODUCTS_ERROR, error: error });
-  }
-};
-
-export const getProductById = (id) => async (dispatch) => {
-  dispatch({ type: GET_PRODUCT });
-  try {
-    const response = await productApi.GetProductById(id);
-    console.log(response);
-    dispatch({ type: GET_PRODUCT_SUCCESS, payload: response.data });
-  } catch (error) {
-    dispatch({ type: GET_PRODUCT_ERROR, error: error });
-  }
-};
-
-export const postProduct = (dataSubmit) => async (dispatch) => {
-  dispatch({ type: POST_PRODUCT });
-  try {
-    const response = await productApi.PostProduct(dataSubmit);
-    console.log(response);
-    dispatch({ type: POST_PRODUCT_SUCCESS, payload: response.data });
-  } catch (error) {
-    dispatch({ type: POST_PRODUCT_ERROR, error: error });
-  }
-};
 export const updateCart = () => async (dispatch) => {
   try {
     const response = await cartApi.UpdateCart();
@@ -136,6 +93,3 @@ export const changeCountCart = (id, count) => async (dispatch) => {
     console.log(error);
   }
 };
-export const postProductClear = () => ({
-  type: POST_PRODUCT_CLEAR,
-});

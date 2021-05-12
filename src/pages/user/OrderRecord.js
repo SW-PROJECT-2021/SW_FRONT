@@ -1,106 +1,171 @@
-import React from "react";
-import Link from "@material-ui/core/Link";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import { Typography } from "@material-ui/core";
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-   return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-   createData(
-      0,
-      "16 Mar, 2019",
-      "Elvis Presley",
-      "Tupelo, MS",
-      "VISA ⠀•••• 3719",
-      312.44
-   ),
-   createData(
-      1,
-      "16 Mar, 2019",
-      "Paul McCartney",
-      "London, UK",
-      "VISA ⠀•••• 2574",
-      866.99
-   ),
-   createData(
-      2,
-      "16 Mar, 2019",
-      "Tom Scholz",
-      "Boston, MA",
-      "MC ⠀•••• 1253",
-      100.81
-   ),
-   createData(
-      3,
-      "16 Mar, 2019",
-      "Michael Jackson",
-      "Gary, IN",
-      "AMEX ⠀•••• 2000",
-      654.39
-   ),
-   createData(
-      4,
-      "15 Mar, 2019",
-      "Bruce Springsteen",
-      "Long Branch, NJ",
-      "VISA ⠀•••• 5919",
-      212.79
-   ),
-];
-
-function preventDefault(event) {
-   event.preventDefault();
-}
+import { Step, StepLabel, Stepper, Typography } from "@material-ui/core";
+import { useHistory } from "react-router";
+import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
 const useStyles = makeStyles((theme) => ({
-   seeMore: {
-      marginTop: theme.spacing(3),
-   },
+  font: { fontFamily: "NanumSquareRegular !important" },
+  seeMore: {
+    marginTop: theme.spacing(3),
+  },
+  orderRecord: {
+    border: "1px solid rgba(0, 0, 0, 0.12)",
+  },
+  h3: {
+    margin: "20px 0px",
+  },
+  h6: {
+    margin: "10px 10px",
+  },
+  totalPrice: {
+    float: "right",
+  },
 }));
 
+const list = [
+  {
+    id: 0,
+    productImg: "assets/images/items/1.jpg",
+    productName: "Some name of item goes here nice",
+    count: 3,
+    productPrice: 30000,
+  },
+  {
+    id: 1,
+    productImg: "assets/images/items/2.jpg",
+    productName: "Product name goes here nice",
+    count: 1,
+    productPrice: 10000,
+  },
+  {
+    id: 2,
+    productImg: "assets/images/items/3.jpg",
+    productName: " Another name of some product goes just here",
+    count: 2,
+    productPrice: 20000,
+  },
+];
+const getItem = (item, idx) => {
+  return (
+    <tr key={idx}>
+      <td>
+        <figure className="itemside">
+          <div className="aside">
+            <img src={item.productImg} className="img-sm" alt="error" />
+          </div>
+          <figcaption className="info">
+            <a href="/" className="title text-dark">
+              {item.productName}
+            </a>
+          </figcaption>
+        </figure>
+      </td>
+      <td>{item.count}</td>
+      <td>
+        <div className="price-wrap">
+          <var className="price">
+            {ThousandSeperator(item.count * item.productPrice)}원
+          </var>
+          <small className="text-muted">
+            {" "}
+            개당 {ThousandSeperator(item.productPrice)}원{" "}
+          </small>
+        </div>
+      </td>
+    </tr>
+  );
+};
+
 function OrderRecord() {
-   const classes = useStyles();
-   return (
+  const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(3);
+  const steps = ["결제완료", "배송중", "배송완료", "구매확정"];
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const confirmOrder = () => {
+    const ok = window.confirm("구매 확정 하시겠습니까?");
+    if (ok) {
+      setActiveStep((prev) => prev + 1);
+    }
+  };
+
+  const singleOrderRecord = () => {
+    return (
       <>
-         <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            Recent Orders
-         </Typography>
-         <Table size="small">
-            <TableHead>
-               <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Ship To</TableCell>
-                  <TableCell>Payment Method</TableCell>
-                  <TableCell align="right">Sale Amount</TableCell>
-               </TableRow>
-            </TableHead>
-            <TableBody>
-               {rows.map((row) => (
-                  <TableRow key={row.id}>
-                     <TableCell>{row.date}</TableCell>
-                     <TableCell>{row.name}</TableCell>
-                     <TableCell>{row.shipTo}</TableCell>
-                     <TableCell>{row.paymentMethod}</TableCell>
-                     <TableCell align="right">{row.amount}</TableCell>
-                  </TableRow>
-               ))}
-            </TableBody>
-         </Table>
-         <div className={classes.seeMore}>
-            <Link color="primary" href="#" onClick={preventDefault}>
-               See more orders
-            </Link>
-         </div>
+        <div className={classes.orderRecord}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <Typography variant="h6" className={classes.h6}>
+            주문한 날짜 :
+          </Typography>
+          <Typography variant="h6" className={classes.h6}>
+            배송지 :
+          </Typography>
+          <table className="table table-borderless table-shopping-cart">
+            <thead className="text-muted">
+              <tr className="small text-uppercase">
+                <th scope="col">상품</th>
+                <th scope="col" width="120">
+                  수량
+                </th>
+                <th scope="col" width="120">
+                  가격
+                </th>
+                <th scope="col" className="text-right" width="200">
+                  {" "}
+                </th>
+              </tr>
+            </thead>
+            <tbody>{list.map((item, idx) => getItem(item, idx))}</tbody>
+          </table>
+          <div className="card-body border-top">
+            <button
+              className="btn btn-primary"
+              onClick={
+                activeStep === 3
+                  ? confirmOrder
+                  : () => console.log("not implemented")
+              }
+            >
+              {activeStep !== 4 ? (
+                activeStep !== 3 ? (
+                  <>문의하기</>
+                ) : (
+                  <>구매확정</>
+                )
+              ) : (
+                <>상품평</>
+              )}
+            </button>
+            <div className={`${classes.totalPrice} col-3`}>총가격 : </div>
+          </div>
+        </div>
       </>
-   );
+    );
+  };
+
+  return (
+    <>
+      <div className={classes.font}>
+        <Typography variant="h3" className={classes.h3}>
+          주문내역
+        </Typography>
+        {singleOrderRecord()}
+      </div>
+    </>
+  );
 }
 export default OrderRecord;

@@ -13,13 +13,20 @@ function DetailHeader({ product }) {
          "top=10, left=10, width=500, height=600"
       );
    };
-   const { isLogined } = useSelector((state) => state.LoginReducer.users);
-
+   const { isLogined } = useSelector((state) => state.UserReducer.users);
    const onShoppingCart = () => {
       if (!isLogined) {
          alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
       }
    };
+   const onSelectAddress = () => {
+      if (!isLogined) {
+      alert("로그인 하셔야 배송지를 선택할 수 있습니다.");
+   } else {
+      openPopup()
+   }
+}
+
 
    return (
       <article className="card">
@@ -87,7 +94,7 @@ function DetailHeader({ product }) {
                         </NativeSelect>
                         &nbsp;
                         <button
-                           onClick={openPopup}
+                           onClick={onSelectAddress}
                            className="btn btn-outline-secondary  btn-lg col-lg-3"
                         >
                            배송지 선택

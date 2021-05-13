@@ -25,6 +25,7 @@ function DetailHeader({ product }) {
             .post("http://15.164.20.183:3003/api/basket", {
                ProductId: product.id,
                count: quantity,
+               withCredentials: true,
             })
             .then((res) => {
                console.log(res.data);

@@ -1,24 +1,19 @@
 import axios from "axios";
 
 export const UpdateCart = async () => {
-   const response = await axios(
-      {
-         url: "http://15.164.20.183:3003/api/basket",
-         method: "get",
-      },
-      { withCredentials: true }
-   );
+   const response = await axios({
+      url: "http://15.164.20.183:3003/api/basket",
+      method: "get",
+      withCredentials: true,
+   });
    return response;
 };
 
 export const DeleteCart = async (id) => {
-   const response = await axios(
-      {
-         url: `http://15.164.20.183:3003/api/basket/${id}`,
-         method: "delete",
-      },
-      { withCredentials: true }
-   );
+   const response = await axios({
+      url: `http://15.164.20.183:3003/api/basket/${id}`,
+      method: "delete",
+   });
    return response;
 };
 

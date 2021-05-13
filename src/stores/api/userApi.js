@@ -36,7 +36,7 @@ export const EmailCheck = async (email) => {
 
 export const UserSignUp = async (dataSubmit) => {
    const response = await axios({
-      url: "/api/user/signup",
+      url: "http://15.164.20.183:3003/api/user/signup",
       method: "post",
       data: dataSubmit,
    });

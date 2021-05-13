@@ -68,7 +68,7 @@ function Table({ cartList, setCartList }) {
 
    const onChangeQuantityInput = (e, id) => {
       setLoading(true);
-      if (/^[0-9]+$/.test(e.target.value)) {
+      if (/^[0-9]*$/.test(e.target.value)) {
          setCartList((prev) =>
             prev.map((item) => {
                if (item.ProductId === id) {

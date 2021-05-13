@@ -7,9 +7,11 @@ const Banner = () => {
    const [bannerList, setBannerList] = useState([]);
    useEffect(() => {
       const getBanners = async () => {
-         await axios.get("/banner/available").then((res) => {
-            setBannerList(res.data.data);
-         });
+         await axios
+            .get("http://15.164.20.183:3003/banner/available")
+            .then((res) => {
+               setBannerList(res.data.data);
+            });
       };
       getBanners();
    }, []);

@@ -22,7 +22,7 @@ function DetailHeader({ product }) {
          alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
       } else {
          await axios
-            .post("/basket", {
+            .post("http://15.164.20.183:3003/basket", {
                ProductId: product.id,
                count: quantity,
             })

@@ -2,7 +2,6 @@
    "name": "sw_front",
    "version": "0.1.0",
    "private": true,
-   "proxy": "http://15.164.20.183:3003/",
    "dependencies": {
       "@material-ui/core": "^4.11.3",
       "@material-ui/icons": "^4.11.2",

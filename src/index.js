@@ -9,12 +9,12 @@ import { BrowserRouter } from "react-router-dom";
 const { store, persistor } = configureStore();
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
-    </Provider>
-  </BrowserRouter>,
-  document.getElementById("root")
+   <BrowserRouter>
+      <Provider store={store}>
+         <PersistGate loading={null} persistor={persistor}>
+            <App />
+         </PersistGate>
+      </Provider>
+   </BrowserRouter>,
+   document.getElementById("root")
 );

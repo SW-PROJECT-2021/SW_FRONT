@@ -33,7 +33,7 @@ function ProductList() {
    useEffect(() => {
       const getResult = async (search) => {
          await axios
-            .get(`/api/product/${search}`)
+            .get(`http://15.164.20.183:3003/api/product/${search}`)
             .then((res) => {
                setList((prev) => prev.concat(res.data.data)); //다른 카테고리 고르면 새로고침일어나서 지워짐. 따라서 검색때만 연속가능
             })

@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "babel-jest": "^26.6.3",
     "dotenv": "^8.2.0",
+    "http-proxy-middleware": "^0.19.1",
     "npm": "^7.11.1",
     "qs": "^6.10.1",
     "react": "^17.0.2",
@@ -50,5 +51,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://15.164.20.183:80/"
+  "homepage": "http://15.164.20.183:80/",
+  "proxy": "http://15.164.20.183:3003/"
 }

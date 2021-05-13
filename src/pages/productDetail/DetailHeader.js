@@ -15,10 +15,10 @@ function DetailHeader({ product }) {
          "top=10, left=10, width=500, height=600"
       );
    };
-   const { userName } = useSelector((state) => state.UserReducer.users.data);
+   const userData = useSelector((state) => state.UserReducer.users.data);
    const dispatch = useDispatch();
    const onShoppingCart = async () => {
-      if (!userName) {
+      if (!userData || !userData.userName) {
          alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
       } else {
          await axios
@@ -40,7 +40,7 @@ function DetailHeader({ product }) {
       }
    };
    const onSelectAddress = () => {
-      if (!userName) {
+      if (!userData || !userData.userName) {
          alert("로그인 하셔야 배송지를 선택할 수 있습니다.");
       } else {
          openPopup();

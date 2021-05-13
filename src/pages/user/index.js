@@ -1,14 +1,10 @@
 import {
-   Container,
    Drawer,
-   Grid,
    List,
    ListItem,
    ListItemIcon,
    ListItemText,
    makeStyles,
-   NativeSelect,
-   Paper,
    Toolbar,
    Typography,
 } from "@material-ui/core";
@@ -16,10 +12,9 @@ import React from "react";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import { Route, useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import OrderRecord from "./OrderRecord";
-import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
 const useStyles = makeStyles((theme) => ({
    drawerPaper: {
@@ -50,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
       overflow: "auto",
       flexDirection: "column",
-   }
+   },
 }));
 const mainListItems = (history) => {
    return (
@@ -78,9 +73,9 @@ const mainListItems = (history) => {
 };
 function User() {
    const classes = useStyles();
-   const {userName} = useSelector((state) => state.UserReducer.users.data);
-   const history = useHistory()
-  
+   const { userName } = useSelector((state) => state.UserReducer.users.data);
+   const history = useHistory();
+
    return (
       <div>
          <div className="container">

@@ -8,7 +8,6 @@ import {
    Paper,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { useHistory } from "react-router";
 
 const AddressItem = styled.div`
    border-bottom: 1px solid #e6e6e6;
@@ -35,13 +34,31 @@ const useStyles = makeStyles((theme) => ({
          backgroundColor: "#2196f3",
       },
    },
+   buttonApply: {
+      float: "right",
+   },
 }));
 
-function List({ addressList }) {
+function List({
+   addressList,
+   checkout,
+   setOnList,
+   setInfo,
+   setOnEdit,
+   setCheckoutInfo,
+   setOpen,
+}) {
    const [loading, setLoading] = useState(true);
    const [defaultItem, setDefaultItem] = useState();
    const classes = useStyles();
-   const history = useHistory();
+
+   const applyForCheckout = (item) => {
+      setCheckoutInfo((prev) => ({
+         ...prev,
+         addressInfo: { ...item, message: prev.addressInfo.message },
+      }));
+      setOpen(false);
+   };
 
    const getAddressItem = (item, key, onClickEdit, onClickDelete) => {
       return (
@@ -69,7 +86,17 @@ function List({ addressList }) {
                >
                   삭제
                </Button>
-            </ButtonGroup>
+            </ButtonGroup>{" "}
+            {checkout && (
+               <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.buttonApply}
+                  onClick={() => applyForCheckout(item)}
+               >
+                  적용
+               </Button>
+            )}
          </AddressItem>
       );
    };
@@ -83,12 +110,9 @@ function List({ addressList }) {
    }, [addressList]);
 
    const onClickEdit = (item) => {
-      history.push({
-         pathname: "/address/form",
-         state: {
-            item: item,
-         },
-      });
+      setInfo(item);
+      setOnList(false);
+      setOnEdit(true);
    };
 
    const onClickDelete = (id) => {
@@ -128,9 +152,7 @@ function List({ addressList }) {
                      size="large"
                      className={classes.buttonColor}
                      startIcon={<AddIcon />}
-                     onClick={() => {
-                        history.push("/address/form");
-                     }}
+                     onClick={() => setOnList(false)}
                   >
                      추가
                   </Button>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -29,11 +28,11 @@ const useStyles = makeStyles((theme) => ({
       margin: "6px 0px",
    },
    gobackButton: {
-      position: "absolute",
+      position: "relative",
       right: "10px",
    },
    paper: {
-      position: "absolute",
+      position: "relative",
       left: "50px",
       width: 400,
       backgroundColor: theme.palette.background.paper,
@@ -42,32 +41,30 @@ const useStyles = makeStyles((theme) => ({
    },
 }));
 
-function Form({ setAddressList, length }) {
-   const [info, setInfo] = useState({
-      createdAt: 0,
-      addressName: "",
-      name: "",
-      zonecode: "",
-      address: "",
-      detail: "",
-      phone: "",
-      default: false,
-   });
+function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
    const [open, setOpen] = useState(false);
-   const history = useHistory();
    const classes = useStyles();
 
    useEffect(() => {
-      if (history.location.state) {
-         setInfo(history.location.state.item);
-      }
       if (length === 0) {
          setInfo((prev) => ({ ...prev, default: true }));
       }
-   }, [history, length]);
+   }, [length, setInfo]);
 
+   const initInfo = () => {
+      setInfo({
+         createdAt: 0,
+         addressName: "",
+         name: "",
+         zonecode: "",
+         address: "",
+         detail: "",
+         phone: "",
+         default: false,
+      });
+   };
    const onSubmit = () => {
-      if (history.location.state) {
+      if (onEdit) {
          //업데이트
          setAddressList((prev) =>
             prev.map((item) => {
@@ -86,8 +83,8 @@ function Form({ setAddressList, length }) {
       }
       //여기선 등록 후, 다시 되돌아가면 됨.
       // + 배송지 다시 받아오기
-      history.goBack();
-      history.goBack();
+      setOnList(true);
+      initInfo();
    };
    const onChange = (e) => {
       const {
@@ -223,7 +220,8 @@ function Form({ setAddressList, length }) {
                      variant="outlined"
                      color="secondary"
                      onClick={() => {
-                        history.goBack();
+                        initInfo();
+                        setOnList(true);
                      }}
                   >
                      취소

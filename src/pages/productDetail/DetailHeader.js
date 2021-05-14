@@ -1,28 +1,43 @@
-import { NativeSelect } from "@material-ui/core";
+import { makeStyles, Modal, NativeSelect } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import Address from "../../commons/address";
 import { updateCart } from "../../stores/actions/actions";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
-
+const useStyles = makeStyles((theme) => ({
+   modal: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+   },
+   modelPaper: {
+      backgroundColor: theme.palette.background.paper,
+      border: "2px solid #000",
+      width: "500px",
+      height: "600px",
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+      overflow: "scroll",
+   },
+}));
 function DetailHeader({ product }) {
    const [quantity, setQuantity] = useState(1);
-   const openPopup = () => {
-      window.open(
-         "/address",
-         "shipment",
-         "top=10, left=10, width=500, height=600"
-      );
-   };
+
+   const classes = useStyles();
+   const [open, setOpen] = useState(false);
+   const history = useHistory();
    const userData = useSelector((state) => state.UserReducer.users.data);
    const dispatch = useDispatch();
+
    const onShoppingCart = async () => {
       if (!userData || !userData.userName) {
          alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
       } else {
          await axios
-            .post("http://15.164.20.183:3003/api/basket", {
+            .post("/api/basket", {
                ProductId: product.id,
                count: quantity,
             })
@@ -39,11 +54,25 @@ function DetailHeader({ product }) {
             });
       }
    };
-   const onSelectAddress = () => {
+   const onClickAddress = (url, name) => {
       if (!userData || !userData.userName) {
          alert("로그인 하셔야 배송지를 선택할 수 있습니다.");
       } else {
-         openPopup();
+         setOpen(true);
+      }
+   };
+   const onClickPay = () => {
+      if (!userData || !userData.userName) {
+         alert("로그인 하셔야 구매하실 수 있습니다.");
+      } else {
+         history.push("/checkout", {
+            orderProduct: [
+               {
+                  product: product,
+                  count: quantity,
+               },
+            ],
+         });
       }
    };
 
@@ -113,7 +142,9 @@ function DetailHeader({ product }) {
                         </NativeSelect>
                         &nbsp;
                         <button
-                           onClick={onSelectAddress}
+                           onClick={() =>
+                              onClickAddress("/address", "shipment")
+                           }
                            className="btn btn-outline-secondary  btn-lg col-lg-3"
                         >
                            배송지 선택
@@ -128,7 +159,10 @@ function DetailHeader({ product }) {
                            장바구니
                         </button>
                         &nbsp;
-                        <button className="btn btn-outline-secondary btn-lg col-lg-3">
+                        <button
+                           className="btn btn-outline-secondary btn-lg col-lg-3"
+                           onClick={() => onClickPay()}
+                        >
                            구매
                         </button>
                      </div>
@@ -136,6 +170,17 @@ function DetailHeader({ product }) {
                </main>
             </div>
          </div>
+         <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={open}
+            onClose={() => setOpen(false)}
+         >
+            <div className={classes.modelPaper}>
+               <Address />
+            </div>
+         </Modal>
       </article>
    );
 }

@@ -88,6 +88,11 @@ function Table({ cartList, setCartList }) {
       setLoading(false);
    };
 
+   const onClickCheckout = () => {
+      history.push("/checkout", {
+         orderProduct: cartList,
+      });
+   };
    const getItem = (item, idx) => {
       return (
          <>
@@ -190,10 +195,13 @@ function Table({ cartList, setCartList }) {
             </table>
          )}
          <div className="card-body border-top">
-            <a href="/" className="btn btn-primary float-md-right">
+            <button
+               onClick={onClickCheckout}
+               className="btn btn-primary float-md-right"
+            >
                {" "}
                구매하기 <i className="fa fa-chevron-right"></i>{" "}
-            </a>
+            </button>
             <button onClick={() => history.goBack()} className="btn btn-light">
                {" "}
                <i className="fa fa-chevron-left"></i> 뒤로가기{" "}

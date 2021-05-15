@@ -52,8 +52,6 @@ export default function AddressForm({ info, setInfo }) {
          addressInfo: { ...prev.addressInfo, [name]: value },
       }));
    };
-   console.log(info);
-
    return (
       <React.Fragment>
          <Typography variant="h6" gutterBottom>

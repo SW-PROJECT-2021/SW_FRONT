@@ -68,14 +68,14 @@ function DetailHeader({ product }) {
          history.push("/checkout", {
             orderProduct: [
                {
-                  product: product,
+                  ...product,
                   count: quantity,
                },
             ],
          });
       }
    };
-
+   console.log(product);
    return (
       <article className="card">
          <div className="card-body">

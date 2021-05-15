@@ -33,17 +33,14 @@ export default function Review({ list }) {
          </Typography>
          <List disablePadding>
             {list.map((item) => {
-               total += item.count * item.product.price;
+               total += item.count * (item.price || item.productPrice);
                return (
-                  <ListItem
-                     className={classes.listItem}
-                     key={item.product.name}
-                  >
+                  <ListItem key={item.name} className={classes.listItem}>
                      <ListItemAvatar className="col-2">
-                        <Avatar src={item.product.img} alt="error" />
+                        <Avatar src={item.img || item.productImg} alt="error" />
                      </ListItemAvatar>
                      <ListItemText
-                        primary={item.product.name}
+                        primary={item.name || item.productName}
                         className="col-5"
                      />
                      <Typography className="col-2">
@@ -53,7 +50,10 @@ export default function Review({ list }) {
                         variant="body2"
                         className={`col-4 ${classes.price}`}
                      >
-                        {ThousandSeperator(item.product.price * item.count)}원
+                        {ThousandSeperator(
+                           (item.price || item.productPrice) * item.count
+                        )}
+                        원
                      </Typography>
                   </ListItem>
                );

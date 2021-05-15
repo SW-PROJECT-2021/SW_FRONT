@@ -33,7 +33,7 @@ function List({ list, setList }) {
    const pageNum = Math.floor(list.length / 12 + 1);
    const [page, setPage] = useState(1);
    const history = useHistory();
-   console.log(list);
+
    const onChange = (e) => {
       const {
          target: { value },

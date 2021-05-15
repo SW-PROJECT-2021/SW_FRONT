@@ -22,12 +22,10 @@ function ShoppingCart() {
       } else {
          setCartList([]);
       }
-      console.log("implemented 1");
    }, [cartItems]);
 
    useEffect(() => {
       dispatch(updateCart());
-      console.log("implemented 2");
    }, [dispatch]);
 
    return (

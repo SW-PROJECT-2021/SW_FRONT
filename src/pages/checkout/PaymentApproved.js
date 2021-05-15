@@ -1,9 +1,37 @@
-import { Button, Typography } from "@material-ui/core";
-import React from "react";
+import {
+   Button,
+   CircularProgress,
+   makeStyles,
+   Modal,
+   Typography,
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-
-function PaymentApproved() {
+import { deleteCart } from "../../stores/actions/actions";
+const useStyles = makeStyles(() => ({
+   loading: {
+      position: "absolute",
+      top: "47%",
+      left: "47%",
+   },
+}));
+function PaymentApproved({ list }) {
    const history = useHistory();
+   const [loading, setLoading] = useState(false);
+   const classes = useStyles();
+   const dispatch = useDispatch();
+
+   useEffect(() => {
+      if (list[0].ProductId) {
+         setLoading(true);
+         list.forEach((item) => {
+            dispatch(deleteCart(item.ProductId));
+         });
+         setLoading(false);
+      }
+   }, [list, dispatch]);
+
    return (
       <div>
          {" "}
@@ -37,6 +65,9 @@ function PaymentApproved() {
                주문내역으로 가기
             </Button>
          </div>
+         <Modal open={loading}>
+            <CircularProgress color="secondary" className={classes.loading} />
+         </Modal>
       </div>
    );
 }

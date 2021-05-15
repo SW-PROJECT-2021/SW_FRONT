@@ -136,7 +136,7 @@ export default function Checkout() {
                         {activeStep !== 0 ? (
                            activeStep !== 1 ? (
                               activeStep !== 2 ? (
-                                 <PaymentApproved />
+                                 <PaymentApproved list={info.productList} />
                               ) : (
                                  <PaymentForm
                                     setActiveStep={setActiveStep}

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const UpdateCart = async () => {
    const response = await axios({
-      url: "/api/basket",
+      url: "http://15.164.20.183:3003/api/basket",
       method: "get",
    });
    return response;
@@ -10,7 +10,7 @@ export const UpdateCart = async () => {
 
 export const DeleteCart = async (id) => {
    const response = await axios({
-      url: `/api/basket/${id}`,
+      url: `http://15.164.20.183:3003/api/basket/${id}`,
       method: "delete",
    });
    return response;
@@ -18,7 +18,10 @@ export const DeleteCart = async (id) => {
 
 export const ChangeCountCart = async (data) => {
    console.log(data);
-   const response = await axios.put("/api/basket", data);
+   const response = await axios.put(
+      "http://15.164.20.183:3003/api/basket",
+      data
+   );
    console.log(response);
    return response;
 };

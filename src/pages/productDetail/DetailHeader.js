@@ -23,7 +23,7 @@ function DetailHeader({ product }) {
       } else {
          console.log(quantity);
          await axios
-            .post("/api/basket", {
+            .post("http://15.164.20.183:3003/api/basket", {
                ProductId: product.id,
                count: quantity,
             })

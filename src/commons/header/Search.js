@@ -57,7 +57,7 @@ const Search = () => {
       }
       await axios
          .get(
-            `/api/product/search/detail?title=${search}&category=${
+            `http://15.164.20.183:3003/api/product/search/detail?title=${search}&category=${
                category || ""
             }&minPrice=${priceRange.min || ""}&maxPrice=${priceRange.max || ""}`
          )

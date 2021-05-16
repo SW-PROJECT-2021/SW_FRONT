@@ -121,11 +121,11 @@ export default function Checkout() {
       info.productList.forEach((item) => {
          price += (item.productPrice || item.price) * item.count;
       });
+      setTotal(price);
       if (price > 1000000) {
          setTotal(1000000);
       }
-   }, [info.productList]);
-
+   }, [info]);
    return (
       <React.Fragment>
          <CssBaseline />

@@ -27,7 +27,6 @@ export default function PaymentForm({ setActiveStep, productList, total }) {
       console.log(err);
       setFail(err.error_msg);
    };
-
    return (
       <div>
          <Typography variant="subtitle1" style={{ textAlign: "center" }}>

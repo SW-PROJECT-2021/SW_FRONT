@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Step, StepLabel, Stepper, Typography } from "@material-ui/core";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
 import CustomModal from "../../commons/CustomModal";
 import ProductReview from "./ProductReview";
 import Question from "./Question";
+import CustomPagination from "../../commons/CustomPagination";
 
 const useStyles = makeStyles((theme) => ({
    font: { fontFamily: "NanumSquareRegular !important" },
@@ -25,30 +26,44 @@ const useStyles = makeStyles((theme) => ({
       float: "right",
       lineHeight: "37px",
    },
+   root: {
+      margin: "20px 0px",
+      "& > *": {
+         marginTop: theme.spacing(2),
+      },
+   },
+   align: {
+      maxWidth: `${38 * 9}px`,
+      margin: "0px auto",
+   },
 }));
 
 const listId = 5;
-const list = [
+const temp = [
    {
-      id: 0,
-      productImg: "assets/images/items/1.jpg",
-      productName: "Some name of item goes here nice",
-      count: 3,
-      productPrice: 30000,
-   },
-   {
-      id: 1,
-      productImg: "assets/images/items/2.jpg",
-      productName: "Product name goes here nice",
-      count: 1,
-      productPrice: 10000,
-   },
-   {
-      id: 2,
-      productImg: "assets/images/items/3.jpg",
-      productName: " Another name of some product goes just here",
-      count: 2,
-      productPrice: 20000,
+      productList: [
+         {
+            id: 0,
+            productImg: "assets/images/items/1.jpg",
+            productName: "Some name of item goes here nice",
+            count: 3,
+            productPrice: 30000,
+         },
+         {
+            id: 1,
+            productImg: "assets/images/items/2.jpg",
+            productName: "Product name goes here nice",
+            count: 1,
+            productPrice: 10000,
+         },
+         {
+            id: 2,
+            productImg: "assets/images/items/3.jpg",
+            productName: " Another name of some product goes just here",
+            count: 2,
+            productPrice: 20000,
+         },
+      ],
    },
 ];
 
@@ -84,10 +99,18 @@ const getItem = (item, idx) => {
 function OrderRecord({ orderRecordList, setOrderRecordList }) {
    const classes = useStyles();
    const [open, setOpen] = useState(false);
+   const [pageNum, setPageNum] = useState(0);
+   const [page, setPage] = useState(1);
    //1부터 시작
    const [activeStep, setActiveStep] = useState(4);
+   const [list, setList] = useState([]);
    const steps = ["결제완료", "배송중", "배송완료", "구매확정"];
 
+   useEffect(() => {
+      setList(temp);
+      setPageNum(Math.floor(temp.length / 3 + 1));
+   }, []);
+   console.log(pageNum);
    const onClickButton = () => {
       if (activeStep === 3) {
          const ok = window.confirm("구매 확정 하시겠습니까?");
@@ -99,7 +122,7 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
       }
    };
 
-   const singleOrderRecord = (list) => {
+   const singleOrderRecord = (item) => {
       let totalPrice = 0;
       return (
          <>
@@ -134,7 +157,7 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                      </tr>
                   </thead>
                   <tbody>
-                     {list.map((item, idx) => {
+                     {item.productList.map((item, idx) => {
                         totalPrice += item.count * item.productPrice;
                         return getItem(item, idx);
                      })}
@@ -180,7 +203,13 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
             <Typography variant="h3" className={classes.h3}>
                주문내역
             </Typography>
-            {singleOrderRecord(list)}
+            {list
+               .slice((page - 1) * 3, page * 3)
+               .map((item) => singleOrderRecord(item))}
+            <CustomPagination
+               onChangePage={(e, page) => setPage(page)}
+               pageNum={pageNum}
+            />
             <CustomModal open={open} setOpen={setOpen}>
                {activeStep <= 2 ? (
                   <Question id={listId} setOpen={setOpen} />

@@ -1,7 +1,12 @@
-import { NativeSelect } from "@material-ui/core";
+import {
+   makeStyles,
+   Modal,
+   NativeSelect,
+   CircularProgress,
+} from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import Address from "../../commons/address";
@@ -9,21 +14,52 @@ import CustomModal from "../../commons/CustomModal";
 import { updateCart } from "../../stores/actions/actions";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
+const useStyles = makeStyles(() => ({
+   loading: {
+      position: "absolute",
+      top: "47%",
+      left: "47%",
+   },
+   inCart: {
+      margin: "10px 0px",
+      fontSize: "18px",
+   },
+}));
 function DetailHeader({ product }) {
    const [quantity, setQuantity] = useState(1);
-
+   const [loading, setLoading] = useState(false);
    const [open, setOpen] = useState(false);
+   const [countInCart, setCountInCart] = useState(0);
+   const classes = useStyles();
+
    const history = useHistory();
    const userData = useSelector((state) => state.UserReducer.users.data);
+   const cartData = useSelector((state) => state.CartReducer);
    const dispatch = useDispatch();
+
+   useEffect(() => {
+      for (let v of cartData) {
+         if (v.ProductId === product.id) {
+            setCountInCart(v.count);
+         }
+      }
+   }, [cartData, product.id]);
 
    const onShoppingCart = async () => {
       if (!userData || !userData.userName) {
          alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
       } else {
-         console.log(quantity);
+         setLoading(true);
+         if (quantity + countInCart > 100) {
+            window.alert(
+               "배송비 문제로, 한 상품 당 최대 100개까지 장바구니에 담을 수 있습니다."
+            );
+            setLoading(false);
+            return;
+         }
+
          await axios
-            .post("http://15.164.20.183:3003/api/basket", {
+            .post(`${process.env.REACT_APP_API_BASEURL}/api/basket`, {
                ProductId: product.id,
                count: quantity,
             })
@@ -38,6 +74,7 @@ function DetailHeader({ product }) {
                   window.alert("죄송합니다. 현재 삭제된 상품입니다.");
                }
             });
+         setLoading(false);
       }
    };
    const onClickAddress = (url, name) => {
@@ -61,6 +98,7 @@ function DetailHeader({ product }) {
          });
       }
    };
+
    return (
       <article className="card">
          <div className="card-body">
@@ -74,6 +112,24 @@ function DetailHeader({ product }) {
                               alt="error"
                               style={{ maxWidth: "100%" }}
                            />
+                        </span>
+                     </div>
+                     <div class="thumbs-wrap">
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
+                        </span>
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
+                        </span>
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
+                        </span>
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
                         </span>
                      </div>
                   </article>
@@ -149,6 +205,11 @@ function DetailHeader({ product }) {
                            구매
                         </button>
                      </div>
+                     {countInCart !== 0 && (
+                        <div className={classes.inCart}>
+                           현재 장바구니에 담은 수량 : {countInCart}
+                        </div>
+                     )}
                   </article>
                </main>
             </div>
@@ -156,6 +217,10 @@ function DetailHeader({ product }) {
          <CustomModal open={open} setOpen={setOpen}>
             <Address />
          </CustomModal>
+
+         <Modal open={loading}>
+            <CircularProgress color="secondary" className={classes.loading} />
+         </Modal>
       </article>
    );
 }

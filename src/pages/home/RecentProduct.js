@@ -8,7 +8,7 @@ const RecentProduct = () => {
    useEffect(() => {
       const getList = async () => {
          await axios
-            .get("http://15.164.20.183:3003/api/product/recent")
+            .get(`${process.env.REACT_APP_API_BASEURL}/api/product/recent`)
             .then((res) => {
                setList(res.data.data);
             })

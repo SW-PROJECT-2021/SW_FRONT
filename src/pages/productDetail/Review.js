@@ -14,6 +14,7 @@ import {
    ThumbUp,
 } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
+import CustomPagination from "../../commons/CustomPagination";
 import { MiliToyymmdd } from "../../utils/MiliToyymmdd";
 
 const useStyles = makeStyles((theme) => ({
@@ -71,6 +72,8 @@ function Review() {
    const [list, setList] = useState([]);
    const classes = useStyles();
    const [expanded, setExpanded] = useState(-1);
+   const [pageNum, setPageNum] = useState(1);
+   const [page, setPage] = useState(1);
    const handleChange = (panel) => (event, isExpanded) => {
       setExpanded(isExpanded ? panel : false);
    };
@@ -78,6 +81,7 @@ function Review() {
    useEffect(() => {
       //받고 0개이면 OnAdd true
       setList(temp);
+      setPageNum(Math.floor(temp / 5 + 1));
    }, []);
    const AccordionItem = (item, idx) => {
       return (
@@ -164,10 +168,15 @@ function Review() {
                      작성자/일자
                   </span>
                </div>
-               {list.map((item, idx) => {
+               {list.slice((page - 1) * 5, page * 5).map((item, idx) => {
                   return AccordionItem(item, idx);
                })}
             </div>
+
+            <CustomPagination
+               onChangePage={(e, page) => setPage(page)}
+               pageNum={pageNum}
+            />
          </div>
       </article>
    );

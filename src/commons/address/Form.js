@@ -53,7 +53,6 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
 
    const initInfo = () => {
       setInfo({
-         createdAt: 0,
          addressName: "",
          name: "",
          zonecode: "",
@@ -65,10 +64,10 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
    };
    const onSubmit = () => {
       if (onEdit) {
-         //업데이트
+         //업데이트 기준 아이디? 이름?
          setAddressList((prev) =>
             prev.map((item) => {
-               if (item.createdAt === info.createdAt) {
+               if (item.addressName === info.addressName) {
                   return info;
                } else {
                   return item;
@@ -76,10 +75,7 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
             })
          );
       } else {
-         setAddressList((prev) => [
-            ...prev,
-            { ...info, createdAt: Date.now() },
-         ]);
+         setAddressList((prev) => [...prev, info]);
       }
       //여기선 등록 후, 다시 되돌아가면 됨.
       // + 배송지 다시 받아오기

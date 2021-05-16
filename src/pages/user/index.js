@@ -81,7 +81,7 @@ function User() {
    useEffect(() => {
       const getOrderRecord = async () => {
          const response = await axios.get(
-            "http://15.164.20.183:3003/api/orderHistory"
+            `${process.env.REACT_APP_API_BASEURL}/api/orderHistory`
          );
          setOrderRecordList(response.data.data);
       };

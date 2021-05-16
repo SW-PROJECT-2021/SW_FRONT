@@ -1,8 +1,7 @@
-import { makeStyles } from "@material-ui/core";
-import Pagination from "@material-ui/lab/Pagination";
 import React from "react";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import CustomPagination from "../../commons/CustomPagination";
 import OrderList from "../../utils/OrderList";
 
 const changeValue = (value) => {
@@ -17,19 +16,7 @@ const changeValue = (value) => {
    }
 };
 
-const useStyles = makeStyles((theme) => ({
-   root: {
-      "& > *": {
-         marginTop: theme.spacing(2),
-      },
-   },
-   align: {
-      maxWidth: `${38 * 9}px`,
-      margin: "0px auto",
-   },
-}));
 function List({ list, setList }) {
-   const classes = useStyles();
    const pageNum = Math.floor(list.length / 12 + 1);
    const [page, setPage] = useState(1);
    const history = useHistory();
@@ -40,9 +27,6 @@ function List({ list, setList }) {
       } = e;
       if (value === "dummy") return;
       setList((prev) => OrderList(prev, changeValue(value)));
-   };
-   const onChangePage = (e, page) => {
-      setPage(page);
    };
    const goDetail = (item) => {
       history.push({ pathname: "/detail", state: item });
@@ -88,19 +72,10 @@ function List({ list, setList }) {
                );
             })}
          </div>
-         <div className={classes.root}>
-            <div
-               className={classes.align}
-               style={{ width: `${38 * (pageNum + 2)}px` }}
-            >
-               <Pagination
-                  count={pageNum}
-                  shape="rounded"
-                  className={classes.ul}
-                  onChange={onChangePage}
-               />
-            </div>
-         </div>
+         <CustomPagination
+            onChangePage={(e, page) => setPage(page)}
+            pageNum={pageNum}
+         />
       </main>
    );
 }

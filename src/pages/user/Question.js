@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { MiliToyymmdd } from "../../utils/MiliToyymmdd";
+import CustomPagination from "../../commons/CustomPagination";
 const useStyles = makeStyles((theme) => ({
    root: {
       width: "100%",
@@ -66,6 +67,8 @@ function Question({ id, setOpen }) {
    const handleChange = (panel) => (event, isExpanded) => {
       setExpanded(isExpanded ? panel : false);
    };
+   const [pageNum, setPageNum] = useState(1);
+   const [page, setPage] = useState(1);
    const [newQuestion, setNewQuestion] = useState({
       subject: "",
       detail: "",
@@ -78,6 +81,7 @@ function Question({ id, setOpen }) {
       if (temp.length === 0) {
          setOnAdd(true);
       }
+      setPageNum(Math.floor(temp.length / 6 + 1));
    }, []);
 
    const AccordionItem = (item, idx) => {
@@ -180,7 +184,7 @@ function Question({ id, setOpen }) {
             <>
                <Typography variant="h5">문의 내역</Typography>
                <div className={classes.questionList}>
-                  {list.map((item, idx) => {
+                  {list.slice((page - 1) * 6, page * 6).map((item, idx) => {
                      return AccordionItem(item, idx);
                   })}
                </div>
@@ -192,6 +196,10 @@ function Question({ id, setOpen }) {
                >
                   문의 추가
                </Button>
+               <CustomPagination
+                  onChangePage={(e, page) => setPage(page)}
+                  pageNum={pageNum}
+               />
             </>
          )}
       </div>

@@ -8,6 +8,7 @@ import {
    Paper,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import CustomPagination from "../CustomPagination";
 
 const AddressItem = styled.div`
    border-bottom: 1px solid #e6e6e6;
@@ -50,7 +51,19 @@ function List({
 }) {
    const [loading, setLoading] = useState(true);
    const [defaultItem, setDefaultItem] = useState();
+   const [pageNum, setPageNum] = useState(1);
+   const [page, setPage] = useState(1);
    const classes = useStyles();
+
+   useEffect(() => {
+      addressList.forEach((item) => {
+         if (item.default) {
+            setDefaultItem(item);
+         }
+      });
+      setLoading(false);
+      setPageNum(Math.floor(addressList.length / 5 + 1));
+   }, [addressList]);
 
    const applyForCheckout = (item) => {
       setCheckoutInfo((prev) => ({
@@ -100,14 +113,6 @@ function List({
          </AddressItem>
       );
    };
-   useEffect(() => {
-      addressList.forEach((item) => {
-         if (item.default) {
-            setDefaultItem(item);
-         }
-      });
-      setLoading(false);
-   }, [addressList]);
 
    const onClickEdit = (item) => {
       setInfo(item);
@@ -124,40 +129,48 @@ function List({
          {loading ? (
             <CircularProgress />
          ) : (
-            <Paper className={classes.paper}>
-               <StyledH6>기본 배송지</StyledH6>
-               {getAddressItem(
-                  defaultItem,
-                  "default",
-                  onClickEdit,
-                  onClickDelete
-               )}
-               <StyledH6>배송지 목록</StyledH6>
-               {addressList.map((item, idx) => {
-                  if (!item.default) {
-                     return getAddressItem(
-                        item,
-                        idx,
-                        onClickEdit,
-                        onClickDelete
-                     );
-                  } else {
-                     return <></>;
-                  }
-               })}
-               <div style={{ textAlign: "center", padding: "5px 0px" }}>
-                  <Button
-                     variant="contained"
-                     color="primary"
-                     size="large"
-                     className={classes.buttonColor}
-                     startIcon={<AddIcon />}
-                     onClick={() => setOnList(false)}
-                  >
-                     추가
-                  </Button>
-               </div>
-            </Paper>
+            <div>
+               <Paper className={classes.paper}>
+                  <StyledH6>기본 배송지</StyledH6>
+                  {getAddressItem(
+                     defaultItem,
+                     "default",
+                     onClickEdit,
+                     onClickDelete
+                  )}
+                  <StyledH6>배송지 목록</StyledH6>
+                  {addressList
+                     .slice((page - 1) * 5, page * 5)
+                     .map((item, idx) => {
+                        if (!item.default) {
+                           return getAddressItem(
+                              item,
+                              idx,
+                              onClickEdit,
+                              onClickDelete
+                           );
+                        } else {
+                           return <></>;
+                        }
+                     })}
+                  <div style={{ textAlign: "center", padding: "5px 0px" }}>
+                     <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        className={classes.buttonColor}
+                        startIcon={<AddIcon />}
+                        onClick={() => setOnList(false)}
+                     >
+                        추가
+                     </Button>
+                  </div>
+               </Paper>
+               <CustomPagination
+                  onChangePage={(e, page) => setPage(page)}
+                  pageNum={pageNum}
+               />
+            </div>
          )}
       </>
    );

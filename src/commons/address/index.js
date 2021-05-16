@@ -4,7 +4,6 @@ import List from "./List";
 
 const list = [
    {
-      createdAt: 1619344686153,
       addressName: "내 집", // 배송지 이름 -> 유니크
       name: "신성일", // 성함
       zonecode: "05216", // 우편번호
@@ -14,7 +13,6 @@ const list = [
       default: true, // 기본 배송지냐 아니냐
    },
    {
-      createdAt: 1619344686321,
       addressName: "친구 집",
       name: "박세기",
       zonecode: "05219",
@@ -24,13 +22,11 @@ const list = [
       default: false,
    },
 ];
-//수정, 삭제에 createdat 이 필요없어지면 지우기 작업
 function Address({ checkout, setCheckoutInfo, setOpen }) {
    //여기서 리스트 받아오고, 넣어주면됨.
    const [addressList, setAddressList] = useState(list);
    const [onList, setOnList] = useState(true);
    const [info, setInfo] = useState({
-      createdAt: 0,
       addressName: "",
       name: "",
       zonecode: "",

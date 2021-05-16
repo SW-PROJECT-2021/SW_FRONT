@@ -8,7 +8,7 @@ const Banner = () => {
    useEffect(() => {
       const getBanners = async () => {
          await axios
-            .get("http://15.164.20.183:3003/api/banner/available")
+            .get(`${process.env.REACT_APP_API_BASEURL}/api/banner/available`)
             .then((res) => {
                setBannerList(res.data.data);
             });

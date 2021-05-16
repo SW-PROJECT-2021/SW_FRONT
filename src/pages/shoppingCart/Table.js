@@ -50,6 +50,16 @@ function Table({ cartList, setCartList }) {
 
    const onChangeQuantity = async (id, count, productCnt) => {
       setLoading(true);
+
+      if (count > 100) {
+         window.alert(
+            "배송비 문제로, 한 상품 당 최대 100개까지 구매가능합니다."
+         );
+
+         setLoading(false);
+         return;
+      }
+
       if (parseInt(count) <= parseInt(productCnt)) {
          dispatch(changeCountCart(parseInt(id), parseInt(count)));
       } else {

@@ -7,7 +7,12 @@ function Title({ range, category, subcategory }) {
             <h2 className="title-page">{range}</h2>
             <nav>
                <ol className="breadcrumb">
-                  {category && <li className="breadcrumb-item">{category}</li>}
+                  {category && (
+                     <li className="breadcrumb-item">
+                        {range === "검색" && "키워드 : "}
+                        {category}
+                     </li>
+                  )}
                   {subcategory && (
                      <li className="breadcrumb-item">{subcategory}</li>
                   )}

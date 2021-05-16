@@ -87,6 +87,8 @@ export default function Checkout() {
       },
       productList: [],
    });
+   const [total, setTotal] = useState(0);
+
    const handleNext = () => {
       if (activeStep === 1) {
          if (window.confirm("결제 금액, 배송지 정보가 정확합니까?")) {
@@ -106,7 +108,6 @@ export default function Checkout() {
          history.goBack();
       } else return;
    };
-
    useEffect(() => {
       setInfo((prev) => ({
          ...prev,
@@ -114,6 +115,16 @@ export default function Checkout() {
       }));
       //기본 배송지 정보 불러오기
    }, [history.location.state.orderProduct]);
+
+   useEffect(() => {
+      let price = 0;
+      info.productList.forEach((item) => {
+         price += (item.productPrice || item.price) * item.count;
+      });
+      if (price > 1000000) {
+         setTotal(1000000);
+      }
+   }, [info.productList]);
 
    return (
       <React.Fragment>
@@ -141,6 +152,7 @@ export default function Checkout() {
                                  <PaymentForm
                                     setActiveStep={setActiveStep}
                                     productList={info.productList}
+                                    total={total}
                                  />
                               )
                            ) : (

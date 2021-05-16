@@ -1,5 +1,5 @@
 import { Button, makeStyles, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Iamport from "react-iamport";
 import { useHistory } from "react-router";
 
@@ -15,20 +15,10 @@ const useStyles = makeStyles(() => ({
 // 결제 취소시 뒤로가기
 
 // 결제 성공시 step + 1
-export default function PaymentForm({ setActiveStep, productList }) {
-   const [total, setTotal] = useState(0);
+export default function PaymentForm({ setActiveStep, productList, total }) {
    const [fail, setFail] = useState(null);
    const classes = useStyles();
    const history = useHistory();
-   useEffect(() => {
-      let price = 0;
-      productList.forEach((item) => {
-         price += (item.productPrice || item.price) * item.count;
-      });
-      if (price > 1000000) {
-         setTotal(1000000);
-      }
-   }, [productList]);
 
    const handleSuccess = (res) => {
       setActiveStep((prev) => prev + 1);

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Step, StepLabel, Stepper, Typography } from "@material-ui/core";
-import { useHistory } from "react-router";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
+import CustomModal from "../../commons/CustomModal";
+import ProductReview from "./ProductReview";
+import Question from "./Question";
 
 const useStyles = makeStyles((theme) => ({
    font: { fontFamily: "NanumSquareRegular !important" },
@@ -11,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
    },
    orderRecord: {
       border: "1px solid rgba(0, 0, 0, 0.12)",
+      borderRadius: "10px",
    },
    h3: {
       margin: "20px 0px",
@@ -20,9 +23,11 @@ const useStyles = makeStyles((theme) => ({
    },
    totalPrice: {
       float: "right",
+      lineHeight: "37px",
    },
 }));
 
+const listId = 5;
 const list = [
    {
       id: 0,
@@ -56,9 +61,7 @@ const getItem = (item, idx) => {
                   <img src={item.productImg} className="img-sm" alt="error" />
                </div>
                <figcaption className="info">
-                  <a href="/" className="title text-dark">
-                     {item.productName}
-                  </a>
+                  <span className="title text-dark">{item.productName}</span>
                </figcaption>
             </figure>
          </td>
@@ -80,21 +83,19 @@ const getItem = (item, idx) => {
 
 function OrderRecord({ orderRecordList, setOrderRecordList }) {
    const classes = useStyles();
-   const [activeStep, setActiveStep] = useState(3);
+   const [open, setOpen] = useState(false);
+   //1부터 시작
+   const [activeStep, setActiveStep] = useState(4);
    const steps = ["결제완료", "배송중", "배송완료", "구매확정"];
 
-   const handleNext = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-   };
-
-   const handleBack = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-   };
-
-   const confirmOrder = () => {
-      const ok = window.confirm("구매 확정 하시겠습니까?");
-      if (ok) {
-         setActiveStep((prev) => prev + 1);
+   const onClickButton = () => {
+      if (activeStep === 3) {
+         const ok = window.confirm("구매 확정 하시겠습니까?");
+         if (ok) {
+            setActiveStep((prev) => prev + 1);
+         }
+      } else {
+         setOpen(true);
       }
    };
 
@@ -103,9 +104,13 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
       return (
          <>
             <div className={classes.orderRecord}>
-               <Stepper activeStep={activeStep} alternativeLabel>
-                  {steps.map((label) => (
-                     <Step key={label}>
+               <Stepper nonLinear alternativeLabel>
+                  {steps.map((label, idx) => (
+                     <Step
+                        key={label}
+                        active={activeStep >= idx + 1 ? true : false}
+                        completed={activeStep >= idx + 1 ? true : false}
+                     >
                         <StepLabel>{label}</StepLabel>
                      </Step>
                   ))}
@@ -120,14 +125,11 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                   <thead className="text-muted">
                      <tr className="small text-uppercase">
                         <th scope="col">상품</th>
-                        <th scope="col" width="120">
+                        <th scope="col" width="200">
                            수량
                         </th>
-                        <th scope="col" width="120">
+                        <th scope="col" width="200">
                            가격
-                        </th>
-                        <th scope="col" className="text-right" width="200">
-                           {" "}
                         </th>
                      </tr>
                   </thead>
@@ -139,14 +141,7 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                   </tbody>
                </table>
                <div className="card-body border-top">
-                  <button
-                     className="btn btn-primary"
-                     onClick={
-                        activeStep === 3
-                           ? confirmOrder
-                           : () => console.log("not implemented")
-                     }
-                  >
+                  <button className="btn btn-primary" onClick={onClickButton}>
                      {activeStep !== 4 ? (
                         activeStep !== 3 ? (
                            <>문의하기</>
@@ -156,6 +151,19 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                      ) : (
                         <>상품평</>
                      )}
+                  </button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <button
+                     className="btn btn-secondary"
+                     onClick={() => setActiveStep((prev) => prev - 1)}
+                  >
+                     테스트 버튼 상태 - 1
+                  </button>
+                  <button
+                     className="btn btn-secondary"
+                     onClick={() => setActiveStep((prev) => prev + 1)}
+                  >
+                     테스트 버튼 상태 + 1
                   </button>
                   <div className={`${classes.totalPrice} col-3`}>
                      Total : {ThousandSeperator(totalPrice)} 원
@@ -173,6 +181,13 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                주문내역
             </Typography>
             {singleOrderRecord(list)}
+            <CustomModal open={open} setOpen={setOpen}>
+               {activeStep <= 2 ? (
+                  <Question id={listId} setOpen={setOpen} />
+               ) : (
+                  <ProductReview list={list} setOpen={setOpen} />
+               )}
+            </CustomModal>
          </div>
       </>
    );

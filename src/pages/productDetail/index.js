@@ -1,6 +1,7 @@
 import { useLocation } from "react-router";
 import Detail from "./Detail";
 import DetailHeader from "./DetailHeader";
+import Review from "./Review";
 
 function ProductDetail() {
    const location = useLocation();
@@ -10,6 +11,7 @@ function ProductDetail() {
             <div className="container">
                <DetailHeader product={location.state} />
                <Detail detail={location.state.detail} />
+               <Review />
             </div>
          </section>
       </div>

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { Button, makeStyles, Modal } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import Address from "../../commons/address";
+import CustomModal from "../../commons/CustomModal";
 const useStyles = makeStyles((theme) => ({
    root: {
       margin: "5px",
@@ -23,20 +24,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.background.paper,
       border: "2px solid #000",
       boxShadow: theme.shadows[5],
-   },
-   modal: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-   },
-   modelPaper: {
-      backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
-      width: "500px",
-      height: "600px",
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      overflow: "scroll",
    },
 }));
 
@@ -145,21 +132,13 @@ export default function AddressForm({ info, setInfo }) {
                />
             </Grid>
          </Grid>
-         <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={open}
-            onClose={() => setOpen(false)}
-         >
-            <div className={classes.modelPaper}>
-               <Address
-                  checkout={true}
-                  setCheckoutInfo={setInfo}
-                  setOpen={setOpen}
-               />
-            </div>
-         </Modal>
+         <CustomModal open={open} setOpen={setOpen}>
+            <Address
+               checkout={true}
+               setCheckoutInfo={setInfo}
+               setOpen={setOpen}
+            />
+         </CustomModal>
       </React.Fragment>
    );
 }

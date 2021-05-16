@@ -42,6 +42,9 @@ export default function PaymentForm({ setActiveStep, productList }) {
       <div>
          <Typography variant="subtitle1" style={{ textAlign: "center" }}>
             아래 카카오페이 사진을 클릭하여 결제해주세요.
+            <br />
+            (현재 테스트환경에선 최대 100만원까지 결제가능하여, <br />
+            100만원 이상 결제시 100만원으로 결제하도록 했습니다.)
          </Typography>
          <Iamport
             identificationCode={process.env.REACT_APP_IAMPORT_CID}

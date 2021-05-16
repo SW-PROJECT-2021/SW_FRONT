@@ -10,7 +10,6 @@ const RecentProduct = () => {
          await axios
             .get("/api/product/recent")
             .then((res) => {
-               console.log(res);
                setList(res.data.data);
             })
             .catch((error) => {

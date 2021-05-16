@@ -1,32 +1,17 @@
-import { makeStyles, Modal, NativeSelect } from "@material-ui/core";
+import { NativeSelect } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import Address from "../../commons/address";
+import CustomModal from "../../commons/CustomModal";
 import { updateCart } from "../../stores/actions/actions";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
-const useStyles = makeStyles((theme) => ({
-   modal: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-   },
-   modelPaper: {
-      backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
-      width: "500px",
-      height: "600px",
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-      overflow: "scroll",
-   },
-}));
+
 function DetailHeader({ product }) {
    const [quantity, setQuantity] = useState(1);
 
-   const classes = useStyles();
    const [open, setOpen] = useState(false);
    const history = useHistory();
    const userData = useSelector((state) => state.UserReducer.users.data);
@@ -36,6 +21,7 @@ function DetailHeader({ product }) {
       if (!userData || !userData.userName) {
          alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
       } else {
+         console.log(quantity);
          await axios
             .post("/api/basket", {
                ProductId: product.id,
@@ -75,7 +61,6 @@ function DetailHeader({ product }) {
          });
       }
    };
-   console.log(product);
    return (
       <article className="card">
          <div className="card-body">
@@ -103,10 +88,6 @@ function DetailHeader({ product }) {
                            readOnly
                            className="col-3"
                         />
-                        <a href="/" className="btn-link  mr-3 text-muted">
-                           {" "}
-                           <i className="fa fa-heart"></i> 찜하기{" "}
-                        </a>
                      </div>
 
                      <hr />
@@ -125,20 +106,22 @@ function DetailHeader({ product }) {
                            수량 :
                         </span>
                         <NativeSelect
-                           onChange={(e) => setQuantity(e.target.value)}
+                           onChange={(e) =>
+                              setQuantity(parseInt(e.target.value))
+                           }
                            value={quantity}
                            className="col-lg-2"
                         >
-                           <option>1</option>
-                           <option>2</option>
-                           <option>3</option>
-                           <option>4</option>
-                           <option>5</option>
-                           <option>6</option>
-                           <option>7</option>
-                           <option>8</option>
-                           <option>9</option>
-                           <option>10</option>
+                           <option value={1}>1</option>
+                           <option value={2}>2</option>
+                           <option value={3}>3</option>
+                           <option value={4}>4</option>
+                           <option value={5}>5</option>
+                           <option value={6}>6</option>
+                           <option value={7}>7</option>
+                           <option value={8}>8</option>
+                           <option value={9}>9</option>
+                           <option value={10}>10</option>
                         </NativeSelect>
                         &nbsp;
                         <button
@@ -170,17 +153,9 @@ function DetailHeader({ product }) {
                </main>
             </div>
          </div>
-         <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={open}
-            onClose={() => setOpen(false)}
-         >
-            <div className={classes.modelPaper}>
-               <Address />
-            </div>
-         </Modal>
+         <CustomModal open={open} setOpen={setOpen}>
+            <Address />
+         </CustomModal>
       </article>
    );
 }

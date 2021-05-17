@@ -35,7 +35,11 @@ function ProductList() {
          await axios
             .get(`${process.env.REACT_APP_API_BASEURL}/api/product/${search}`)
             .then((res) => {
-               setList((prev) => prev.concat(res.data.data)); //다른 카테고리 고르면 새로고침일어나서 지워짐. 따라서 검색때만 연속가능
+               setList(
+                  res.data.data.filter(
+                     (item) => !item.isDeleted && item.count !== 0
+                  )
+               ); //다른 카테고리 고르면 새로고침일어나서 지워짐. 따라서 검색때만 연속가능
             })
             .catch((err) => {
                console.log(err);

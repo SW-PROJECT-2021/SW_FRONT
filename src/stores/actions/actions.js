@@ -13,7 +13,6 @@ import {
    DELETECART,
    CHANGE_COUNT_CART,
 } from "./types";
-import axios from "axios";
 import * as userApi from "../api/userApi";
 import * as cartApi from "../api/cartApi";
 

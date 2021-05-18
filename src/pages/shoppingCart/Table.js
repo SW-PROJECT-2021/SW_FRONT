@@ -50,6 +50,16 @@ function Table({ cartList, setCartList }) {
 
    const onChangeQuantity = async (id, count, productCnt) => {
       setLoading(true);
+
+      if (count > 100) {
+         window.alert(
+            "배송비 문제로, 한 상품 당 최대 100개까지 구매가능합니다."
+         );
+
+         setLoading(false);
+         return;
+      }
+
       if (parseInt(count) <= parseInt(productCnt)) {
          dispatch(changeCountCart(parseInt(id), parseInt(count)));
       } else {
@@ -88,6 +98,11 @@ function Table({ cartList, setCartList }) {
       setLoading(false);
    };
 
+   const onClickCheckout = () => {
+      history.push("/checkout", {
+         orderProduct: cartList,
+      });
+   };
    const getItem = (item, idx) => {
       return (
          <>
@@ -190,10 +205,13 @@ function Table({ cartList, setCartList }) {
             </table>
          )}
          <div className="card-body border-top">
-            <a href="/" className="btn btn-primary float-md-right">
+            <button
+               onClick={onClickCheckout}
+               className="btn btn-primary float-md-right"
+            >
                {" "}
                구매하기 <i className="fa fa-chevron-right"></i>{" "}
-            </a>
+            </button>
             <button onClick={() => history.goBack()} className="btn btn-light">
                {" "}
                <i className="fa fa-chevron-left"></i> 뒤로가기{" "}

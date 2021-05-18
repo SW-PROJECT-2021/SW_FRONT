@@ -1,28 +1,65 @@
-import { NativeSelect } from "@material-ui/core";
+import {
+   makeStyles,
+   Modal,
+   NativeSelect,
+   CircularProgress,
+} from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import Address from "../../commons/address";
+import CustomModal from "../../commons/CustomModal";
 import { updateCart } from "../../stores/actions/actions";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
+const useStyles = makeStyles(() => ({
+   loading: {
+      position: "absolute",
+      top: "47%",
+      left: "47%",
+   },
+   inCart: {
+      margin: "10px 0px",
+      fontSize: "18px",
+   },
+}));
 function DetailHeader({ product }) {
    const [quantity, setQuantity] = useState(1);
-   const openPopup = () => {
-      window.open(
-         "/address",
-         "shipment",
-         "top=10, left=10, width=500, height=600"
-      );
-   };
+   const [loading, setLoading] = useState(false);
+   const [open, setOpen] = useState(false);
+   const [countInCart, setCountInCart] = useState(0);
+   const classes = useStyles();
+
+   const history = useHistory();
    const userData = useSelector((state) => state.UserReducer.users.data);
+   const cartData = useSelector((state) => state.CartReducer);
    const dispatch = useDispatch();
+
+   useEffect(() => {
+      for (let v of cartData) {
+         if (v.ProductId === product.id) {
+            setCountInCart(v.count);
+         }
+      }
+   }, [cartData, product.id]);
+
    const onShoppingCart = async () => {
       if (!userData || !userData.userName) {
          alert("로그인 하셔야 장바구니에 담을 수 있습니다.");
       } else {
+         setLoading(true);
+         if (quantity + countInCart > 100) {
+            window.alert(
+               "배송비 문제로, 한 상품 당 최대 100개까지 장바구니에 담을 수 있습니다."
+            );
+            setLoading(false);
+            return;
+         }
+
          await axios
-            .post("http://15.164.20.183:3003/api/basket", {
+            .post(`${process.env.REACT_APP_API_BASEURL}/api/basket`, {
                ProductId: product.id,
                count: quantity,
             })
@@ -37,13 +74,28 @@ function DetailHeader({ product }) {
                   window.alert("죄송합니다. 현재 삭제된 상품입니다.");
                }
             });
+         setLoading(false);
       }
    };
-   const onSelectAddress = () => {
+   const onClickAddress = (url, name) => {
       if (!userData || !userData.userName) {
          alert("로그인 하셔야 배송지를 선택할 수 있습니다.");
       } else {
-         openPopup();
+         setOpen(true);
+      }
+   };
+   const onClickPay = () => {
+      if (!userData || !userData.userName) {
+         alert("로그인 하셔야 구매하실 수 있습니다.");
+      } else {
+         history.push("/checkout", {
+            orderProduct: [
+               {
+                  ...product,
+                  count: quantity,
+               },
+            ],
+         });
       }
    };
 
@@ -62,6 +114,24 @@ function DetailHeader({ product }) {
                            />
                         </span>
                      </div>
+                     <div class="thumbs-wrap">
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
+                        </span>
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
+                        </span>
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
+                        </span>
+                        <span class="item-thumb">
+                           {" "}
+                           <img src="assets/images/items/3.jpg" alt="error" />
+                        </span>
+                     </div>
                   </article>
                </aside>
                <main className="col-md-6">
@@ -74,10 +144,6 @@ function DetailHeader({ product }) {
                            readOnly
                            className="col-3"
                         />
-                        <a href="/" className="btn-link  mr-3 text-muted">
-                           {" "}
-                           <i className="fa fa-heart"></i> 찜하기{" "}
-                        </a>
                      </div>
 
                      <hr />
@@ -96,24 +162,28 @@ function DetailHeader({ product }) {
                            수량 :
                         </span>
                         <NativeSelect
-                           onChange={(e) => setQuantity(e.target.value)}
+                           onChange={(e) =>
+                              setQuantity(parseInt(e.target.value))
+                           }
                            value={quantity}
                            className="col-lg-2"
                         >
-                           <option>1</option>
-                           <option>2</option>
-                           <option>3</option>
-                           <option>4</option>
-                           <option>5</option>
-                           <option>6</option>
-                           <option>7</option>
-                           <option>8</option>
-                           <option>9</option>
-                           <option>10</option>
+                           <option value={1}>1</option>
+                           <option value={2}>2</option>
+                           <option value={3}>3</option>
+                           <option value={4}>4</option>
+                           <option value={5}>5</option>
+                           <option value={6}>6</option>
+                           <option value={7}>7</option>
+                           <option value={8}>8</option>
+                           <option value={9}>9</option>
+                           <option value={10}>10</option>
                         </NativeSelect>
                         &nbsp;
                         <button
-                           onClick={onSelectAddress}
+                           onClick={() =>
+                              onClickAddress("/address", "shipment")
+                           }
                            className="btn btn-outline-secondary  btn-lg col-lg-3"
                         >
                            배송지 선택
@@ -128,14 +198,29 @@ function DetailHeader({ product }) {
                            장바구니
                         </button>
                         &nbsp;
-                        <button className="btn btn-outline-secondary btn-lg col-lg-3">
+                        <button
+                           className="btn btn-outline-secondary btn-lg col-lg-3"
+                           onClick={() => onClickPay()}
+                        >
                            구매
                         </button>
                      </div>
+                     {countInCart !== 0 && (
+                        <div className={classes.inCart}>
+                           현재 장바구니에 담은 수량 : {countInCart}
+                        </div>
+                     )}
                   </article>
                </main>
             </div>
          </div>
+         <CustomModal open={open} setOpen={setOpen}>
+            <Address />
+         </CustomModal>
+
+         <Modal open={loading}>
+            <CircularProgress color="secondary" className={classes.loading} />
+         </Modal>
       </article>
    );
 }

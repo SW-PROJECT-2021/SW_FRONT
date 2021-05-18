@@ -33,9 +33,6 @@ const StyledA = styled.a`
    display: inline-block;
    color: #1c1c1c;
    width: 50%;
-   &.disabled {
-      pointer-events: none;
-   }
    @media screen and (max-width: 420px) {
       position: absolute;
       width: 60%;
@@ -54,7 +51,7 @@ const liList = [
    },
    {
       name: "보조",
-      href: "",
+      href: "/list?range=보조",
    },
 ];
 
@@ -111,12 +108,7 @@ const Navigator = () => {
                               onClick={handlePopoverOpen}
                            >
                               <span id={idx} className="nav-link">
-                                 <StyledA
-                                    href={li.href}
-                                    className={!li.href && "disabled"}
-                                 >
-                                    {li.name}
-                                 </StyledA>
+                                 <StyledA href={li.href}>{li.name}</StyledA>
                                  {ExpandButton(idx)}
                               </span>
                            </StyledLi>

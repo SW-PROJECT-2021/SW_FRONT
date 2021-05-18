@@ -3,7 +3,7 @@ import Navigator from "./Navigator";
 import Search from "./Search";
 import User from "./User";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateCart } from "../../stores/actions/actions";
 
 const UserDiv = styled.div`
@@ -14,6 +14,7 @@ const Header = () => {
    const [lessThan992, setLessThan992] = useState(false);
    const dispatch = useDispatch();
 
+   const { data } = useSelector((state) => state.UserReducer.users);
    useEffect(() => {
       const mediase = window.matchMedia("(max-width: 992px)");
 
@@ -34,8 +35,10 @@ const Header = () => {
    }, [dispatch]);
 
    useEffect(() => {
-      dispatch(updateCart());
-   }, []);
+      if (data) {
+         dispatch(updateCart());
+      }
+   }, [dispatch, data]);
 
    return (
       <header className="section-header">

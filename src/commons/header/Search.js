@@ -55,23 +55,18 @@ const Search = () => {
          priceRange.min = price.max;
          priceRange.max = price.min;
       }
+      const searchQuery = `title=${search}&category=${
+         category || ""
+      }&minPrice=${priceRange.min || ""}&maxPrice=${priceRange.max || ""}`;
       await axios
          .get(
-            `http://15.164.20.183:3003/api/product/search/detail?title=${search}&category=${
-               category || ""
-            }&minPrice=${priceRange.min || ""}&maxPrice=${priceRange.max || ""}`
+            `${process.env.REACT_APP_API_BASEURL}/api/product/search/detail?${searchQuery}`
          )
          .then((res) => {
             setLoading(false);
             history.push({
                pathname: "/list",
-               state: res.data.data,
-            });
-         })
-         .catch((err) => {
-            history.push({
-               pathname: "/list",
-               state: {},
+               state: { data: res.data.data, keyword: search },
             });
          });
 

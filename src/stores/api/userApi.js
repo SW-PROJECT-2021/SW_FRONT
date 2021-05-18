@@ -5,7 +5,6 @@ export const Userlogin = async (dataSubmit) => {
     url: `${process.env.REACT_APP_API_BASEURL}/api/user/login`,
     method: "post",
     data: dataSubmit,
-    withCredentials: true,
   });
   return response;
 };

@@ -27,7 +27,7 @@ export const PostProduct = async (dataSubmit) => {
 
 export const DeleteProduct = async (id) => {
   const response = await axios({
-    url: `${process.env.REACT_APP_API_BASEURL}/api/product${id}`,
+    url: `${process.env.REACT_APP_API_BASEURL}/api/product/${id}`,
     method: "delete",
   });
   return response;
@@ -35,7 +35,7 @@ export const DeleteProduct = async (id) => {
 
 export const UpdateProduct = async (dataSubmit) => {
   const response = await axios({
-    url: `${process.env.REACT_APP_API_BASEURL}/api/product`,
+    url: "/api/product",
     method: "put",
     data: dataSubmit,
   });

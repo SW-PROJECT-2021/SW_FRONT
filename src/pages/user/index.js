@@ -8,13 +8,14 @@ import {
    Toolbar,
    Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import OrderRecord from "./OrderRecord";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
    drawerPaper: {
@@ -75,6 +76,17 @@ function User() {
    const classes = useStyles();
    const { userName } = useSelector((state) => state.UserReducer.users.data);
    const history = useHistory();
+   const [orderRecordList, setOrderRecordList] = useState();
+
+   useEffect(() => {
+      const getOrderRecord = async () => {
+         const response = await axios.get(
+            `${process.env.REACT_APP_API_BASEURL}/api/orderHistory`
+         );
+         setOrderRecordList(response.data.data);
+      };
+      getOrderRecord();
+   }, []);
 
    return (
       <div>
@@ -100,7 +112,10 @@ function User() {
                <List>{mainListItems(history)}</List>
             </Drawer>
             <main className={`${classes.content} col-9`}>
-               <OrderRecord />
+               <OrderRecord
+                  orderRecordList={orderRecordList}
+                  setOrderRecordList={setOrderRecordList}
+               />
             </main>
          </div>
       </div>

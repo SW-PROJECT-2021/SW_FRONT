@@ -3,7 +3,9 @@ import {
    Modal,
    NativeSelect,
    CircularProgress,
+   Divider,
 } from "@material-ui/core";
+import { InsertDriveFile } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -31,6 +33,7 @@ function DetailHeader({ product }) {
    const [open, setOpen] = useState(false);
    const [countInCart, setCountInCart] = useState(0);
    const [mainImage, setMainImage] = useState(product.img1);
+   const [defaultAddress, setDefaultAddress] = useState();
    const classes = useStyles();
 
    const history = useHistory();
@@ -44,6 +47,16 @@ function DetailHeader({ product }) {
             setCountInCart(v.count);
          }
       }
+      const getList = async () => {
+         await axios.get("/api/dest").then((res) => {
+            res.data.data.forEach((item) => {
+               if (item.default) {
+                  setDefaultAddress(item);
+               }
+            });
+         });
+      };
+      getList();
    }, [cartData, product.id]);
 
    const onShoppingCart = async () => {
@@ -107,7 +120,10 @@ function DetailHeader({ product }) {
                <aside className="col-md-6">
                   <article className="gallery-wrap">
                      <div className="card img-big-wrap">
-                        <span style={{ textAlign: "center" }}>
+                        <span
+                           style={{
+                              textAlign: "center",
+                           }}>
                            <img
                               src={mainImage}
                               alt="error"
@@ -121,18 +137,22 @@ function DetailHeader({ product }) {
                            onClick={() => setMainImage(product.img1)}>
                            <img src={product.img1} alt="error" />
                         </span>
-                        <span
-                           class="item-thumb"
-                           onClick={() => setMainImage(product.img2)}>
-                           {" "}
-                           <img src={product.img2} alt="error" />
-                        </span>
-                        <span
-                           class="item-thumb"
-                           onClick={() => setMainImage(product.img3)}>
-                           {" "}
-                           <img src={product.img3} alt="error" />
-                        </span>
+                        {product.img2 && (
+                           <span
+                              class="item-thumb"
+                              onClick={() => setMainImage(product.img2)}>
+                              {" "}
+                              <img src={product.img2} alt="error" />
+                           </span>
+                        )}
+                        {product.img3 && (
+                           <span
+                              class="item-thumb"
+                              onClick={() => setMainImage(product.img3)}>
+                              {" "}
+                              <img src={product.img3} alt="error" />
+                           </span>
+                        )}
                      </div>
                   </article>
                </aside>
@@ -147,9 +167,7 @@ function DetailHeader({ product }) {
                            className="col-3"
                         />
                      </div>
-
                      <hr />
-
                      <div className="mb-3">
                         <var className="price h4">
                            &#8361;&nbsp;{ThousandSeperator(product.price)}
@@ -207,6 +225,18 @@ function DetailHeader({ product }) {
                            현재 장바구니에 담은 수량 : {countInCart}
                         </div>
                      )}
+                     <br /> <br />
+                     <div>
+                        {" "}
+                        {defaultAddress ? (
+                           <>
+                              기본 배송지 : {defaultAddress.name} <br />
+                              주소 : {defaultAddress.address}{" "}
+                           </>
+                        ) : (
+                           <>아직 등록된 기본배송지가 없습니다.</>
+                        )}
+                     </div>
                   </article>
                </main>
             </div>

@@ -61,8 +61,6 @@ function List({
       addressList.forEach((item) => {
          if (item.default) {
             setDefaultItem(item);
-         } else {
-            console.log(item);
          }
       });
       setLoading(false);

@@ -53,6 +53,7 @@ function Form({
    setOnEdit,
 }) {
    const [open, setOpen] = useState(false);
+   const [errMsg, setErrMsg] = useState("");
    const classes = useStyles();
 
    useEffect(() => {
@@ -60,7 +61,6 @@ function Form({
          setInfo((prev) => ({ ...prev, default: true }));
       }
    }, [length, setInfo]);
-   console.log(info.default);
    const initInfo = () => {
       setInfo({
          addressName: "",
@@ -73,7 +73,6 @@ function Form({
       });
    };
    const onSubmit = async () => {
-      console.log(info);
       if (onEdit) {
          await axios
             .put("/api/dest", { ...info, isDefault: info.default })
@@ -109,6 +108,15 @@ function Form({
       if (name === "default") {
          setInfo((prev) => ({ ...prev, default: !prev.default }));
       } else {
+         if (name === "phone") {
+            if (!/^[0-9]/g.test(value)) {
+               if (value !== "") {
+                  setErrMsg("연락처에는 숫자만 입력해주세요.");
+                  return;
+               }
+            }
+            setErrMsg("");
+         }
          setInfo((prev) => ({ ...prev, [name]: value }));
       }
    };
@@ -202,6 +210,7 @@ function Form({
             </Grid>
             <Grid item xs={12} sm={6}>
                <TextField
+                  required
                   id="phone"
                   name="phone"
                   label="연락처"
@@ -210,6 +219,9 @@ function Form({
                   fullWidth
                />
             </Grid>
+            {errMsg && (
+               <div style={{ color: "red" }}>&nbsp;&nbsp;&nbsp;{errMsg}</div>
+            )}
             <Grid item xs={6}>
                <FormControlLabel
                   control={
@@ -242,6 +254,7 @@ function Form({
                </ButtonGroup>
             </Grid>
          </Grid>
+
          <Modal open={open} onClose={() => setOpen(false)}>
             <div className={classes.paper}>
                <DaumPostcode

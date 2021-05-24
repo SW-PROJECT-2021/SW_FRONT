@@ -80,9 +80,7 @@ function User() {
 
    useEffect(() => {
       const getOrderRecord = async () => {
-         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASEURL}/api/orderHistory`
-         );
+         const response = await axios.get(`/api/orderHistory`);
          setOrderRecordList(response.data.data);
       };
       getOrderRecord();
@@ -97,8 +95,7 @@ function User() {
                   variant="h6"
                   color="inherit"
                   noWrap
-                  className={classes.title}
-               >
+                  className={classes.title}>
                   {userName} 님, 환영합니다.
                </Typography>
             </Toolbar>
@@ -107,8 +104,7 @@ function User() {
                classes={{
                   paper: classes.drawerPaper,
                }}
-               className={`col-3 ${classes.drawWidth}`}
-            >
+               className={`col-3 ${classes.drawWidth}`}>
                <List>{mainListItems(history)}</List>
             </Drawer>
             <main className={`${classes.content} col-9`}>

@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CustomPagination from "../CustomPagination";
+import axios from "axios";
 
 const AddressItem = styled.div`
    border-bottom: 1px solid #e6e6e6;
@@ -48,6 +49,7 @@ function List({
    setOnEdit,
    setCheckoutInfo,
    setOpen,
+   setRefresh,
 }) {
    const [loading, setLoading] = useState(true);
    const [defaultItem, setDefaultItem] = useState();
@@ -59,6 +61,8 @@ function List({
       addressList.forEach((item) => {
          if (item.default) {
             setDefaultItem(item);
+         } else {
+            console.log(item);
          }
       });
       setLoading(false);
@@ -75,7 +79,7 @@ function List({
 
    const getAddressItem = (item, key, onClickEdit, onClickDelete) => {
       return (
-         <AddressItem key={key}>
+         <AddressItem key={`addressitem-${key}`}>
             <h6>{item.addressName}</h6>
             <span>
                성함 : {item.name} <br />
@@ -88,15 +92,11 @@ function List({
                disableElevation
                variant="outlined"
                size="small"
-               className={classes.button}
-            >
+               className={classes.button}>
                <Button color="primary" onClick={() => onClickEdit(item)}>
                   수정
                </Button>
-               <Button
-                  color="secondary"
-                  onClick={() => onClickDelete(item.createdAt)}
-               >
+               <Button color="secondary" onClick={() => onClickDelete(item.id)}>
                   삭제
                </Button>
             </ButtonGroup>{" "}
@@ -105,8 +105,7 @@ function List({
                   variant="contained"
                   color="primary"
                   className={classes.buttonApply}
-                  onClick={() => applyForCheckout(item)}
-               >
+                  onClick={() => applyForCheckout(item)}>
                   적용
                </Button>
             )}
@@ -120,8 +119,12 @@ function List({
       setOnEdit(true);
    };
 
-   const onClickDelete = (id) => {
-      //여기선 id 로 삭제요청
+   const onClickDelete = async (id) => {
+      await axios.delete(`/api/dest/${id}`);
+      if (defaultItem) {
+         setDefaultItem();
+      }
+      setRefresh((prev) => prev + 1);
    };
 
    return (
@@ -132,12 +135,14 @@ function List({
             <div>
                <Paper className={classes.paper}>
                   <StyledH6>기본 배송지</StyledH6>
-                  {getAddressItem(
-                     defaultItem,
-                     "default",
-                     onClickEdit,
-                     onClickDelete
-                  )}
+
+                  {defaultItem &&
+                     getAddressItem(
+                        defaultItem,
+                        "isDefault",
+                        onClickEdit,
+                        onClickDelete
+                     )}
                   <StyledH6>배송지 목록</StyledH6>
                   {addressList
                      .slice((page - 1) * 5, page * 5)
@@ -160,8 +165,7 @@ function List({
                         size="large"
                         className={classes.buttonColor}
                         startIcon={<AddIcon />}
-                        onClick={() => setOnList(false)}
-                     >
+                        onClick={() => setOnList(false)}>
                         추가
                      </Button>
                   </div>

@@ -8,7 +8,7 @@ const RecentProduct = () => {
    useEffect(() => {
       const getList = async () => {
          await axios
-            .get(`${process.env.REACT_APP_API_BASEURL}/api/product/recent`)
+            .get(`/api/product/recent`)
             .then((res) => {
                setList(res.data.data);
             })
@@ -45,7 +45,7 @@ const RecentProduct = () => {
                      >
                         <div className="card card-product-grid">
                            <span className="img-wrap">
-                              <img src={item.img} alt="img" />{" "}
+                              <img src={item.img1} alt="img" />{" "}
                            </span>
                            <figcaption className="info-wrap">
                               {item.name}

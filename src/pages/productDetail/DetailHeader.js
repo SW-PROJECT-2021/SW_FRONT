@@ -3,9 +3,7 @@ import {
    Modal,
    NativeSelect,
    CircularProgress,
-   Divider,
 } from "@material-ui/core";
-import { InsertDriveFile } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -234,7 +232,11 @@ function DetailHeader({ product }) {
                               주소 : {defaultAddress.address}{" "}
                            </>
                         ) : (
-                           <>아직 등록된 기본배송지가 없습니다.</>
+                           <>
+                              {userData && userData.userName && (
+                                 <>아직 등록된 기본배송지가 없습니다.</>
+                              )}
+                           </>
                         )}
                      </div>
                   </article>

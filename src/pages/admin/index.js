@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,9 +14,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
-
+import styled from "styled-components";
 import { Route } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../stores/actions/actions";
+import { useHistory } from "react-router-dom";
 import AdminMain from "./AdminMain";
 import Banner from "./BannerEvent/Banner";
 import BannerDetail from "./BannerEvent/BannerDetail";
@@ -25,6 +27,7 @@ import ProductManage from "./ProductManage/ProductManage";
 import PostProduct from "./ProductManage/PostProduct";
 import ProductDetail from "./ProductManage/ProductDetail";
 import UpdateProduct from "./ProductManage/UpdateProduct";
+import UpdateBanner from "./BannerEvent/UpdateBanner";
 function Copyright() {
   return (
     <Typography>
@@ -36,7 +39,16 @@ function Copyright() {
   );
 }
 const drawerWidth = 240;
-
+const LogoutButton = styled.button`
+  border: 1px solid rgb(86, 100, 134);
+  border-radius: 5px;
+  background-color: #fff;
+  margin: 0;
+  &:hover {
+    cursor: pointer;
+    color: #3167eb;
+  }
+`;
 export const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -120,7 +132,10 @@ export const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Admin() {
+  const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.UserReducer.users);
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -129,6 +144,18 @@ export default function Admin() {
     setOpen(false);
   };
 
+  const LogoutButtonHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(logout());
+    },
+    [dispatch]
+  );
+  useEffect(() => {
+    if (!data) {
+      history.push("/");
+    }
+  }, [data]);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -158,6 +185,7 @@ export default function Admin() {
           >
             Sw 6팀 관리페이지{" "}
           </Typography>
+          <LogoutButton onClick={LogoutButtonHandler}>로그아웃</LogoutButton>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
@@ -189,6 +217,11 @@ export default function Admin() {
         component={BannerDetail}
       />
       <Route path="/admin/Banner/PostBanner" exact component={PostBanner} />
+      <Route
+        path="/admin/Banner/UpdateBanner/:id"
+        exact
+        component={UpdateBanner}
+      />
       <Route path="/admin/ProductManage" exact component={ProductManage} />
       <Route path="/admin/ProductManage/PostProduct" component={PostProduct} />
       <Route

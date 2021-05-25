@@ -11,7 +11,11 @@ import Button from "@material-ui/core/Button";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getbanner, updatebanner } from "../../../stores/actions/bannerActions";
+import {
+  getbanner,
+  updatebanner,
+  postProductClear,
+} from "../../../stores/actions/bannerActions";
 const Form = styled.form`
   div {
     margin-top: 5px;
@@ -38,6 +42,8 @@ function UpdateBanner({ match }) {
   const { loading, data, error } = useSelector(
     (state) => state.BannerReducer.bannerdetail
   );
+  const updateData = useSelector((state) => state.BannerReducer.bannerpost);
+  const updatedData = updateData.data;
   const history = useHistory();
 
   const [bannerId, serBannerId] = useState(null);
@@ -53,12 +59,19 @@ function UpdateBanner({ match }) {
     if (data) {
       serBannerId(data.id);
       setBannerName(data.bannerName);
-      setBannerStart(data.bannerStart);
+      setBannerStart(data.bannerStartDate);
       setBannerEnd(data.bannerEndDate);
       setBannerImg(data.bannerImg);
       setBannerDetail(data.bannerDetail);
     }
   }, [data]);
+  useEffect(() => {
+    if (updatedData) {
+      alert("배너 수정 성공");
+      history.push("/admin/Banner");
+      dispatch(postProductClear());
+    }
+  }, [updatedData]);
   const onBannerDetailHanlder = useCallback((e) => {
     setBannerDetail(e.target.value);
   });
@@ -85,12 +98,7 @@ function UpdateBanner({ match }) {
       formData.append("startDate", bannerStart);
       formData.append("endDate", bannerEnd);
 
-      const response = dispatch(updatebanner(formData));
-      console.log(response);
-      if (response.data.success === true) {
-        alert("배너 수정 성공");
-        history.push("/admin/Banner");
-      }
+      dispatch(updatebanner(formData));
     } else {
       alert("빈칸을 채워주세요!");
     }

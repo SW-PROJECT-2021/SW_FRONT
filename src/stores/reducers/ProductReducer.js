@@ -47,7 +47,7 @@ export const ProductReducer = (state = initialState, action) => {
     case UPDATE_PRODUCT:
     case UPDATE_PRODUCT_SUCCESS:
     case UPDATE_PRODUCT_ERROR:
-      return handleAsyncActions(UPDATE_PRODUCT, "productDetail")(state, action);
+      return handleAsyncActions(UPDATE_PRODUCT, "postproduct")(state, action);
     case ORDER_PRODUCT:
       return { ...state, productlist: reducerUtils.success(action.payload) };
     case SEARCH_PRODUCT:

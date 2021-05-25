@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import Title from "../Title";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -22,7 +22,31 @@ import {
 import {
   UpdateProductId,
   getProductById,
+  postProductClear,
 } from "../../../stores/actions/productActions";
+
+function ImgPosted({ name, id, deleted }) {
+  return (
+    <div style={{ width: "200px", display: "flex", alignItems: "center" }}>
+      <span style={{ width: "100px", paddingTop: "0" }}>{name}</span>
+      <div
+        onClick={() => deleted(id)}
+        style={{
+          backgroundColor: "#fff",
+          border: "1px solid black",
+          height: "40px",
+          width: "50px",
+          textAlign: "center",
+          padding: "10px",
+          cursor: "pointer",
+        }}
+      >
+        삭제
+      </div>
+    </div>
+  );
+}
+
 const Body = styled.div`
   width: 100%;
   height: auto;
@@ -84,10 +108,14 @@ function UpdateProduct({ match }) {
   const [productCount, setProductCount] = useState(null);
   const [productImg, setProductImg] = useState({ ImgFile: null });
   const [productDetail, setProductDetail] = useState(null);
+  const [postImgs, setpostImgs] = useState([]);
+
   const dispatch = useDispatch();
   const { loading, data, error } = useSelector(
     (state) => state.ProductReducer.productDetail
   );
+  const updatedata = useSelector((state) => state.ProductReducer.postproduct);
+  const updatedData = updatedata.data;
 
   useEffect(() => {
     dispatch(getProductById(match.params.id));
@@ -103,12 +131,23 @@ function UpdateProduct({ match }) {
       setProductDetail(data.data.detail);
     }
   }, [data]);
+  useEffect(() => {
+    if (updatedData) {
+      alert("상품 수정 성공");
+      history.push("/admin/ProductManage");
+      dispatch(postProductClear());
+    }
+  }, [updatedData]);
+  const imgId = useRef(0);
+
   const history = useHistory();
   const [category, setCategory] = useState({
     age: "",
     name: "hai",
   });
-
+  const deleteImg = useCallback((id) => {
+    setpostImgs(postImgs.filter((imgs) => imgs.id !== id));
+  });
   const handleChange = (event) => {
     const name = event.target.name;
     setCategory({
@@ -136,9 +175,15 @@ function UpdateProduct({ match }) {
   );
   const onImgHandler = useCallback(
     (e) => {
-      setProductImg(e.target.files[0]);
+      const img = e.target.files[0];
+      const imgData = {
+        id: imgId.current,
+        img: img,
+      };
+      setpostImgs(postImgs.concat(imgData));
+      imgId.current += 1;
     },
-    [productImg]
+    [productImg, postImgs]
   );
   const onDetailHandler = useCallback(
     (e) => {
@@ -149,7 +194,7 @@ function UpdateProduct({ match }) {
   const onSubmitHandler = useCallback((e) => {
     e.preventDefault();
     if (
-      productImg &&
+      postImgs.length === 3 &&
       productName &&
       productPrice &&
       productCount &&
@@ -158,7 +203,9 @@ function UpdateProduct({ match }) {
     ) {
       const formData = new FormData();
       formData.append("id", match.params.id);
-      formData.append("img", productImg);
+      formData.append("imgs", postImgs[0].img);
+      formData.append("imgs", postImgs[1].img);
+      formData.append("imgs", postImgs[2].img);
       formData.append("name", productName);
       formData.append("price", productPrice);
       formData.append("count", productCount);
@@ -269,7 +316,7 @@ function UpdateProduct({ match }) {
                     </FormControl>
                   </div>
                   <div>
-                    <span>이미지 등록</span>
+                    <span style={{ width: "100px" }}>이미지 등록</span>
                     <span>
                       <input
                         type="file"
@@ -278,6 +325,20 @@ function UpdateProduct({ match }) {
                         onChange={onImgHandler}
                       />
                     </span>
+                  </div>
+                  <div style={{ width: "100%", marginBottom: "10px" }}>
+                    <span style={{ width: "110px" }}>등록된 이미지</span>
+                    {postImgs && true ? (
+                      postImgs.map((img) => (
+                        <ImgPosted
+                          name={img.img.name}
+                          id={img.id}
+                          deleted={deleteImg}
+                        ></ImgPosted>
+                      ))
+                    ) : (
+                      <span>이미지 없음</span>
+                    )}
                   </div>
                   <Button id="Submit" type="submit" variant="contained">
                     상품 등록

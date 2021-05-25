@@ -91,7 +91,7 @@ export const updatebanner = (dataSubmit) => async (dispatch) => {
   try {
     const response = await bannerApi.UpdateBanner(dataSubmit);
     console.log(response);
-    dispatch({ type: UPDATE_BANNER_SUCCESS, payload: response.data.data });
+    dispatch({ type: UPDATE_BANNER_SUCCESS, payload: response.data });
     return response;
   } catch (err) {
     dispatch({ type: UPDATE_BANNER_ERROR, error: err });

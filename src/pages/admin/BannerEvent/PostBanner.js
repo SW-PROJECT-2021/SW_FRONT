@@ -80,7 +80,7 @@ function PostBanner() {
   });
   useEffect(() => {
     if (data) {
-      alert("상품 등록 성공");
+      alert("배너 등록 성공");
       history.push("/admin/Banner");
       dispatch(postProductClear());
     }

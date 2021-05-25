@@ -55,7 +55,7 @@ export const BannerReducer = (state = initialState, action) => {
     case UPDATE_BANNER:
     case UPDATE_BANNER_SUCCESS:
     case UPDATE_BANNER_ERROR:
-      return handleAsyncActions(UPDATE_BANNER, "bannerdetail")(state, action);
+      return handleAsyncActions(UPDATE_BANNER, "bannerpost")(state, action);
     case DETAIL_BANNER_CLEAR:
       return { ...state, bannerdetail: reducerUtils.initial() };
     default:

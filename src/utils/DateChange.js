@@ -7,22 +7,14 @@ export const DateChange = (date) => {
   const min = New.getMinutes();
   const sec = New.getSeconds();
   const result =
-    Year +
-    "년" +
-    " " +
-    month +
-    "월 " +
-    " " +
-    day +
-    "일 " +
-    " " +
-    hour +
-    "시 " +
+    Year + "년" + " " + month + "월 " + " " + day + "일 " + " " + hour + "시 ";
+  /*
     " " +
     min +
     "분 " +
     " " +
     sec +
     "초 ";
+    */
   return result;
 };

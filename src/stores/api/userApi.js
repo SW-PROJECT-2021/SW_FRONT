@@ -41,3 +41,11 @@ export const UserSignUp = async (dataSubmit) => {
   });
   return response;
 };
+
+export const AdminCheck = async () => {
+  const response = await axios({
+    url: `${process.env.REACT_APP_API_BASEURL}/api/user/check/admin`,
+    method: "get",
+  });
+  return response;
+};

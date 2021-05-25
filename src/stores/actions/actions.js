@@ -12,6 +12,10 @@ import {
   UPDATECART,
   DELETECART,
   CHANGE_COUNT_CART,
+  ADMIN_CHECK,
+  ADMIN_CHECK_SUCCESS,
+  ADMIN_CHECK_ERROR,
+  ADMIN_CHECK_CLEAR,
 } from "./types";
 import * as userApi from "../api/userApi";
 import * as cartApi from "../api/cartApi";
@@ -93,3 +97,21 @@ export const changeCountCart = (id, count) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const AdminCheckAction = () => async (dispatch) => {
+  dispatch({ type: ADMIN_CHECK });
+  try {
+    const response = await userApi.AdminCheck();
+    console.log(response);
+    dispatch({ type: ADMIN_CHECK_SUCCESS, payload: response.data });
+    return response.data;
+  } catch (err) {
+    console.log("test");
+    console.log(err.response);
+    dispatch({ type: ADMIN_CHECK_ERROR, payload: err.response, error: true });
+  }
+};
+
+export const AdminCheckClaer = () => ({
+  type: ADMIN_CHECK_CLEAR,
+});

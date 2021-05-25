@@ -9,7 +9,11 @@ export const SIGNUP = "SIGNUP";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_ERROR = "SIGNUP_ERROR";
 export const SIGNUP_CLEAR = "SIGNUP_CLEAR";
-
+//관리자 체크
+export const ADMIN_CHECK = "ADMIN_CHECK";
+export const ADMIN_CHECK_SUCCESS = "ADMIN_CHECK_SCUEESSS";
+export const ADMIN_CHECK_ERROR = "ADMIN_CHECK_ERROR";
+export const ADMIN_CHECK_CLEAR = "ADMIN_CHECK_CLEAR";
 //product action
 //제품전체
 export const GET_PRODUCTS = "GET_PRODUCTS";

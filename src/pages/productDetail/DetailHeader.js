@@ -110,6 +110,19 @@ function DetailHeader({ product }) {
          });
       }
    };
+   const renderOptions = () => {
+      let options = [];
+      for (let i = 1; i <= 10; i++) {
+         if (i <= product.count) {
+            options.push(
+               <option key={i} value={i}>
+                  {i}
+               </option>
+            );
+         }
+      }
+      return options;
+   };
 
    return (
       <article className="card">
@@ -184,16 +197,7 @@ function DetailHeader({ product }) {
                            }
                            value={quantity}
                            className="col-lg-2">
-                           <option value={1}>1</option>
-                           <option value={2}>2</option>
-                           <option value={3}>3</option>
-                           <option value={4}>4</option>
-                           <option value={5}>5</option>
-                           <option value={6}>6</option>
-                           <option value={7}>7</option>
-                           <option value={8}>8</option>
-                           <option value={9}>9</option>
-                           <option value={10}>10</option>
+                           {renderOptions().map((item) => item)}
                         </NativeSelect>
                         &nbsp;
                         <button

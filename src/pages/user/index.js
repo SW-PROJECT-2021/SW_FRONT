@@ -76,16 +76,19 @@ function User() {
    const classes = useStyles();
    const { userName } = useSelector((state) => state.UserReducer.users.data);
    const history = useHistory();
-   const [orderRecordList, setOrderRecordList] = useState();
+   const [orderRecordList, setOrderRecordList] = useState([]);
 
    useEffect(() => {
       const getOrderRecord = async () => {
          const response = await axios.get(`/api/orderHistory`);
-         setOrderRecordList(response.data.data);
+         setOrderRecordList(
+            response.data.data.sort(function (a, b) {
+               return b.id - a.id;
+            })
+         );
       };
       getOrderRecord();
    }, []);
-
    return (
       <div>
          <div className="container">

@@ -115,7 +115,6 @@ export default function Checkout() {
       }));
       //기본 배송지 정보 불러오기
    }, [history.location.state.orderProduct]);
-
    useEffect(() => {
       let price = 0;
       info.productList.forEach((item) => {
@@ -147,7 +146,10 @@ export default function Checkout() {
                         {activeStep !== 0 ? (
                            activeStep !== 1 ? (
                               activeStep !== 2 ? (
-                                 <PaymentApproved list={info.productList} />
+                                 <PaymentApproved
+                                    list={info.productList}
+                                    address={info.addressInfo}
+                                 />
                               ) : (
                                  <PaymentForm
                                     setActiveStep={setActiveStep}
@@ -171,16 +173,14 @@ export default function Checkout() {
                                  variant="contained"
                                  color="secondary"
                                  className={classes.cancelButton}
-                                 onClick={cancelPay}
-                              >
+                                 onClick={cancelPay}>
                                  취소
                               </Button>{" "}
                               <div className={classes.buttons}>
                                  {activeStep !== 0 && (
                                     <Button
                                        onClick={handleBack}
-                                       className={classes.button}
-                                    >
+                                       className={classes.button}>
                                        Back
                                     </Button>
                                  )}
@@ -188,8 +188,7 @@ export default function Checkout() {
                                     variant="contained"
                                     color="primary"
                                     onClick={handleNext}
-                                    className={classes.button}
-                                 >
+                                    className={classes.button}>
                                     {activeStep === steps.length - 1
                                        ? "Place order"
                                        : "Next"}

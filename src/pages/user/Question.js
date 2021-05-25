@@ -59,7 +59,7 @@ const temp = [
    },
 ];
 
-function Question({ id, setOpen }) {
+function Question({ productList, setOpen }) {
    const [list, setList] = useState([]);
    const [onAdd, setOnAdd] = useState(false);
    const classes = useStyles();
@@ -89,8 +89,7 @@ function Question({ id, setOpen }) {
          <Accordion expanded={expanded === idx} onChange={handleChange(idx)}>
             <AccordionSummary
                aria-controls="panel1bh-content"
-               id="panel1bh-header"
-            >
+               id="panel1bh-header">
                <Typography className={classes.secondaryHeading}>
                   {MiliToyymmdd(item.createdAt)}
                </Typography>
@@ -166,16 +165,14 @@ function Question({ id, setOpen }) {
                   <Button
                      variant="outlined"
                      color="primary"
-                     onClick={onClickSubmit}
-                  >
+                     onClick={onClickSubmit}>
                      문의 등록
                   </Button>
                   &nbsp;&nbsp;
                   <Button
                      variant="outlined"
                      color="secondary"
-                     onClick={onClickCancel}
-                  >
+                     onClick={onClickCancel}>
                      취소
                   </Button>
                </div>
@@ -192,8 +189,7 @@ function Question({ id, setOpen }) {
                   variant="outlined"
                   color="primary"
                   className={classes.addButton}
-                  onClick={() => setOnAdd(true)}
-               >
+                  onClick={() => setOnAdd(true)}>
                   문의 추가
                </Button>
                <CustomPagination

@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
    },
    orderRecord: {
       border: "1px solid rgba(0, 0, 0, 0.12)",
+      marginBottom: "20px",
       borderRadius: "10px",
    },
    h3: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
    },
    h6: {
       margin: "10px 10px",
+      fontFamily: "NanumSquareRegular",
    },
    totalPrice: {
       float: "right",
@@ -38,45 +40,16 @@ const useStyles = makeStyles((theme) => ({
    },
 }));
 
-const listId = 5;
-const temp = [
-   {
-      productList: [
-         {
-            id: 0,
-            productImg: "assets/images/items/1.jpg",
-            productName: "Some name of item goes here nice",
-            count: 3,
-            productPrice: 30000,
-         },
-         {
-            id: 1,
-            productImg: "assets/images/items/2.jpg",
-            productName: "Product name goes here nice",
-            count: 1,
-            productPrice: 10000,
-         },
-         {
-            id: 2,
-            productImg: "assets/images/items/3.jpg",
-            productName: " Another name of some product goes just here",
-            count: 2,
-            productPrice: 20000,
-         },
-      ],
-   },
-];
-
 const getItem = (item, idx) => {
    return (
       <tr key={idx}>
          <td>
             <figure className="itemside">
                <div className="aside">
-                  <img src={item.productImg} className="img-sm" alt="error" />
+                  <img src={item.img1} className="img-sm" alt="error" />
                </div>
                <figcaption className="info">
-                  <span className="title text-dark">{item.productName}</span>
+                  <span className="title text-dark">{item.name}</span>
                </figcaption>
             </figure>
          </td>
@@ -84,11 +57,11 @@ const getItem = (item, idx) => {
          <td>
             <div className="price-wrap">
                <var className="price">
-                  {ThousandSeperator(item.count * item.productPrice)}원
+                  {ThousandSeperator(item.count * item.price)}원
                </var>
                <small className="text-muted">
                   {" "}
-                  개당 {ThousandSeperator(item.productPrice)}원{" "}
+                  개당 {ThousandSeperator(item.price)}원{" "}
                </small>
             </div>
          </td>
@@ -102,27 +75,43 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
    const [pageNum, setPageNum] = useState(0);
    const [page, setPage] = useState(1);
    //1부터 시작
-   const [activeStep, setActiveStep] = useState(4);
-   const [list, setList] = useState([]);
+   const [choosedItem, setChoosedItem] = useState({});
    const steps = ["결제완료", "배송중", "배송완료", "구매확정"];
 
    useEffect(() => {
-      setList(temp);
-      setPageNum(Math.floor(temp.length / 3 + 1));
-   }, []);
-   console.log(pageNum);
-   const onClickButton = () => {
-      if (activeStep === 3) {
+      setPageNum(
+         Math.floor(
+            orderRecordList.length % 3 === 0
+               ? orderRecordList.length / 3
+               : orderRecordList.length / 3 + 1
+         )
+      );
+   }, [orderRecordList]);
+
+   const moveStatus = (idx, status) => {
+      setOrderRecordList((prev) =>
+         prev.map((item, index) => {
+            if (idx === index) {
+               return { ...item, orderStatus: item.orderStatus + status };
+            }
+            return item;
+         })
+      );
+   };
+
+   const onClickButton = (idx, orderStatus) => {
+      setChoosedItem(idx);
+      if (orderStatus === 3) {
          const ok = window.confirm("구매 확정 하시겠습니까?");
          if (ok) {
-            setActiveStep((prev) => prev + 1);
+            moveStatus(idx, 1);
          }
       } else {
          setOpen(true);
       }
    };
 
-   const singleOrderRecord = (item) => {
+   const singleOrderRecord = (item, idx) => {
       let totalPrice = 0;
       return (
          <>
@@ -131,18 +120,17 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                   {steps.map((label, idx) => (
                      <Step
                         key={label}
-                        active={activeStep >= idx + 1 ? true : false}
-                        completed={activeStep >= idx + 1 ? true : false}
-                     >
+                        active={item.orderStatus >= idx + 1 ? true : false}
+                        completed={item.orderStatus >= idx + 1 ? true : false}>
                         <StepLabel>{label}</StepLabel>
                      </Step>
                   ))}
                </Stepper>
                <Typography variant="h6" className={classes.h6}>
-                  2021.05.12 주문
+                  {item.orderDate && item.orderDate.slice(0, 10)}
                </Typography>
                <Typography variant="h6" className={classes.h6}>
-                  배송지 :
+                  배송지 이름 : {item.orderDestination}
                </Typography>
                <table className="table table-borderless table-shopping-cart">
                   <thead className="text-muted">
@@ -157,16 +145,18 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                      </tr>
                   </thead>
                   <tbody>
-                     {item.productList.map((item, idx) => {
-                        totalPrice += item.count * item.productPrice;
+                     {item.Ordered.map((item, idx) => {
+                        totalPrice += item.count * item.price;
                         return getItem(item, idx);
                      })}
                   </tbody>
                </table>
                <div className="card-body border-top">
-                  <button className="btn btn-primary" onClick={onClickButton}>
-                     {activeStep !== 4 ? (
-                        activeStep !== 3 ? (
+                  <button
+                     className="btn btn-primary"
+                     onClick={() => onClickButton(idx)}>
+                     {item.orderStatus !== 4 ? (
+                        item.orderStatus !== 3 ? (
                            <>문의하기</>
                         ) : (
                            <>구매확정</>
@@ -178,14 +168,12 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <button
                      className="btn btn-secondary"
-                     onClick={() => setActiveStep((prev) => prev - 1)}
-                  >
+                     onClick={() => moveStatus(idx, -1)}>
                      테스트 버튼 상태 - 1
                   </button>
                   <button
                      className="btn btn-secondary"
-                     onClick={() => setActiveStep((prev) => prev + 1)}
-                  >
+                     onClick={() => moveStatus(idx, 1)}>
                      테스트 버튼 상태 + 1
                   </button>
                   <div className={`${classes.totalPrice} col-3`}>
@@ -197,24 +185,37 @@ function OrderRecord({ orderRecordList, setOrderRecordList }) {
       );
    };
 
+   const checkStatus = () => {
+      if (orderRecordList[choosedItem]) {
+         return orderRecordList[choosedItem].orderStatus;
+      } else {
+         return 0;
+      }
+   };
    return (
       <>
          <div className={classes.font}>
             <Typography variant="h3" className={classes.h3}>
                주문내역
             </Typography>
-            {list
+            {orderRecordList
                .slice((page - 1) * 3, page * 3)
-               .map((item) => singleOrderRecord(item))}
+               .map((item, idx) => singleOrderRecord(item, idx))}
             <CustomPagination
                onChangePage={(e, page) => setPage(page)}
                pageNum={pageNum}
             />
             <CustomModal open={open} setOpen={setOpen}>
-               {activeStep <= 2 ? (
-                  <Question id={listId} setOpen={setOpen} />
+               {checkStatus() <= 2 ? (
+                  <Question
+                     productList={orderRecordList[choosedItem]}
+                     setOpen={setOpen}
+                  />
                ) : (
-                  <ProductReview list={list} setOpen={setOpen} />
+                  <ProductReview
+                     list={orderRecordList[choosedItem]}
+                     setOpen={setOpen}
+                  />
                )}
             </CustomModal>
          </div>

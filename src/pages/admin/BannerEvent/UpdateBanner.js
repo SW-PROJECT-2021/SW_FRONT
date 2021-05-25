@@ -11,10 +11,7 @@ import Button from "@material-ui/core/Button";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {
-  postbanner,
-  postProductClear,
-} from "../../../stores/actions/bannerActions";
+import { getbanner, updatebanner } from "../../../stores/actions/bannerActions";
 const Form = styled.form`
   div {
     margin-top: 5px;
@@ -35,19 +32,33 @@ const Form = styled.form`
   }
 `;
 
-function PostBanner() {
+function UpdateBanner({ match }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { loading, data, error } = useSelector(
-    (state) => state.BannerReducer.bannerpost
+    (state) => state.BannerReducer.bannerdetail
   );
   const history = useHistory();
+
+  const [bannerId, serBannerId] = useState(null);
   const [bannerName, setBannerName] = useState(null);
   const [bannerStart, setBannerStart] = useState(null);
   const [bannerEnd, setBannerEnd] = useState(null);
   const [bannerImg, setBannerImg] = useState(null);
   const [bannerDetail, setBannerDetail] = useState(null);
-
+  useEffect(() => {
+    dispatch(getbanner(match.params.id));
+  }, []);
+  useEffect(() => {
+    if (data) {
+      serBannerId(data.id);
+      setBannerName(data.bannerName);
+      setBannerStart(data.bannerStart);
+      setBannerEnd(data.bannerEndDate);
+      setBannerImg(data.bannerImg);
+      setBannerDetail(data.bannerDetail);
+    }
+  }, [data]);
   const onBannerDetailHanlder = useCallback((e) => {
     setBannerDetail(e.target.value);
   });
@@ -67,30 +78,36 @@ function PostBanner() {
     e.preventDefault();
     if (bannerName && bannerStart && bannerEnd && bannerImg && bannerDetail) {
       const formData = new FormData();
+      formData.append("id", bannerId);
       formData.append("img", bannerImg);
       formData.append("name", bannerName);
       formData.append("detail", bannerDetail);
       formData.append("startDate", bannerStart);
       formData.append("endDate", bannerEnd);
 
-      dispatch(postbanner(formData));
+      const response = dispatch(updatebanner(formData));
+      console.log(response);
+      if (response.data.success === true) {
+        alert("배너 수정 성공");
+        history.push("/admin/Banner");
+      }
     } else {
       alert("빈칸을 채워주세요!");
     }
   });
-  useEffect(() => {
-    if (data) {
-      alert("상품 등록 성공");
-      history.push("/admin/Banner");
-      dispatch(postProductClear());
-    }
-  }, [data]);
+  //   useEffect(() => {
+  //     if (data) {
+  //       alert("상품 등록 성공");
+  //       history.push("/admin/Banner");
+  //       dispatch(postProductClear());
+  //     }
+  //   }, [data]);
   return (
     <main className={classes.content}>
       <Container maxWidth="lg" className={classes.container}>
         <Grid item className="itemlist">
           <Paper className={classes.paper}>
-            <Title>배너 등록</Title>
+            <Title>배너 수정</Title>
             <Divider></Divider>
             <Form onSubmit={onSubmitHandler} id="myForm">
               <div>
@@ -99,7 +116,6 @@ function PostBanner() {
                   variant="outlined"
                   fullWidth
                   id="name"
-                  label="name"
                   name="name"
                   type="text"
                   autoComplete="name"
@@ -114,7 +130,6 @@ function PostBanner() {
                   variant="outlined"
                   fullWidth
                   id="detail"
-                  label="detail"
                   name="detail"
                   type="text"
                   autoComplete="detail"
@@ -173,4 +188,4 @@ function PostBanner() {
   );
 }
 
-export default PostBanner;
+export default UpdateBanner;

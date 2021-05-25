@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { signup, signupClear } from "../../stores/actions/actions";
+import { signup, signupClear, logined } from "../../stores/actions/actions";
 import * as UserApi from "../../stores/api/userApi";
 import { checkEmail, checkPassword, checkId } from "../../utils/RegExpCheck";
 const ReadMe = styled.p`
@@ -14,6 +14,9 @@ const ReadMe = styled.p`
   text-align: center;
   font-size: 14px;
   color: rgb(167, 167, 167);
+  @media screen and (max-width: 450px) {
+    font-size: 10px;
+  }
 `;
 
 const Checklist = styled.p`
@@ -22,6 +25,10 @@ const Checklist = styled.p`
   color: tomato;
   margin: 0;
   margin-left: 5px;
+  word-wrap: break-word;
+  @media screen and (max-width: 450px) {
+    font-size: 10px;
+  }
 `;
 const Form = styled.form`
   button {
@@ -44,6 +51,11 @@ const Form = styled.form`
     margin: 20px 0px 20px 10px;
     padding: 0;
   }
+  .btn-text {
+    @media screen and (max-width: 450px) {
+      font-size: 12px;
+    }
+  }
 `;
 function SignUp() {
   //입력 상태 관리
@@ -61,7 +73,6 @@ function SignUp() {
   const { loading, data, error } = useSelector(
     (state) => state.UserReducer.sign
   );
-  console.log(data);
   const history = useHistory();
   //중복확인
   const [idOverLapCheck, setIdOverLapCheck] = useState(false);
@@ -106,7 +117,12 @@ function SignUp() {
     if (data) {
       console.log(data);
       alert("회원가입 성공");
-      history.push("/login");
+      let body = {
+        id: id,
+        password: password,
+      };
+      dispatch(logined(body));
+      history.push("/");
       dispatch(signupClear());
     } else if (error) {
       alert("회원가입 실패");
@@ -267,7 +283,7 @@ function SignUp() {
             className="id_button"
             onClick={IdCheckHandler}
           >
-            ID중복확인
+            <span className="btn-text">ID중복확인</span>
           </Button>
         </div>
         {idOverLapCheck === true ? (
@@ -299,7 +315,7 @@ function SignUp() {
             className="email_button"
             onClick={EmailCheckHanlder}
           >
-            Email중복확인
+            <span className="btn-text">Email중복확인</span>
           </Button>
         </div>
         {emailOverLapCheck === true ? (

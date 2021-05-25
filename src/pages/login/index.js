@@ -22,6 +22,11 @@ const NewAccountBlcok = styled.div`
   a {
     color: rgb(65, 190, 239);
   }
+  @media screen and (max-width: 450px) {
+    p {
+      font-size: 14px;
+    }
+  }
 `;
 const Form = styled.form`
   button {
@@ -92,18 +97,22 @@ function Login(props) {
 
   useEffect(() => {
     console.log(data);
-    if (data) {
-      if (data.isAdmin) {
-        console.log(data.isAdmin);
-        alert("관리자님 환영합니다.");
-        history.push("/admin");
-      } else {
-        console.log(data.isAdmin);
-        alert(`${data.loginId}님 환영합니다.`);
-        history.push("/");
+    if (error === undefined) {
+      alert("패스워드가 틀렸습니다.");
+    } else {
+      if (data) {
+        if (data.isAdmin) {
+          console.log(data.isAdmin);
+          alert("관리자님 환영합니다.");
+          history.push("/admin");
+        } else {
+          console.log(data.isAdmin);
+          alert(`${data.loginId}님 환영합니다.`);
+          history.push("/");
+        }
       }
     }
-  }, [data]);
+  }, [data, error]);
 
   /* 카카오 Oauth
   const KakaoLogin = useCallback((e) => {

@@ -9,6 +9,10 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
   SIGNUP_CLEAR,
+  ADMIN_CHECK,
+  ADMIN_CHECK_SUCCESS,
+  ADMIN_CHECK_ERROR,
+  ADMIN_CHECK_CLEAR,
 } from "../actions/types";
 import { reducerUtils, handleAsyncActions } from "../../utils/asyncUtils";
 //login-> Logined와 admin을 받는다
@@ -16,6 +20,7 @@ import { reducerUtils, handleAsyncActions } from "../../utils/asyncUtils";
 const initialState = {
   users: reducerUtils.initial(),
   sign: reducerUtils.initial(),
+  admincheck: reducerUtils.initial(),
 };
 
 export const UserReducer = (state = initialState, action) => {
@@ -35,6 +40,12 @@ export const UserReducer = (state = initialState, action) => {
       return handleAsyncActions(SIGNUP, "sign")(state, action);
     case SIGNUP_CLEAR:
       return { ...state, sign: reducerUtils.initial() };
+    case ADMIN_CHECK:
+    case ADMIN_CHECK_SUCCESS:
+    case ADMIN_CHECK_ERROR:
+      return handleAsyncActions(ADMIN_CHECK, "admincheck")(state, action);
+    case ADMIN_CHECK_CLEAR:
+      return { ...state, admincheck: reducerUtils.initial() };
     default:
       return state;
   }

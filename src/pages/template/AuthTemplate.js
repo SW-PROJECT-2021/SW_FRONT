@@ -22,8 +22,25 @@ const OutContainer = styled.div`
 
   h1 {
     margin: 30px auto;
-    width: 320px;
+    width: auto;
     height: 50px;
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  @media screen and (max-width: 1100px) {
+    width: 50%;
+  }
+  @media screen and (max-width: 670px) {
+    width: 70%;
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    width: 70%;
+    h1 {
+      font-size: 1.9rem;
+    }
   }
 `;
 

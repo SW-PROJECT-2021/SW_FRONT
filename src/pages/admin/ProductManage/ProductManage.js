@@ -17,6 +17,8 @@ import {
   SearchInput,
   SearchButton,
   Header,
+  FilterInput,
+  FilterText,
 } from "./ManageStyle";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +26,7 @@ import {
   getProductAction,
   OrderProductAction,
   SearchProductAction,
+  FilterProductAction,
 } from "../../../stores/actions/productActions";
 import OrderList from "../../../utils/OrderList";
 import ProductList from "./ProductList";
@@ -49,11 +52,37 @@ function ProductManage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [searchInput, setSearchInput] = useState(null);
+  const [filterPirce, setFilterPrice] = useState({
+    minPrice: "",
+    maxPrice: "",
+  });
+  const { minPrice, maxPrice } = filterPirce;
+
   /*전체 상품 조회 */
   useEffect(() => {
     dispatch(getProductAction());
     console.log(data);
   }, []);
+
+  const FilterDataHandler = useCallback(
+    (e) => {
+      const { value, name } = e.target;
+      setFilterPrice({
+        ...filterPirce,
+        [name]: value,
+      });
+      console.log(filterPirce);
+    },
+    [filterPirce]
+  );
+  const FilterSubmit = () => {
+    if (filterPirce) {
+      console.log(filterPirce);
+      dispatch(FilterProductAction(minPrice, maxPrice));
+    } else {
+      alert("필터링할 가격을 입력하세요");
+    }
+  };
 
   const searchInputHandler = useCallback((e) => {
     setSearchInput(e.target.value);
@@ -96,7 +125,18 @@ function ProductManage() {
                 <Link to="/admin/ProductManage/PostProduct">
                   <UploadButton>제품 등록</UploadButton>
                 </Link>
-                <FilterButton>Filter</FilterButton>
+                <FilterText>상품 가격 필터링</FilterText>
+                <FilterInput
+                  name="minPrice"
+                  value={minPrice}
+                  onChange={FilterDataHandler}
+                />
+                <FilterInput
+                  name="maxPrice"
+                  value={maxPrice}
+                  onChange={FilterDataHandler}
+                />
+                <FilterButton FilterSubmit={FilterSubmit}>Filter</FilterButton>
                 <SearchInput
                   placeholder="Search Name"
                   value={searchInput}

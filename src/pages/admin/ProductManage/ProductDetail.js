@@ -23,6 +23,15 @@ const Body = styled.div`
       width: 100%;
     }
   }
+  .img-block {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    @media screen and (max-width: 960px) {
+      width: 100%;
+    }
+  }
   .info {
     display: inline-block;
     width: 50%;
@@ -30,6 +39,7 @@ const Body = styled.div`
   }
   img {
     width: 100%;
+    height: 100%;
     vertical-align: middle;
     border-style: none;
   }
@@ -78,9 +88,17 @@ function ProductDetail({ match }) {
               <HeaderBlock>
                 <div className="left-block">
                   <p>제품 이미지</p>
-                  <ImgBlock>
-                    <img src={data.data.img} alt="img"></img>
-                  </ImgBlock>
+                  <div className="img-block">
+                    <ImgBlock>
+                      <img src={data.data.img1} alt="img"></img>
+                    </ImgBlock>
+                    <ImgBlock>
+                      <img src={data.data.img2} alt="img"></img>
+                    </ImgBlock>
+                    <ImgBlock>
+                      <img src={data.data.img3} alt="img"></img>
+                    </ImgBlock>
+                  </div>
                 </div>
                 <div className="left-block">
                   <p>제품 설명</p>

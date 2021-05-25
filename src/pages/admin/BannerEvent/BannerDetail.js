@@ -83,6 +83,10 @@ function BannerDetail({ match }) {
                     <Value>{data.bannerName}</Value>
                   </div>
                   <div className="line">
+                    <Key>배너 상세 설명</Key>
+                    <Value>{data.bannerDetail}</Value>
+                  </div>
+                  <div className="line">
                     <Key> 등록 날짜</Key>
                     <Value>{DateChange(data.bannerStartDate)}</Value>
                   </div>

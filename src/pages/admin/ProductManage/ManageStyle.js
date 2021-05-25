@@ -70,9 +70,9 @@ export const UploadButton = ({ children }) => {
   );
 };
 
-export const FilterButton = ({ children }) => {
+export const FilterButton = ({ children, FilterSubmit }) => {
   return (
-    <UploadBtn>
+    <UploadBtn onClick={FilterSubmit}>
       <div className="svg">
         <FilterListIcon />
       </div>
@@ -88,6 +88,21 @@ export const SearchInput = styled.input`
   padding-left: 10px;
   ::placeholder {
   }
+`;
+export const FilterInput = styled.input`
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  padding-left: 10px;
+  margin-right: 10px;
+  ::placeholder {
+  }
+`;
+export const FilterText = styled.span`
+  font-family: "NanumSqaureExtraBold";
+  color: rgb(65, 83, 175);
+  font-size: 1rem;
+  margin-right: 10px;
 `;
 export const SearchButton = styled.button`
   width: 50px;

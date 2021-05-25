@@ -50,3 +50,11 @@ export const SearchProduct = async (data) => {
   });
   return response;
 };
+
+export const FilterProduct = async (minPrice, maxPrice) => {
+  const response = await axios({
+    url: `${process.env.REACT_APP_API_BASEURL}/api/product/search/detail?title=&category=&minPrice=${minPrice}&maxPrice=${maxPrice}`,
+    method: "get",
+  });
+  return response;
+};

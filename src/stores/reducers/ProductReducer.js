@@ -16,6 +16,9 @@ import {
   SEARCH_PRODUCT,
   SEARCH_PRODUCT_SUCCESS,
   SEARCH_PRODUCT_ERROR,
+  FILTER_PRODUCT,
+  FILTER_PRODUCT_SUCCESS,
+  FILTER_PRODUCT_ERROR,
 } from "../actions/types";
 import { reducerUtils, handleAsyncActions } from "../../utils/asyncUtils";
 
@@ -51,6 +54,10 @@ export const ProductReducer = (state = initialState, action) => {
     case SEARCH_PRODUCT_SUCCESS:
     case SEARCH_PRODUCT_ERROR:
       return handleAsyncActions(SEARCH_PRODUCT, "productlist")(state, action);
+    case FILTER_PRODUCT:
+    case FILTER_PRODUCT_SUCCESS:
+    case FILTER_PRODUCT_ERROR:
+      return handleAsyncActions(FILTER_PRODUCT, "productlist")(state, action);
     default:
       return state;
   }

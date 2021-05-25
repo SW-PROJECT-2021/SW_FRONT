@@ -16,6 +16,9 @@ import {
   SEARCH_PRODUCT,
   SEARCH_PRODUCT_SUCCESS,
   SEARCH_PRODUCT_ERROR,
+  FILTER_PRODUCT,
+  FILTER_PRODUCT_SUCCESS,
+  FILTER_PRODUCT_ERROR,
 } from "./types";
 import * as productApi from "../api/productApi";
 
@@ -81,5 +84,17 @@ export const SearchProductAction = (dataSubmit) => async (dispatch) => {
     dispatch({ type: SEARCH_PRODUCT_SUCCESS, payload: resposne.data.data });
   } catch (error) {
     dispatch({ type: SEARCH_PRODUCT_ERROR, error: error });
+  }
+};
+
+export const FilterProductAction = (minPrice, maxPrice) => async (dispatch) => {
+  dispatch({ type: FILTER_PRODUCT });
+  try {
+    console.log(minPrice, maxPrice);
+    const response = await productApi.FilterProduct(minPrice, maxPrice);
+    console.log(response);
+    dispatch({ type: FILTER_PRODUCT_SUCCESS, payload: response.data.data });
+  } catch (err) {
+    dispatch({ type: FILTER_PRODUCT_ERROR, error: err });
   }
 };

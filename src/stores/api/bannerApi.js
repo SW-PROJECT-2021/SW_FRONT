@@ -23,3 +23,29 @@ export const PostBanner = async (dataSubmit) => {
   });
   return response;
 };
+
+export const SortBanner = async (dataSubmit) => {
+  const response = await axios({
+    url: `${process.env.REACT_APP_API_BASEURL}/api/banner/sort`,
+    method: "post",
+    data: dataSubmit,
+  });
+  return response;
+};
+
+export const SearchBanner = async (startDate) => {
+  const response = await axios({
+    url: `${process.env.REACT_APP_API_BASEURL}/api/banner/search/${startDate}`,
+    method: "get",
+  });
+  return response;
+};
+
+export const UpdateBanner = async (dataSubmit) => {
+  const response = await axios({
+    url: `${process.env.REACT_APP_API_BASEURL}/api/banner`,
+    method: "put",
+    data: dataSubmit,
+  });
+  return response;
+};

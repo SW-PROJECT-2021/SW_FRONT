@@ -41,7 +41,9 @@ function ProductList({ posts }) {
     <>
       {posts.map((row) => (
         <TableRow key={row.id}>
-          <TableCell>{row.id}</TableCell>
+          <TableCell>
+            {row.isDeleted === true ? <del>{row.id}</del> : row.id}
+          </TableCell>
           <TableCell align="left">
             {row.isDeleted === true ? (
               <del>{CategoryMappingById[row.CategoryId]}</del>
@@ -49,7 +51,10 @@ function ProductList({ posts }) {
               CategoryMappingById[row.CategoryId]
             )}
           </TableCell>
-          <TableCell align="left">{row.name}</TableCell>
+          <TableCell align="left">
+            {row.isDeleted === true ? <del> {row.name}</del> : row.name}
+          </TableCell>
+
           <TableCell align="right">
             <Option>
               <Link

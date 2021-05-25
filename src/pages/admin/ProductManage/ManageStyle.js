@@ -147,5 +147,6 @@ export const ImgBlock = styled.div`
   display: inline-block;
   border: 1px solid rgb(225, 225, 225);
   border-radius: 10px;
-  overflow: hidden;
+  @media screen and (max-width: 960px) {
+  }
 `;

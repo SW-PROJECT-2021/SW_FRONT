@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -26,7 +26,7 @@ const Form = styled.form`
     width: 500px;
   }
   div span {
-    width: 100px;
+    width: 200px;
     text-align: center;
     padding-top: 25px;
     margin-right: 10px;
@@ -38,6 +38,28 @@ const Form = styled.form`
     height: 400px;
   }
 `;
+
+function ImgPosted({ name, id, deleted }) {
+  return (
+    <div style={{ width: "200px", display: "flex", alignItems: "center" }}>
+      <span style={{ width: "100px", paddingTop: "0" }}>{name}</span>
+      <div
+        onClick={() => deleted(id)}
+        style={{
+          backgroundColor: "#fff",
+          border: "1px solid black",
+          height: "40px",
+          width: "50px",
+          textAlign: "center",
+          padding: "10px",
+          cursor: "pointer",
+        }}
+      >
+        삭제
+      </div>
+    </div>
+  );
+}
 
 function PostProduct() {
   const classes = useStyles();
@@ -55,6 +77,9 @@ function PostProduct() {
   const [productCount, setProductCount] = useState(null);
   const [productImg, setProductImg] = useState({ ImgFile: null });
   const [productDetail, setProductDetail] = useState(null);
+  const [postImgs, setpostImgs] = useState([]);
+  const imgId = useRef(0);
+
   const handleChange = (event) => {
     const name = event.target.name;
     setCategory({
@@ -80,24 +105,37 @@ function PostProduct() {
     },
     [productCount]
   );
-  const onImgHandler = useCallback(
-    (e) => {
-      setProductImg(e.target.files[0]);
-    },
-    [productImg]
-  );
   const onDetailHandler = useCallback(
     (e) => {
       setProductDetail(e.target.value);
     },
     [productDetail]
   );
+
+  const onImgHandler = useCallback(
+    (e) => {
+      const img = e.target.files[0];
+      const imgData = {
+        id: imgId.current,
+        img: img,
+      };
+      setpostImgs(postImgs.concat(imgData));
+      imgId.current += 1;
+    },
+    [productImg, postImgs]
+  );
+  const deleteImg = useCallback((id) => {
+    setpostImgs(postImgs.filter((imgs) => imgs.id !== id));
+  });
+  console.log(postImgs);
+  console.log(typeof postImgs);
   const onSubmitHandler = useCallback((e) => {
     e.preventDefault();
 
     //서버통신구현
+
     if (
-      productImg &&
+      postImgs.length === 3 &&
       productName &&
       productPrice &&
       productCount &&
@@ -105,7 +143,9 @@ function PostProduct() {
       category.age
     ) {
       const formData = new FormData();
-      formData.append("img", productImg);
+      formData.append("imgs", postImgs[0].img);
+      formData.append("imgs", postImgs[1].img);
+      formData.append("imgs", postImgs[2].img);
       formData.append("name", productName);
       formData.append("price", productPrice);
       formData.append("count", productCount);
@@ -113,6 +153,8 @@ function PostProduct() {
       formData.append("category", CategoryMapping[category.age]);
 
       dispatch(postProduct(formData));
+    } else if (!(postImgs.length === 3)) {
+      alert("이미지 3장을 등록해야 합니다");
     } else {
       alert("빈칸을 채워주세요!");
     }
@@ -125,6 +167,7 @@ function PostProduct() {
       dispatch(postProductClear());
     }
   }, [data]);
+
   return (
     <main className={classes.content}>
       <Container maxWidth="lg" className={classes.container}>
@@ -132,7 +175,7 @@ function PostProduct() {
           <Paper className={classes.paper}>
             <Title>상품 등록</Title>
             <Divider></Divider>
-            <Form onSubmit={onSubmitHandler} id="myForm">
+            <Form id="myForm">
               <div>
                 <span>상품명</span>
                 <TextField
@@ -216,17 +259,38 @@ function PostProduct() {
                 </FormControl>
               </div>
               <div>
-                <span>이미지 등록</span>
+                <span style={{ width: "150px" }}>이미지 등록</span>
                 <span>
                   <input
                     type="file"
                     accept="image/ipg, image/png, image/jpeg, image/gif"
-                    name="imgfile"
+                    name="files[]"
+                    id="files"
+                    multiple
                     onChange={onImgHandler}
                   />
                 </span>
               </div>
-              <Button id="Submit" type="submit" variant="contained">
+              <div style={{ width: "100%" }}>
+                <span style={{ width: "140px" }}>등록된 이미지</span>
+                {postImgs && true ? (
+                  postImgs.map((img) => (
+                    <ImgPosted
+                      name={img.img.name}
+                      id={img.id}
+                      deleted={deleteImg}
+                    ></ImgPosted>
+                  ))
+                ) : (
+                  <span>이미지 없음</span>
+                )}
+              </div>
+              <Button
+                id="Submit"
+                type="submit"
+                variant="contained"
+                onClick={onSubmitHandler}
+              >
                 상품 등록
               </Button>
             </Form>

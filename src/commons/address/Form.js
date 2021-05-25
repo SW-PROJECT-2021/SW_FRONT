@@ -12,6 +12,7 @@ import {
    Paper,
 } from "@material-ui/core";
 import DaumPostcode from "react-daum-postcode";
+import axios from "axios";
 
 const postCodeStyle = {
    display: "block",
@@ -33,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
    },
    paper: {
       position: "relative",
-      left: "50px",
+      margin: "auto",
+      top: "270px",
       width: 400,
       backgroundColor: theme.palette.background.paper,
       border: "2px solid #000",
@@ -41,8 +43,17 @@ const useStyles = makeStyles((theme) => ({
    },
 }));
 
-function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
+function Form({
+   length,
+   setOnList,
+   info,
+   setInfo,
+   onEdit,
+   setRefresh,
+   setOnEdit,
+}) {
    const [open, setOpen] = useState(false);
+   const [errMsg, setErrMsg] = useState("");
    const classes = useStyles();
 
    useEffect(() => {
@@ -50,7 +61,6 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
          setInfo((prev) => ({ ...prev, default: true }));
       }
    }, [length, setInfo]);
-
    const initInfo = () => {
       setInfo({
          addressName: "",
@@ -62,23 +72,32 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
          default: false,
       });
    };
-   const onSubmit = () => {
+   const onSubmit = async () => {
       if (onEdit) {
-         //업데이트 기준 아이디? 이름?
-         setAddressList((prev) =>
-            prev.map((item) => {
-               if (item.addressName === info.addressName) {
-                  return info;
-               } else {
-                  return item;
-               }
+         await axios
+            .put("/api/dest", { ...info, isDefault: info.default })
+            .then(() => {
+               setOnEdit(false);
             })
-         );
+            .catch((err) => {
+               if (err.response.message === "존재하는 배송지") {
+                  window.alert(
+                     "이미 존재하는 배송지 이름입니다. 다른 이름으로 변경해주세요."
+                  );
+               }
+            });
       } else {
-         setAddressList((prev) => [...prev, info]);
+         await axios
+            .post("/api/dest", { ...info, isDefault: info.default })
+            .catch((err) => {
+               if (err.response.message === "존재하는 배송지") {
+                  window.alert(
+                     "이미 존재하는 배송지 이름입니다. 다른 이름으로 변경해주세요."
+                  );
+               }
+            });
       }
-      //여기선 등록 후, 다시 되돌아가면 됨.
-      // + 배송지 다시 받아오기
+      setRefresh((prev) => prev + 1);
       setOnList(true);
       initInfo();
    };
@@ -89,6 +108,15 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
       if (name === "default") {
          setInfo((prev) => ({ ...prev, default: !prev.default }));
       } else {
+         if (name === "phone") {
+            if (!/^[0-9]/g.test(value)) {
+               if (value !== "") {
+                  setErrMsg("연락처에는 숫자만 입력해주세요.");
+                  return;
+               }
+            }
+            setErrMsg("");
+         }
          setInfo((prev) => ({ ...prev, [name]: value }));
       }
    };
@@ -111,7 +139,6 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
       }));
       setOpen(false);
    };
-
    return (
       <Paper className={classes.root}>
          <Typography variant="h6" gutterBottom>
@@ -157,8 +184,7 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
                   variant="outlined"
                   color="primary"
                   onClick={() => setOpen(true)}
-                  className={classes.button}
-               >
+                  className={classes.button}>
                   우편주소
                </Button>
             </Grid>
@@ -184,6 +210,7 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
             </Grid>
             <Grid item xs={12} sm={6}>
                <TextField
+                  required
                   id="phone"
                   name="phone"
                   label="연락처"
@@ -192,6 +219,9 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
                   fullWidth
                />
             </Grid>
+            {errMsg && (
+               <div style={{ color: "red" }}>&nbsp;&nbsp;&nbsp;{errMsg}</div>
+            )}
             <Grid item xs={6}>
                <FormControlLabel
                   control={
@@ -199,16 +229,16 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
                         color="secondary"
                         name="default"
                         value={info.default}
+                        onChange={onChange}
+                        checked={info.default}
                      />
                   }
                   label="기본 배송지로 등록"
-                  onChange={onChange}
                />
             </Grid>
             <Grid item xs={6}>
                <ButtonGroup
-                  className={`${classes.gobackButton} ${classes.button}`}
-               >
+                  className={`${classes.gobackButton} ${classes.button}`}>
                   <Button variant="outlined" color="primary" onClick={onSubmit}>
                      등록
                   </Button>
@@ -218,13 +248,13 @@ function Form({ setAddressList, length, setOnList, info, setInfo, onEdit }) {
                      onClick={() => {
                         initInfo();
                         setOnList(true);
-                     }}
-                  >
+                     }}>
                      취소
                   </Button>
                </ButtonGroup>
             </Grid>
          </Grid>
+
          <Modal open={open} onClose={() => setOpen(false)}>
             <div className={classes.paper}>
                <DaumPostcode

@@ -59,9 +59,7 @@ const Search = () => {
          category || ""
       }&minPrice=${priceRange.min || ""}&maxPrice=${priceRange.max || ""}`;
       await axios
-         .get(
-            `${process.env.REACT_APP_API_BASEURL}/api/product/search/detail?${searchQuery}`
-         )
+         .get(`/api/product/search/detail?${searchQuery}`)
          .then((res) => {
             setLoading(false);
             history.push({

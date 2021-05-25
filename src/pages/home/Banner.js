@@ -7,11 +7,9 @@ const Banner = () => {
   const [bannerList, setBannerList] = useState([]);
   useEffect(() => {
     const getBanners = async () => {
-      await axios
-        .get(`${process.env.REACT_APP_API_BASEURL}/api/banner/available`)
-        .then((res) => {
-          setBannerList(res.data.data);
-        });
+      await axios.get(`/api/banner/available`).then((res) => {
+        setBannerList(res.data.data);
+      });
     };
     getBanners();
   }, []);

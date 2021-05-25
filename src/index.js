@@ -10,6 +10,8 @@ import axios from "axios";
 const { store, persistor } = configureStore();
 
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL =
+   process.env.NODE_ENV === "development" ? "/" : "http://15.164.20.183:3003";
 
 ReactDOM.render(
    <BrowserRouter>

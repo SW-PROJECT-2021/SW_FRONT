@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProductReview({ list, setOpen }) {
+   console.log(list);
    const classes = useStyles();
    const [loading, setLoading] = useState(false);
    const userName = useSelector(
@@ -101,11 +102,10 @@ function ProductReview({ list, setOpen }) {
                inputProps={{
                   name: "id",
                   id: "productId",
-               }}
-            >
+               }}>
                <option aria-label="None" value="" />
-               {list.map((item) => {
-                  return <option value={item.id}>{item.productName}</option>;
+               {list.Ordered.map((item) => {
+                  return <option value={item.id}>{item.name}</option>;
                })}
             </Select>
          </FormControl>
@@ -120,8 +120,7 @@ function ProductReview({ list, setOpen }) {
                   inputProps={{
                      name: "recommend",
                      id: "recommend",
-                  }}
-               >
+                  }}>
                   <option aria-label="None" value="" />
                   <option value={0}>추천</option>
                   <option value={1}>보통</option>
@@ -138,8 +137,7 @@ function ProductReview({ list, setOpen }) {
                   inputProps={{
                      name: "shipment",
                      id: "shipment",
-                  }}
-               >
+                  }}>
                   <option aria-label="None" value="" />
                   <option value={0}>빠름</option>
                   <option value={1}>보통</option>
@@ -156,8 +154,7 @@ function ProductReview({ list, setOpen }) {
                   inputProps={{
                      name: "score",
                      id: "score",
-                  }}
-               >
+                  }}>
                   <option aria-label="None" value="" />
                   <option value={1}>1점</option>
                   <option value={2}>2점</option>
@@ -186,8 +183,7 @@ function ProductReview({ list, setOpen }) {
             <Button
                variant="outlined"
                color="secondary"
-               onClick={onClickCancel}
-            >
+               onClick={onClickCancel}>
                취소
             </Button>
          </div>

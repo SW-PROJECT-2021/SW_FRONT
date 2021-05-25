@@ -33,7 +33,7 @@ function ProductList() {
    useEffect(() => {
       const getResult = async (search) => {
          await axios
-            .get(`${process.env.REACT_APP_API_BASEURL}/api/product/${search}`)
+            .get(`api/product/${search}`)
             .then((res) => {
                setList(
                   res.data.data.filter(

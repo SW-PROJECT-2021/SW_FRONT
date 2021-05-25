@@ -49,6 +49,7 @@ function List({ list, setList }) {
          </header>
          <div className="row">
             {list.slice((page - 1) * 12, page * 12).map((item, idx) => {
+               console.log(item.img1);
                return (
                   <div
                      key={idx}
@@ -57,7 +58,7 @@ function List({ list, setList }) {
                   >
                      <figure className="card card-product-grid">
                         <div className="img-wrap">
-                           <img src={item.img} alt="error" />
+                           <img src={item.img1} alt="error" />
                         </div>
                         <figcaption className="info-wrap">
                            <div className="fix-height">

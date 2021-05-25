@@ -30,6 +30,8 @@ function DetailHeader({ product }) {
    const [loading, setLoading] = useState(false);
    const [open, setOpen] = useState(false);
    const [countInCart, setCountInCart] = useState(0);
+   const [mainImage, setMainImage] = useState(product.img1);
+   const [defaultAddress, setDefaultAddress] = useState();
    const classes = useStyles();
 
    const history = useHistory();
@@ -43,6 +45,16 @@ function DetailHeader({ product }) {
             setCountInCart(v.count);
          }
       }
+      const getList = async () => {
+         await axios.get("/api/dest").then((res) => {
+            res.data.data.forEach((item) => {
+               if (item.default) {
+                  setDefaultAddress(item);
+               }
+            });
+         });
+      };
+      getList();
    }, [cartData, product.id]);
 
    const onShoppingCart = async () => {
@@ -59,7 +71,7 @@ function DetailHeader({ product }) {
          }
 
          await axios
-            .post(`${process.env.REACT_APP_API_BASEURL}/api/basket`, {
+            .post(`/api/basket`, {
                ProductId: product.id,
                count: quantity,
             })
@@ -98,6 +110,19 @@ function DetailHeader({ product }) {
          });
       }
    };
+   const renderOptions = () => {
+      let options = [];
+      for (let i = 1; i <= 10; i++) {
+         if (i <= product.count) {
+            options.push(
+               <option key={i} value={i}>
+                  {i}
+               </option>
+            );
+         }
+      }
+      return options;
+   };
 
    return (
       <article className="card">
@@ -106,31 +131,39 @@ function DetailHeader({ product }) {
                <aside className="col-md-6">
                   <article className="gallery-wrap">
                      <div className="card img-big-wrap">
-                        <span style={{ textAlign: "center" }}>
+                        <span
+                           style={{
+                              textAlign: "center",
+                           }}>
                            <img
-                              src={product.img}
+                              src={mainImage}
                               alt="error"
                               style={{ maxWidth: "100%" }}
                            />
                         </span>
                      </div>
                      <div class="thumbs-wrap">
-                        <span class="item-thumb">
-                           {" "}
-                           <img src="assets/images/items/3.jpg" alt="error" />
+                        <span
+                           class="item-thumb"
+                           onClick={() => setMainImage(product.img1)}>
+                           <img src={product.img1} alt="error" />
                         </span>
-                        <span class="item-thumb">
-                           {" "}
-                           <img src="assets/images/items/3.jpg" alt="error" />
-                        </span>
-                        <span class="item-thumb">
-                           {" "}
-                           <img src="assets/images/items/3.jpg" alt="error" />
-                        </span>
-                        <span class="item-thumb">
-                           {" "}
-                           <img src="assets/images/items/3.jpg" alt="error" />
-                        </span>
+                        {product.img2 && (
+                           <span
+                              class="item-thumb"
+                              onClick={() => setMainImage(product.img2)}>
+                              {" "}
+                              <img src={product.img2} alt="error" />
+                           </span>
+                        )}
+                        {product.img3 && (
+                           <span
+                              class="item-thumb"
+                              onClick={() => setMainImage(product.img3)}>
+                              {" "}
+                              <img src={product.img3} alt="error" />
+                           </span>
+                        )}
                      </div>
                   </article>
                </aside>
@@ -145,9 +178,7 @@ function DetailHeader({ product }) {
                            className="col-3"
                         />
                      </div>
-
                      <hr />
-
                      <div className="mb-3">
                         <var className="price h4">
                            &#8361;&nbsp;{ThousandSeperator(product.price)}
@@ -157,8 +188,7 @@ function DetailHeader({ product }) {
                      <div>
                         <span
                            className="col-lg-1"
-                           style={{ paddingLeft: "0px" }}
-                        >
+                           style={{ paddingLeft: "0px" }}>
                            수량 :
                         </span>
                         <NativeSelect
@@ -166,26 +196,15 @@ function DetailHeader({ product }) {
                               setQuantity(parseInt(e.target.value))
                            }
                            value={quantity}
-                           className="col-lg-2"
-                        >
-                           <option value={1}>1</option>
-                           <option value={2}>2</option>
-                           <option value={3}>3</option>
-                           <option value={4}>4</option>
-                           <option value={5}>5</option>
-                           <option value={6}>6</option>
-                           <option value={7}>7</option>
-                           <option value={8}>8</option>
-                           <option value={9}>9</option>
-                           <option value={10}>10</option>
+                           className="col-lg-2">
+                           {renderOptions().map((item) => item)}
                         </NativeSelect>
                         &nbsp;
                         <button
                            onClick={() =>
                               onClickAddress("/address", "shipment")
                            }
-                           className="btn btn-outline-secondary  btn-lg col-lg-3"
-                        >
+                           className="btn btn-outline-secondary  btn-lg col-lg-3">
                            배송지 선택
                         </button>
                      </div>
@@ -193,15 +212,13 @@ function DetailHeader({ product }) {
                      <div className="mb-6">
                         <button
                            className="btn btn-outline-secondary btn-lg col-lg-3"
-                           onClick={onShoppingCart}
-                        >
+                           onClick={onShoppingCart}>
                            장바구니
                         </button>
                         &nbsp;
                         <button
                            className="btn btn-outline-secondary btn-lg col-lg-3"
-                           onClick={() => onClickPay()}
-                        >
+                           onClick={() => onClickPay()}>
                            구매
                         </button>
                      </div>
@@ -210,6 +227,22 @@ function DetailHeader({ product }) {
                            현재 장바구니에 담은 수량 : {countInCart}
                         </div>
                      )}
+                     <br /> <br />
+                     <div>
+                        {" "}
+                        {defaultAddress ? (
+                           <>
+                              기본 배송지 : {defaultAddress.name} <br />
+                              주소 : {defaultAddress.address}{" "}
+                           </>
+                        ) : (
+                           <>
+                              {userData && userData.userName && (
+                                 <>아직 등록된 기본배송지가 없습니다.</>
+                              )}
+                           </>
+                        )}
+                     </div>
                   </article>
                </main>
             </div>

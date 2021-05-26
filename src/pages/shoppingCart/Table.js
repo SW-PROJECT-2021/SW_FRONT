@@ -6,7 +6,6 @@ import {
    TextField,
    Typography,
 } from "@material-ui/core";
-import { PausePresentationRounded } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";

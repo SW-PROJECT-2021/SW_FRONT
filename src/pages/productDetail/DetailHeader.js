@@ -26,6 +26,7 @@ const useStyles = makeStyles(() => ({
    },
 }));
 function DetailHeader({ product }) {
+   console.log(product);
    const [quantity, setQuantity] = useState(1);
    const [loading, setLoading] = useState(false);
    const [open, setOpen] = useState(false);

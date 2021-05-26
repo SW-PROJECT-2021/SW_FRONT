@@ -6,6 +6,7 @@ import {
    TextField,
    Typography,
 } from "@material-ui/core";
+import { PausePresentationRounded } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -48,37 +49,27 @@ function Table({ cartList, setCartList }) {
    const classes = useStyles();
    const dispatch = useDispatch();
 
-   const onChangeQuantity = async (id, count, productCnt) => {
+   const onChangeQuantity = async (id, count) => {
       setLoading(true);
-
-      if (count > 100) {
-         window.alert(
-            "배송비 문제로, 한 상품 당 최대 100개까지 구매가능합니다."
-         );
-
-         setLoading(false);
-         return;
-      }
-
-      if (parseInt(count) <= parseInt(productCnt)) {
-         dispatch(changeCountCart(parseInt(id), parseInt(count)));
-      } else {
-         window.alert("재고가 부족합니다!");
-         setCartList((prev) =>
-            prev.map((item) => {
-               if (id === item.ProductId) {
-                  item.count = count;
-               }
-               return item;
-            })
-         );
-      }
+      dispatch(changeCountCart(parseInt(id), parseInt(count)));
       setLoading(false);
    };
 
-   const onChangeQuantityInput = (e, id) => {
+   const onChangeQuantityInput = (e, id, productCnt) => {
       setLoading(true);
-      if (/^[0-9]*$/.test(e.target.value)) {
+      const intCount = parseInt(e.target.value);
+      if (intCount === 0) {
+         window.alert(
+            "0은 첫글자로 입력하실 수 없습니다. 삭제하시려면 삭제버튼을 눌러주세요."
+         );
+      } else if (intCount > 100) {
+         window.alert(
+            "배송비 문제로, 한 상품 당 최대 100개까지 구매가능합니다."
+         );
+      } else if (
+         /^[0-9]*$/.test(e.target.value) &&
+         (!e.target.value || intCount <= productCnt)
+      ) {
          setCartList((prev) =>
             prev.map((item) => {
                if (item.ProductId === id) {
@@ -91,7 +82,6 @@ function Table({ cartList, setCartList }) {
       }
       setLoading(false);
    };
-
    const onDelete = async (id) => {
       setLoading(true);
       dispatch(deleteCart(id));
@@ -129,15 +119,20 @@ function Table({ cartList, setCartList }) {
                      label="수량"
                      value={item.count}
                      className={classes.quantityInput}
-                     onChange={(e) => onChangeQuantityInput(e, item.ProductId)}
+                     onChange={(e) =>
+                        onChangeQuantityInput(
+                           e,
+                           item.ProductId,
+                           item.productCnt
+                        )
+                     }
                   />
                   <div
                      style={{
                         lineHeight: "46px",
                         width: "40px",
                         float: "right",
-                     }}
-                  >
+                     }}>
                      <Button
                         color="primary"
                         variant="contained"
@@ -148,8 +143,7 @@ function Table({ cartList, setCartList }) {
                               item.count,
                               item.productCnt
                            )
-                        }
-                     >
+                        }>
                         변경
                      </Button>
                   </div>
@@ -171,8 +165,7 @@ function Table({ cartList, setCartList }) {
                <td className="text-right">
                   <button
                      onClick={() => onDelete(item.ProductId)}
-                     className="btn btn-light"
-                  >
+                     className="btn btn-light">
                      {" "}
                      삭제
                   </button>
@@ -207,8 +200,7 @@ function Table({ cartList, setCartList }) {
          <div className="card-body border-top">
             <button
                onClick={onClickCheckout}
-               className="btn btn-primary float-md-right"
-            >
+               className="btn btn-primary float-md-right">
                {" "}
                구매하기 <i className="fa fa-chevron-right"></i>{" "}
             </button>

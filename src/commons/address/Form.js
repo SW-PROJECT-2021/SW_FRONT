@@ -72,34 +72,41 @@ function Form({
          default: false,
       });
    };
+   const handleThen = () => {
+      setRefresh((prev) => prev + 1);
+      setOnList(true);
+      initInfo();
+   };
+   const handleErr = (err) => {
+      if (err.response.message === "존재하는 배송지") {
+         window.alert(
+            "이미 존재하는 배송지 이름입니다. 다른 이름으로 변경해주세요."
+         );
+      } else {
+         window.alert("필수정보를 다 넣어주세요.");
+      }
+   };
    const onSubmit = async () => {
       if (onEdit) {
          await axios
             .put("/api/dest", { ...info, isDefault: info.default })
             .then(() => {
                setOnEdit(false);
+               handleThen();
             })
             .catch((err) => {
-               if (err.response.message === "존재하는 배송지") {
-                  window.alert(
-                     "이미 존재하는 배송지 이름입니다. 다른 이름으로 변경해주세요."
-                  );
-               }
+               handleErr(err);
             });
       } else {
          await axios
             .post("/api/dest", { ...info, isDefault: info.default })
+            .then(() => {
+               handleThen();
+            })
             .catch((err) => {
-               if (err.response.message === "존재하는 배송지") {
-                  window.alert(
-                     "이미 존재하는 배송지 이름입니다. 다른 이름으로 변경해주세요."
-                  );
-               }
+               handleErr(err);
             });
       }
-      setRefresh((prev) => prev + 1);
-      setOnList(true);
-      initInfo();
    };
    const onChange = (e) => {
       const {

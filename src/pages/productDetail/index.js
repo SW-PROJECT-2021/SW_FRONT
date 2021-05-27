@@ -6,6 +6,7 @@ import Review from "./Review";
 
 function ProductDetail() {
    const location = useLocation();
+   console.log(location.state);
    return (
       <div>
          <section className="section-content padding-y bg">

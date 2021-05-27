@@ -88,10 +88,9 @@ function Review() {
          <Accordion expanded={expanded === idx} onChange={handleChange(idx)}>
             <AccordionSummary
                aria-controls="panel1bh-content"
-               id="panel1bh-header"
-            >
+               id="panel1bh-header">
                <Typography className={classes.secondaryHeading}>
-                  {item.shipment !== 0 ? (
+                  {item.shipment !== 2 ? (
                      item.shipment !== 1 ? (
                         <div className={classes.secondaryContent}>
                            <SignalCellular2BarRounded color="secondary" />
@@ -108,7 +107,7 @@ function Review() {
                   )}
                </Typography>
                <Typography className={classes.secondaryHeading}>
-                  {item.shipment !== 0 ? (
+                  {item.shipment !== 2 ? (
                      item.shipment !== 1 ? (
                         <div className={classes.secondaryContent}>
                            <ThumbDown color="secondary" />
@@ -150,21 +149,18 @@ function Review() {
                <div className={classes.headerCell}>
                   <span
                      className={classes.secondaryHeading}
-                     style={{ lineHeight: "42px" }}
-                  >
+                     style={{ lineHeight: "42px" }}>
                      배송속도
                   </span>
                   <span
                      className={classes.secondaryHeading}
-                     style={{ lineHeight: "42px" }}
-                  >
+                     style={{ lineHeight: "42px" }}>
                      추천
                   </span>
                   <span className={classes.heading}>내용</span>
                   <span
                      className={classes.secondaryHeading}
-                     style={{ lineHeight: "42px" }}
-                  >
+                     style={{ lineHeight: "42px" }}>
                      작성자/일자
                   </span>
                </div>

@@ -55,10 +55,14 @@ function ProductReview({ list, setOpen }) {
    });
    const handleChange = (event) => {
       const name = event.target.name;
-      setReview((prev) => ({
-         ...prev,
-         [name]: event.target.value,
-      }));
+      if (name === "detail" && event.target.value.length <= 300) {
+         setReview((prev) => ({
+            ...prev,
+            [name]: event.target.value,
+         }));
+      } else {
+         window.alert("최대 300자까지 입력 가능합니다.");
+      }
    };
    const hideUserName = (name) => {
       let newName = "";
@@ -74,18 +78,20 @@ function ProductReview({ list, setOpen }) {
       return newName;
    };
    const onClickSubmit = () => {
-      setLoading(true);
-      setReview((prev) => ({ ...prev, userName: hideUserName(userName) }));
-      setTimeout(() => {
-         setLoading(false);
-         setReview({
-            id: "",
-            shipment: "",
-            score: "",
-            recommend: "",
-            detail: "",
-         });
-      }, 500);
+      if (review.detail.length <= 300) {
+         setLoading(true);
+         setReview((prev) => ({ ...prev, userName: hideUserName(userName) }));
+         setTimeout(() => {
+            setLoading(false);
+            setReview({
+               id: "",
+               shipment: "",
+               score: "",
+               recommend: "",
+               detail: "",
+            });
+         }, 500);
+      }
    };
    const onClickCancel = () => {
       setOpen(false);

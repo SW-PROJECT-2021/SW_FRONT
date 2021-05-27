@@ -26,7 +26,6 @@ const useStyles = makeStyles(() => ({
    },
 }));
 function DetailHeader({ product }) {
-   console.log(product);
    const [quantity, setQuantity] = useState(1);
    const [loading, setLoading] = useState(false);
    const [open, setOpen] = useState(false);
@@ -170,7 +169,9 @@ function DetailHeader({ product }) {
                </aside>
                <main className="col-md-6">
                   <article>
-                     <h3 className="title">{product.name}</h3>
+                     <h3 className="title">{product.name}
+                     
+                     </h3>
                      <div>
                         <Rating
                            name="read-only"

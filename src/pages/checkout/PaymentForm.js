@@ -16,7 +16,6 @@ const useStyles = makeStyles(() => ({
 
 // 결제 성공시 step + 1
 export default function PaymentForm({ setActiveStep, productList, total }) {
-   const [fail, setFail] = useState(null);
    const classes = useStyles();
    const history = useHistory();
 
@@ -25,7 +24,9 @@ export default function PaymentForm({ setActiveStep, productList, total }) {
    };
    const handleFail = (err) => {
       console.log(err);
-      setFail(err.error_msg);
+      window.alert(`결제가 취소되었습니다.\n
+      이유 : ${err.error_msg}`);
+      history.push("/");
    };
    return (
       <div>
@@ -63,23 +64,6 @@ export default function PaymentForm({ setActiveStep, productList, total }) {
                />
             )}
          />
-         {fail && (
-            <>
-               <Typography variant="subtitle1">
-                  결제가 취소되었습니다.
-                  <br />
-                  이유 : {fail}
-               </Typography>
-               <Button
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => history.push("/")}
-                  style={{ margin: "30px auto", display: "block" }}
-               >
-                  홈으로 가기
-               </Button>
-            </>
-         )}
       </div>
    );
 }

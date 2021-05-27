@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
    },
    drawWidth: {
       float: "left",
+      zIndex: "0",
    },
    toolbar: {
       backgroundColor: "#637bfe",
@@ -76,12 +77,12 @@ function User() {
    const classes = useStyles();
    const { userName } = useSelector((state) => state.UserReducer.users.data);
    const history = useHistory();
-   const [orderRecordList, setOrderRecordList] = useState([]);
+   const [originalList, setOriginalList] = useState([]);
 
    useEffect(() => {
       const getOrderRecord = async () => {
          const response = await axios.get(`/api/orderHistory`);
-         setOrderRecordList(
+         setOriginalList(
             response.data.data.sort(function (a, b) {
                return b.id - a.id;
             })
@@ -111,10 +112,7 @@ function User() {
                <List>{mainListItems(history)}</List>
             </Drawer>
             <main className={`${classes.content} col-9`}>
-               <OrderRecord
-                  orderRecordList={orderRecordList}
-                  setOrderRecordList={setOrderRecordList}
-               />
+               <OrderRecord originalList={originalList} />
             </main>
          </div>
       </div>

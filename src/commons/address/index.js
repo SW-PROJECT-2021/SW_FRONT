@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Form from "./Form";
 import List from "./List";
 
-function Address({ checkout, setCheckoutInfo, setOpen }) {
+function Address({ checkout, setCheckoutInfo, setOpen, setRefreshDetail }) {
    //여기서 리스트 받아오고, 넣어주면됨.
    const [addressList, setAddressList] = useState([]);
    const [onList, setOnList] = useState(true);
@@ -25,7 +25,10 @@ function Address({ checkout, setCheckoutInfo, setOpen }) {
          });
       };
       getList();
-   }, [refresh]);
+      if (setRefreshDetail) {
+         setRefreshDetail((prev) => prev + 1);
+      }
+   }, [refresh, setRefreshDetail]);
    return (
       <>
          {onList ? (

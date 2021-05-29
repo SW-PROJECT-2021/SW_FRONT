@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       overflowY: "scroll",
    },
 }));
-function CustomModal({ children, open, setOpen }) {
+function CustomModal({ children, open, setOpen, styles }) {
    const classes = useStyles();
    return (
       <Modal
@@ -25,9 +25,8 @@ function CustomModal({ children, open, setOpen }) {
          aria-describedby="transition-modal-description"
          className={classes.modal}
          open={open}
-         onClose={() => setOpen(false)}
-      >
-         <div className={classes.modelPaper}>{children}</div>
+         onClose={() => setOpen(false)}>
+         <div className={styles || classes.modelPaper}>{children}</div>
       </Modal>
    );
 }

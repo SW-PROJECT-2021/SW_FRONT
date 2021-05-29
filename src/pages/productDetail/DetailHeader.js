@@ -32,6 +32,7 @@ function DetailHeader({ product }) {
    const [countInCart, setCountInCart] = useState(0);
    const [mainImage, setMainImage] = useState(product.img1);
    const [defaultAddress, setDefaultAddress] = useState();
+   const [refresh, setRefresh] = useState(0);
    const classes = useStyles();
 
    const history = useHistory();
@@ -47,6 +48,7 @@ function DetailHeader({ product }) {
       }
       const getList = async () => {
          await axios.get("/api/dest").then((res) => {
+            setDefaultAddress("");
             res.data.data.forEach((item) => {
                if (item.default) {
                   setDefaultAddress(item);
@@ -55,7 +57,7 @@ function DetailHeader({ product }) {
          });
       };
       getList();
-   }, [cartData, product.id]);
+   }, [cartData, product.id, refresh]);
 
    const onShoppingCart = async () => {
       if (!userData || !userData.userName) {
@@ -169,9 +171,7 @@ function DetailHeader({ product }) {
                </aside>
                <main className="col-md-6">
                   <article>
-                     <h3 className="title">{product.name}
-                     
-                     </h3>
+                     <h3 className="title">{product.name}</h3>
                      <div>
                         <Rating
                            name="read-only"
@@ -232,25 +232,23 @@ function DetailHeader({ product }) {
                      <br /> <br />
                      <div>
                         {" "}
-                        {defaultAddress ? (
-                           <>
-                              기본 배송지 : {defaultAddress.name} <br />
-                              주소 : {defaultAddress.address}{" "}
-                           </>
-                        ) : (
-                           <>
-                              {userData && userData.userName && (
-                                 <>아직 등록된 기본배송지가 없습니다.</>
-                              )}
-                           </>
-                        )}
+                        {userData &&
+                           userData.userName &&
+                           (defaultAddress ? (
+                              <>
+                                 기본 배송지 : {defaultAddress.name} <br />
+                                 주소 : {defaultAddress.address}{" "}
+                              </>
+                           ) : (
+                              <>아직 등록된 기본배송지가 없습니다.</>
+                           ))}
                      </div>
                   </article>
                </main>
             </div>
          </div>
          <CustomModal open={open} setOpen={setOpen}>
-            <Address />
+            <Address setRefreshDetail={setRefresh} />
          </CustomModal>
 
          <Modal open={loading}>

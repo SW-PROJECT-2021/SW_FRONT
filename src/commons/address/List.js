@@ -58,6 +58,7 @@ function List({
    const classes = useStyles();
 
    useEffect(() => {
+      setDefaultItem();
       addressList.forEach((item) => {
          if (item.default) {
             setDefaultItem(item);

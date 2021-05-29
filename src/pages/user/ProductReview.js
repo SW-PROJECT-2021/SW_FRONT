@@ -55,13 +55,13 @@ function ProductReview({ list, setOpen }) {
    });
    const handleChange = (event) => {
       const name = event.target.name;
-      if (name === "detail" && event.target.value.length <= 300) {
+      if (event.target.value.length <= 500) {
          setReview((prev) => ({
             ...prev,
             [name]: event.target.value,
          }));
-      } else {
-         window.alert("최대 300자까지 입력 가능합니다.");
+      } else if (name === "detail") {
+         window.alert("최대 500자까지 입력 가능합니다.");
       }
    };
    const hideUserName = (name) => {
@@ -128,9 +128,9 @@ function ProductReview({ list, setOpen }) {
                      id: "recommend",
                   }}>
                   <option aria-label="None" value="" />
-                  <option value={0}>추천</option>
+                  <option value={2}>추천</option>
                   <option value={1}>보통</option>
-                  <option value={2}>비추천</option>
+                  <option value={0}>비추천</option>
                </Select>
             </FormControl>
 
@@ -145,9 +145,9 @@ function ProductReview({ list, setOpen }) {
                      id: "shipment",
                   }}>
                   <option aria-label="None" value="" />
-                  <option value={0}>빠름</option>
+                  <option value={2}>빠름</option>
                   <option value={1}>보통</option>
-                  <option value={2}>느림</option>
+                  <option value={0}>느림</option>
                </Select>
             </FormControl>
 

@@ -9,13 +9,13 @@ import {
    Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import ViewListIcon from "@material-ui/icons/ViewList";
-import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import { useHistory } from "react-router";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import { Route, Switch, useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import OrderRecord from "./OrderRecord";
 import axios from "axios";
+import CouponList from "./CouponList";
 
 const useStyles = makeStyles((theme) => ({
    drawerPaper: {
@@ -58,17 +58,11 @@ const mainListItems = (history) => {
             </ListItemIcon>
             <ListItemText primary="주문 내역" />
          </ListItem>
-         <ListItem button onClick={() => history.push("/user")}>
+         <ListItem button onClick={() => history.push("/user/coupon")}>
             <ListItemIcon>
-               <HelpOutlineIcon />
+               <AttachMoneyIcon />
             </ListItemIcon>
-            <ListItemText primary="문의 내역" />
-         </ListItem>
-         <ListItem button>
-            <ListItemIcon>
-               <PermIdentityIcon />
-            </ListItemIcon>
-            <ListItemText primary="고객정보" />
+            <ListItemText primary="쿠폰" />
          </ListItem>
       </div>
    );
@@ -112,7 +106,14 @@ function User() {
                <List>{mainListItems(history)}</List>
             </Drawer>
             <main className={`${classes.content} col-9`}>
-               <OrderRecord originalList={originalList} />
+               <Switch>
+                  <Route path="/user/coupon">
+                     <CouponList />
+                  </Route>
+                  <Route path="/user">
+                     <OrderRecord originalList={originalList} />
+                  </Route>
+               </Switch>
             </main>
          </div>
       </div>

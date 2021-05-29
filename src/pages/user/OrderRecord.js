@@ -105,11 +105,14 @@ function OrderRecord({ originalList }) {
 
    useEffect(() => {
       const list = originalList.filter(
-         (item) => item.orderDate >= startDate && item.orderDate <= endDate
+         (item) =>
+            item.orderDate >= startDate &&
+            item.orderDate <= endDate + "T9999999"
       );
       setOrderRecordList(list);
       updatePageNum(list.length);
    }, [originalList, startDate, endDate]);
+
    const updatePageNum = (length) => {
       setPageNum(Math.floor(length % 10 === 0 ? length / 10 : length / 10 + 1));
    };

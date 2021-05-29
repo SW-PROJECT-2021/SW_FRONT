@@ -43,28 +43,6 @@ function ShoppingCart() {
                      <Table cartList={cartList} setCartList={setCartList} />
                   </main>
                   <aside className="col-md-3">
-                     <div className="card mb-3">
-                        <div className="card-body">
-                           <form>
-                              <div className="form-group">
-                                 <label>쿠폰 입력</label>
-                                 <div className="input-group">
-                                    <input
-                                       type="text"
-                                       className="form-control"
-                                       name=""
-                                       placeholder="Coupon code"
-                                    />
-                                    <span className="input-group-append">
-                                       <button className="btn btn-primary">
-                                          적용
-                                       </button>
-                                    </span>
-                                 </div>
-                              </div>
-                           </form>
-                        </div>
-                     </div>
                      <div className="card">
                         <div className="card-body">
                            <dl className="dlist-align">
@@ -74,7 +52,7 @@ function ShoppingCart() {
                               </dd>
                            </dl>
                            <dl className="dlist-align">
-                              <dt>할인 :</dt>
+                              <dt>배송비 :</dt>
                               <dd className="text-right">0</dd>
                            </dl>
                            <dl className="dlist-align">

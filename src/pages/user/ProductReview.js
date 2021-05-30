@@ -9,6 +9,7 @@ import {
    Typography,
    CircularProgress,
 } from "@material-ui/core";
+import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -39,29 +40,34 @@ const useStyles = makeStyles((theme) => ({
    },
 }));
 
-function ProductReview({ list, setOpen }) {
-   console.log(list);
+function ProductReview({ list, setOpen, OrderHistoryId }) {
    const classes = useStyles();
    const [loading, setLoading] = useState(false);
    const userName = useSelector(
       (state) => state.UserReducer.users.data.userName
    );
    const [review, setReview] = useState({
-      id: "",
-      shipment: "",
-      score: "",
-      recommend: "",
+      ProductId: list.Ordered[0].id,
+      delivery: 2,
+      star: 5,
+      recommand: 2,
       detail: "",
    });
    const handleChange = (event) => {
       const name = event.target.name;
-      if (event.target.value.length <= 500) {
+      const value = event.target.value;
+      if (name === "detail" && value.length <= 100) {
          setReview((prev) => ({
             ...prev,
-            [name]: event.target.value,
+            [name]: value,
          }));
-      } else if (name === "detail") {
-         window.alert("최대 500자까지 입력 가능합니다.");
+      } else if (name !== "detail") {
+         setReview((prev) => ({
+            ...prev,
+            [name]: parseInt(value),
+         }));
+      } else {
+         window.alert("최대 100자까지 입력 가능합니다.");
       }
    };
    const hideUserName = (name) => {
@@ -77,20 +83,30 @@ function ProductReview({ list, setOpen }) {
       }
       return newName;
    };
-   const onClickSubmit = () => {
-      if (review.detail.length <= 300) {
+   const onClickSubmit = async () => {
+      if (review.detail.length !== 0) {
          setLoading(true);
-         setReview((prev) => ({ ...prev, userName: hideUserName(userName) }));
-         setTimeout(() => {
-            setLoading(false);
-            setReview({
-               id: "",
-               shipment: "",
-               score: "",
-               recommend: "",
-               detail: "",
+         await axios
+            .post("/api/review", {
+               ...review,
+               userName: hideUserName(userName),
+               OrderHistoryId: OrderHistoryId,
+            })
+            .then(() => {
+               setReview({
+                  ProductId: list.Ordered[0].id,
+                  delivery: 2,
+                  star: 5,
+                  recommand: 2,
+                  detail: "",
+               });
+            })
+            .catch((err) => {
+               console.log(err);
             });
-         }, 500);
+         setLoading(false);
+      } else {
+         window.alert("내용을 입력해주세요.");
       }
    };
    const onClickCancel = () => {
@@ -103,13 +119,12 @@ function ProductReview({ list, setOpen }) {
             <InputLabel htmlFor="age-native-simple">상품선택</InputLabel>
             <Select
                native
-               value={review.id}
+               value={review.ProductId}
                onChange={handleChange}
                inputProps={{
-                  name: "id",
-                  id: "productId",
+                  name: "ProductId",
+                  id: "ProductId",
                }}>
-               <option aria-label="None" value="" />
                {list.Ordered.map((item) => {
                   return <option value={item.id}>{item.name}</option>;
                })}
@@ -121,13 +136,12 @@ function ProductReview({ list, setOpen }) {
                <InputLabel htmlFor="age-native-simple">추천</InputLabel>
                <Select
                   native
-                  value={review.recommend}
+                  value={review.recommand}
                   onChange={handleChange}
                   inputProps={{
-                     name: "recommend",
-                     id: "recommend",
+                     name: "recommand",
+                     id: "recommand",
                   }}>
-                  <option aria-label="None" value="" />
                   <option value={2}>추천</option>
                   <option value={1}>보통</option>
                   <option value={0}>비추천</option>
@@ -138,13 +152,12 @@ function ProductReview({ list, setOpen }) {
                <InputLabel htmlFor="age-native-simple">배송평가</InputLabel>
                <Select
                   native
-                  value={review.shipment}
+                  value={review.delivery}
                   onChange={handleChange}
                   inputProps={{
-                     name: "shipment",
-                     id: "shipment",
+                     name: "delivery",
+                     id: "delivery",
                   }}>
-                  <option aria-label="None" value="" />
                   <option value={2}>빠름</option>
                   <option value={1}>보통</option>
                   <option value={0}>느림</option>
@@ -155,13 +168,12 @@ function ProductReview({ list, setOpen }) {
                <InputLabel htmlFor="age-native-simple">점수</InputLabel>
                <Select
                   native
-                  value={review.score}
+                  value={review.star}
                   onChange={handleChange}
                   inputProps={{
-                     name: "score",
-                     id: "score",
+                     name: "star",
+                     id: "star",
                   }}>
-                  <option aria-label="None" value="" />
                   <option value={1}>1점</option>
                   <option value={2}>2점</option>
                   <option value={3}>3점</option>
@@ -171,7 +183,7 @@ function ProductReview({ list, setOpen }) {
             </FormControl>
          </div>
          <TextField
-            id="new-detail"
+            ProductId="new-detail"
             value={review.detail}
             margin="normal"
             name="detail"
@@ -179,11 +191,11 @@ function ProductReview({ list, setOpen }) {
             fullWidth
             label="내용"
             multiline
-            rows="10"
+            rows="4"
          />
          <div className={classes.buttonAlign}>
             <Button variant="outlined" color="primary" onClick={onClickSubmit}>
-               문의 등록
+               상품평 등록
             </Button>
             &nbsp;&nbsp;
             <Button

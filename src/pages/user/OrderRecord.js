@@ -102,6 +102,7 @@ function OrderRecord({ originalList }) {
    const [endDate, setEndDate] = useState(MiliToyymmdd(Date.now()));
    const steps = ["결제완료", "배송중", "배송완료", "구매확정"];
    const [expanded, setExpanded] = React.useState(-1);
+   const [OrderHistoryId, setOrderHistoryId] = useState(0);
 
    useEffect(() => {
       const list = originalList.filter(
@@ -128,7 +129,7 @@ function OrderRecord({ originalList }) {
       );
    };
 
-   const onClickButton = (idx, orderStatus) => {
+   const onClickButton = (idx, orderStatus, id) => {
       setChoosedItem(idx);
       if (orderStatus === 3) {
          const ok = window.confirm("구매 확정 하시겠습니까?");
@@ -137,6 +138,7 @@ function OrderRecord({ originalList }) {
          }
       } else {
          setOpen(true);
+         setOrderHistoryId(id);
       }
    };
    const handleChange = (panel) => (event, isExpanded) => {
@@ -212,7 +214,9 @@ function OrderRecord({ originalList }) {
                   <div className="card-body border-top">
                      <button
                         className="btn btn-primary"
-                        onClick={() => onClickButton(idx, item.orderStatus)}>
+                        onClick={() =>
+                           onClickButton(idx, item.orderStatus, item.id)
+                        }>
                         {item.orderStatus !== 4 ? (
                            item.orderStatus !== 3 ? (
                               <>문의하기</>
@@ -317,6 +321,7 @@ function OrderRecord({ originalList }) {
                   <ProductReview
                      list={orderRecordList[choosedItem]}
                      setOpen={setOpen}
+                     OrderHistoryId={OrderHistoryId}
                   />
                )}
             </CustomModal>

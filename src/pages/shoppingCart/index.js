@@ -7,6 +7,7 @@ import Table from "./Table";
 function ShoppingCart() {
    const [cartList, setCartList] = useState([]);
    const [totalPrice, setTotalPrice] = useState(0);
+   const [highestDelivery, setHighestDelivery] = useState(0);
    const dispatch = useDispatch();
    const cartItems = useSelector((state) => state.CartReducer);
 
@@ -15,10 +16,15 @@ function ShoppingCart() {
       if (cartItems) {
          setCartList(cartItems);
          let total = 0;
+         let highestDelivery = 0;
          cartItems.forEach((item) => {
             total += item.productPrice * item.count;
+            if (item.delivery > highestDelivery) {
+               highestDelivery = item.delivery;
+            }
          });
-         setTotalPrice(total);
+         setHighestDelivery(highestDelivery);
+         setTotalPrice(total + highestDelivery);
       } else {
          setCartList([]);
       }
@@ -40,7 +46,11 @@ function ShoppingCart() {
             <div className="container">
                <div className="row">
                   <main className="col-md-9">
-                     <Table cartList={cartList} setCartList={setCartList} />
+                     <Table
+                        cartList={cartList}
+                        setCartList={setCartList}
+                        highestDelivery={highestDelivery}
+                     />
                   </main>
                   <aside className="col-md-3">
                      <div className="card">
@@ -48,12 +58,17 @@ function ShoppingCart() {
                            <dl className="dlist-align">
                               <dt>가격 : </dt>
                               <dd className="text-right">
-                                 {ThousandSeperator(totalPrice)}원
+                                 {ThousandSeperator(
+                                    totalPrice - highestDelivery
+                                 )}
+                                 원
                               </dd>
                            </dl>
                            <dl className="dlist-align">
-                              <dt>배송비 :</dt>
-                              <dd className="text-right">0</dd>
+                              <dt>배송비 : </dt>
+                              <dd className="text-right">
+                                 {ThousandSeperator(highestDelivery)}원
+                              </dd>
                            </dl>
                            <dl className="dlist-align">
                               <dt>총 가격:</dt>

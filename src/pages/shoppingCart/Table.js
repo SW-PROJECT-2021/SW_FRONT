@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
    },
 }));
 
-function Table({ cartList, setCartList }) {
+function Table({ cartList, setCartList, highestDelivery }) {
    const history = useHistory();
    const [loading, setLoading] = useState(false);
    const classes = useStyles();
@@ -90,6 +90,7 @@ function Table({ cartList, setCartList }) {
    const onClickCheckout = () => {
       history.push("/checkout", {
          orderProduct: cartList,
+         delivery: highestDelivery,
       });
    };
    const getItem = (item, idx) => {
@@ -188,7 +189,7 @@ function Table({ cartList, setCartList }) {
                      <th scope="col" width="120">
                         가격
                      </th>
-                     <th scope="col" className="text-right" width="200">
+                     <th scope="col" className="text-right" width="100">
                         {" "}
                      </th>
                   </tr>

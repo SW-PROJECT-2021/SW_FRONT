@@ -33,6 +33,8 @@ function DetailHeader({ product }) {
    const [mainImage, setMainImage] = useState(product.img1);
    const [defaultAddress, setDefaultAddress] = useState();
    const [refresh, setRefresh] = useState(0);
+   const [stars, setStars] = useState(0);
+
    const classes = useStyles();
 
    const history = useHistory();
@@ -58,6 +60,16 @@ function DetailHeader({ product }) {
       };
       getList();
    }, [cartData, product.id, refresh]);
+
+   useEffect(() => {
+      let sum = 0;
+      if (product.reviews) {
+         product.reviews.forEach((item) => {
+            sum += item.star;
+         });
+         setStars(sum / product.reviews.length);
+      }
+   }, [product]);
 
    const onShoppingCart = async () => {
       if (!userData || !userData.userName) {
@@ -109,6 +121,7 @@ function DetailHeader({ product }) {
                   count: quantity,
                },
             ],
+            delivery: product.delivery,
          });
       }
    };
@@ -175,7 +188,7 @@ function DetailHeader({ product }) {
                      <div>
                         <Rating
                            name="read-only"
-                           value={5}
+                           value={stars}
                            readOnly
                            className="col-3"
                         />

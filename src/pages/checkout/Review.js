@@ -8,11 +8,12 @@ import { ThousandSeperator } from "../../utils/ThousandSeperator";
 import {
    Avatar,
    Button,
+   Divider,
    ListItemAvatar,
-   NativeSelect,
    TextField,
 } from "@material-ui/core";
 import CustomModal from "../../commons/CustomModal";
+import { TextFields } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
    listItem: {
@@ -46,43 +47,24 @@ const useStyles = makeStyles((theme) => ({
    },
    couponSelect: {
       position: "relative",
-      top: "30px",
+      top: "25px",
+      width: "300px",
    },
    couponButton: {
       position: "relative",
       top: "30px",
    },
 }));
-const temp = [
-   {
-      detail: "할인 됩니다.할인 됩니다2.할인 됩니다2",
-   },
-   {
-      detail: "할인 됩니다2.",
-   },
-   {
-      detail: "할인 됩니다3.",
-   },
-   {
-      detail: "할인 됩니다4.",
-   },
-];
-export default function Review({ list }) {
+export default function Review({
+   list,
+   delivery,
+   total,
+   couponApply,
+   discount,
+}) {
    const classes = useStyles();
    const [open, setOpen] = useState(false);
    const [coupon, setCoupon] = useState("");
-   const shipmentFee = 3000;
-   let total = 0 + shipmentFee;
-
-   const onCheckCoupon = () => {
-      //확인
-      setOpen(false);
-      if (coupon === "") {
-         return;
-      }
-
-      console.log(coupon);
-   };
 
    return (
       <React.Fragment>
@@ -98,7 +80,6 @@ export default function Review({ list }) {
          </Typography>
          <List disablePadding>
             {list.map((item) => {
-               total += item.count * (item.price || item.productPrice);
                return (
                   <ListItem key={item.name} className={classes.listItem}>
                      <ListItemAvatar className="col-2">
@@ -122,13 +103,29 @@ export default function Review({ list }) {
                   </ListItem>
                );
             })}
-
             <ListItem className={classes.listItem}>
                <ListItemText primary="배송비" />
                <Typography variant="subtitle1">
-                  {ThousandSeperator(shipmentFee)}원
+                  {ThousandSeperator(delivery)}원
                </Typography>
             </ListItem>
+            {discount.message && (
+               <>
+                  <ListItem className={classes.listItem}>
+                     <ListItemText primary="쿠폰 적용 : " />
+                     <Typography variant="subtitle1">
+                        {discount.message}
+                     </Typography>
+                  </ListItem>
+
+                  <ListItem className={classes.listItem}>
+                     <Typography variant="subtitle1">
+                        {ThousandSeperator(discount.price)}원
+                     </Typography>
+                  </ListItem>
+               </>
+            )}{" "}
+            <Divider />
             <ListItem className={classes.listItem}>
                <ListItemText primary="Total" />
                <Typography variant="subtitle1" className={classes.total}>
@@ -137,24 +134,21 @@ export default function Review({ list }) {
             </ListItem>
          </List>
          <CustomModal open={open} setOpen={setOpen} styles={classes.modelPaper}>
-            <NativeSelect
+            <TextField
                value={coupon}
+               label="쿠폰코드"
                onChange={(e) => setCoupon(e.target.value)}
                name="name"
                inputProps={{
                   id: "name-native-error",
                }}
-               className={classes.couponSelect}>
-               <option value=""></option>
-               {temp.map((item) => (
-                  <option value={item.detail}>{item.detail}</option>
-               ))}
-            </NativeSelect>
+               className={classes.couponSelect}
+            />
             <br />
             <Button
                variant="outlined"
                color="primary"
-               onClick={onCheckCoupon}
+               onClick={() => couponApply(coupon, setOpen)}
                className={classes.couponButton}>
                적용
             </Button>

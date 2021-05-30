@@ -6,7 +6,7 @@ import Review from "./Review";
 
 function ProductDetail() {
    const location = useLocation();
-   console.log(location.state);
+
    return (
       <div>
          <section className="section-content padding-y bg">
@@ -16,7 +16,7 @@ function ProductDetail() {
                </h3>
                <DetailHeader product={location.state} />
                <Detail detail={location.state.detail} />
-               <Review />
+               <Review reviews={location.state.reviews} />
             </div>
          </section>
       </div>

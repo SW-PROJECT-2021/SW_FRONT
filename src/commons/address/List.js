@@ -75,6 +75,13 @@ function List({
       }));
       setOpen(false);
    };
+   const changeToDefault = async (item) => {
+      await axios.put("/api/dest", { ...item, isDefault: true }).then(() => {
+         setOnEdit(false);
+
+         setRefresh((prev) => prev + 1);
+      });
+   };
 
    const getAddressItem = (item, key, onClickEdit, onClickDelete) => {
       return (
@@ -99,7 +106,19 @@ function List({
                   삭제
                </Button>
             </ButtonGroup>{" "}
-            {checkout && (
+            {!checkout ? (
+               item.default ? (
+                  <></>
+               ) : (
+                  <Button
+                     variant="outlined"
+                     color="primary"
+                     className={classes.buttonApply}
+                     onClick={() => changeToDefault(item)}>
+                     기본 배송지로 변경
+                  </Button>
+               )
+            ) : (
                <Button
                   variant="contained"
                   color="primary"

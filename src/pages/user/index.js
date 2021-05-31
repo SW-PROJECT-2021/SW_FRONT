@@ -1,10 +1,12 @@
 import {
+   CircularProgress,
    Drawer,
    List,
    ListItem,
    ListItemIcon,
    ListItemText,
    makeStyles,
+   Modal,
    Toolbar,
    Typography,
 } from "@material-ui/core";
@@ -48,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
       overflow: "auto",
       flexDirection: "column",
    },
+   loading: {
+      position: "absolute",
+      top: "47%",
+      left: "47%",
+   },
 }));
 const mainListItems = (history) => {
    return (
@@ -72,8 +79,11 @@ function User() {
    const { userName } = useSelector((state) => state.UserReducer.users.data);
    const history = useHistory();
    const [originalList, setOriginalList] = useState([]);
+   const [refresh, setRefresh] = useState(0);
+   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
+      setLoading(true);
       const getOrderRecord = async () => {
          const response = await axios.get(`/api/orderHistory`);
          setOriginalList(
@@ -81,9 +91,10 @@ function User() {
                return b.id - a.id;
             })
          );
+         setLoading(false);
       };
       getOrderRecord();
-   }, []);
+   }, [refresh]);
    return (
       <div>
          <div className="container">
@@ -111,10 +122,20 @@ function User() {
                      <CouponList />
                   </Route>
                   <Route path="/user">
-                     <OrderRecord originalList={originalList} />
+                     <OrderRecord
+                        originalList={originalList}
+                        setRefresh={setRefresh}
+                     />
                   </Route>
                </Switch>
             </main>
+
+            <Modal open={loading}>
+               <CircularProgress
+                  color="secondary"
+                  className={classes.loading}
+               />
+            </Modal>
          </div>
       </div>
    );

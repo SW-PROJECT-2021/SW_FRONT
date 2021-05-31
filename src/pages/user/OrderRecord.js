@@ -48,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
       float: "right",
       lineHeight: "37px",
    },
+   totalPriceDiscount: {
+      float: "right",
+      lineHeight: "20px",
+   },
    root: {
       margin: "20px 0px",
       "& > *": {
@@ -89,7 +93,7 @@ const getItem = (item, idx) => {
    );
 };
 
-function OrderRecord({ originalList }) {
+function OrderRecord({ originalList, setRefresh }) {
    const classes = useStyles();
    const [open, setOpen] = useState(false);
    const [pageNum, setPageNum] = useState(0);
@@ -119,16 +123,10 @@ function OrderRecord({ originalList }) {
       setPageNum(Math.floor(length % 10 === 0 ? length / 10 : length / 10 + 1));
    };
 
-   const moveStatus = async (idx, id) => {
-      //await axios.put("/api/orderHitory/raiseStatus", { id: id });
-      setOrderRecordList((prev) =>
-         prev.map((item, index) => {
-            if (idx === index) {
-               return { ...item, orderStatus: item.orderStatus + 1 };
-            }
-            return item;
-         })
-      );
+   const moveStatus = async (id) => {
+      console.log(id);
+      await axios.put("/api/orderHistory/raiseStatus", { id: id });
+      setRefresh((prev) => prev + 1);
    };
 
    const onClickButton = (idx, orderStatus, id) => {
@@ -136,7 +134,7 @@ function OrderRecord({ originalList }) {
       if (orderStatus === 3) {
          const ok = window.confirm("구매 확정 하시겠습니까?");
          if (ok) {
-            moveStatus(idx, id);
+            moveStatus(id);
          }
       } else {
          setOpen(true);
@@ -233,11 +231,25 @@ function OrderRecord({ originalList }) {
                      &nbsp;&nbsp;&nbsp;&nbsp;
                      <button
                         className="btn btn-secondary"
-                        onClick={() => moveStatus(idx)}>
+                        onClick={() => moveStatus(item.id)}>
                         테스트 버튼 상태 + 1
                      </button>
-                     <div className={`${classes.totalPrice} col-3`}>
-                        Total : {ThousandSeperator(totalPrice)} 원
+                     <div
+                        className={`${
+                           item.discountCost
+                              ? classes.totalPriceDiscount
+                              : classes.totalPrice
+                        } col-3`}>
+                        {item.discountCost ? (
+                           <>
+                              할인 : {ThousandSeperator(item.discountCost)}원
+                              <br />
+                           </>
+                        ) : (
+                           <></>
+                        )}
+                        Total :{" "}
+                        {ThousandSeperator(totalPrice - item.discountCost)} 원
                      </div>
                   </div>
                </div>

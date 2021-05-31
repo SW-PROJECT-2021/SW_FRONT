@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import CustomPagination from "../../commons/CustomPagination";
 import OrderList from "../../utils/OrderList";
+import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
 const changeValue = (value) => {
    if (value === "younger") {
@@ -13,6 +14,10 @@ const changeValue = (value) => {
       return { orderBy: "price", cmp: "lower" };
    } else if (value === "priveLower") {
       return { orderBy: "price", cmp: "greater" };
+   } else if (value === "name") {
+      return { orderBy: "name", cmp: "greater" };
+   } else if (value === "reverseName") {
+      return { orderBy: "name", cmp: "lower" };
    }
 };
 
@@ -20,7 +25,6 @@ function List({ list, setList }) {
    const pageNum = Math.floor(list.length / 12 + 1);
    const [page, setPage] = useState(1);
    const history = useHistory();
-
    const onChange = (e) => {
       const {
          target: { value },
@@ -44,18 +48,18 @@ function List({ list, setList }) {
                   <option value="older">오래된 순</option>
                   <option value="priceHigher">가격 높은 순</option>
                   <option value="priveLower">가격 낮은 순</option>
+                  <option value="name">이름순</option>
+                  <option value="reverseName">이름 역순</option>
                </select>
             </div>
          </header>
          <div className="row">
             {list.slice((page - 1) * 12, page * 12).map((item, idx) => {
-               console.log(item.img1);
                return (
                   <div
                      key={idx}
                      className="col-md-3"
-                     onClick={() => goDetail(item)}
-                  >
+                     onClick={() => goDetail(item)}>
                      <figure className="card card-product-grid">
                         <div className="img-wrap">
                            <img src={item.img1} alt="error" />
@@ -64,7 +68,9 @@ function List({ list, setList }) {
                            <div className="fix-height">
                               {item.name}
                               <div className="price-wrap mt-2">
-                                 <span className="price">{item.price}</span>
+                                 <span className="price">
+                                    {ThousandSeperator(item.price)}
+                                 </span>
                               </div>
                            </div>
                         </figcaption>

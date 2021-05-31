@@ -62,6 +62,7 @@ function Question({ productList, setOpen }) {
       detail: "",
       ProductId: productList.Ordered[0].id,
    });
+   const [refresh, setRefresh] = useState(0);
    //먼저 문의 내역 확인
    useEffect(() => {
       //받고 0개이면 OnAdd true
@@ -78,7 +79,7 @@ function Question({ productList, setOpen }) {
             });
       };
       getQuestions();
-   }, [productList]);
+   }, [productList, refresh]);
 
    const AccordionItem = (item, idx) => {
       return (
@@ -95,7 +96,12 @@ function Question({ productList, setOpen }) {
                </Typography>
             </AccordionSummary>
             <AccordionDetails>
-               <Typography>{item.detail}</Typography>
+               <div>
+                  문의 상품 : {item.ProductName}
+                  <br />
+                  <br />
+                  {item.detail}
+               </div>
             </AccordionDetails>
             {item.answer && (
                <div className={classes.answer}>
@@ -119,6 +125,9 @@ function Question({ productList, setOpen }) {
       } else if (name === "title" && value.length > 50) {
          window.alert("제목은 최대 50자까지 입력 가능합니다.");
          return;
+      } else if (name === "detail" && value.length > 500) {
+         window.alert("최대 500자까지 입력 가능합니다.");
+         return;
       }
       setNewQuestion((prev) => ({ ...prev, [name]: value }));
    };
@@ -135,6 +144,7 @@ function Question({ productList, setOpen }) {
                ProductId: productList.Ordered[0].id,
             });
             setOnAdd(false);
+            setRefresh((prev) => prev + 1);
          })
          .catch((err) => {
             console.log(err);

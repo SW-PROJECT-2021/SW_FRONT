@@ -51,7 +51,7 @@ function PaymentApproved({ list, address, total, discount }) {
       }
       postOrderHistory();
       setLoading(false);
-   }, [list, dispatch, address]);
+   }, [list, dispatch, address, discount, total]);
 
    return (
       <div>

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import OrderList from "../../utils/OrderList";
+import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
 const RecentProduct = () => {
    const [list, setList] = useState([]);
@@ -50,7 +51,9 @@ const RecentProduct = () => {
                            </span>
                            <figcaption className="info-wrap">
                               {item.name}
-                              <div className="price mt-1">{item.price}</div>
+                              <div className="price mt-1">
+                                 {ThousandSeperator(item.price)}
+                              </div>
                            </figcaption>
                         </div>
                      </div>

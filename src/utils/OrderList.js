@@ -19,7 +19,8 @@ export default function OrderList(list, order) {
          bv = Date.parse(bv);
       }
 
-      if (order.cmp === "greater") return av - bv;
-      else return bv - av;
+      if (order.cmp === "greater") {
+         return av >= bv ? (av === bv ? 0 : 1) : -1;
+      } else return av >= bv ? (av === bv ? 0 : -1) : 1;
    });
 }

@@ -65,6 +65,7 @@ function ProductList() {
          }
       }
    }, [location.state, location.search]);
+   console.log(list);
    return (
       <div>
          <Title {...title} />

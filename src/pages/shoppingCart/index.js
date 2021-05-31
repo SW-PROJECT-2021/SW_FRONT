@@ -10,8 +10,6 @@ function ShoppingCart() {
    const [highestDelivery, setHighestDelivery] = useState(0);
    const dispatch = useDispatch();
    const cartItems = useSelector((state) => state.CartReducer);
-
-   // soldOut 이거나 productCnt == 0 이면 지워주자.
    useEffect(() => {
       if (cartItems) {
          setCartList(cartItems);
@@ -19,8 +17,8 @@ function ShoppingCart() {
          let highestDelivery = 0;
          cartItems.forEach((item) => {
             total += item.productPrice * item.count;
-            if (item.delivery > highestDelivery) {
-               highestDelivery = item.delivery;
+            if (item.productDelivery > highestDelivery) {
+               highestDelivery = item.productDelivery;
             }
          });
          setHighestDelivery(highestDelivery);

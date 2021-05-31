@@ -78,7 +78,7 @@ function Form({
       initInfo();
    };
    const handleErr = (err) => {
-      if (err.response.message === "존재하는 배송지") {
+      if (err.response.data.message === "존재하는 배송지") {
          window.alert(
             "이미 존재하는 배송지 이름입니다. 다른 이름으로 변경해주세요."
          );

@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
       fontSize: "18px",
    },
 }));
-function DetailHeader({ product }) {
+function DetailHeader({ product, reviews }) {
    const [quantity, setQuantity] = useState(1);
    const [loading, setLoading] = useState(false);
    const [open, setOpen] = useState(false);
@@ -63,13 +63,13 @@ function DetailHeader({ product }) {
 
    useEffect(() => {
       let sum = 0;
-      if (product.reviews) {
-         product.reviews.forEach((item) => {
+      if (reviews) {
+         reviews.forEach((item) => {
             sum += item.star;
          });
-         setStars(sum / product.reviews.length);
+         setStars(sum / reviews.length);
       }
-   }, [product]);
+   }, [reviews]);
 
    const onShoppingCart = async () => {
       if (!userData || !userData.userName) {
@@ -138,7 +138,6 @@ function DetailHeader({ product }) {
       }
       return options;
    };
-
    return (
       <article className="card">
          <div className="card-body">

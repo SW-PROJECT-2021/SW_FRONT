@@ -1,4 +1,4 @@
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import Iamport from "react-iamport";
 import { useHistory } from "react-router";
@@ -43,7 +43,7 @@ export default function PaymentForm({ setActiveStep, productList, total }) {
                pay_method: "card",
                merchant_uid: "merchant_" + new Date().getTime(),
                name: productList[0].name || productList[0].productName,
-               amount: total,
+               amount: total > 1000000 ? 1000000 : total,
                phone: "010-3213-3123",
             }}
             onFailed={(err) => handleFail(err)}

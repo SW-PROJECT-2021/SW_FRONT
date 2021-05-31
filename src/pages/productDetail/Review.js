@@ -86,6 +86,19 @@ function Review({ reviews }) {
       setPageNum(Math.floor(temp / 5 + 1));
    }, [reviews]);
 
+   const hideUserName = (name) => {
+      let newName = "";
+      let i = 0;
+      for (let v of name) {
+         if (i % 2 === 1) {
+            newName += "*";
+         } else {
+            newName += v;
+         }
+         i++;
+      }
+      return newName;
+   };
    const AccordionItem = (item, idx) => {
       return (
          <Accordion expanded={expanded === idx} onChange={handleChange(idx)}>
@@ -93,8 +106,8 @@ function Review({ reviews }) {
                aria-controls="panel1bh-content"
                id="panel1bh-header">
                <Typography className={classes.secondaryHeading}>
-                  {item.delivery !== 2 ? (
-                     item.delivery !== 1 ? (
+                  {item.delivery !== 3 ? (
+                     item.delivery !== 2 ? (
                         <div className={classes.secondaryContent}>
                            <SignalCellular2BarRounded color="secondary" />
                         </div>
@@ -110,8 +123,8 @@ function Review({ reviews }) {
                   )}
                </Typography>
                <Typography className={classes.secondaryHeading}>
-                  {item.recommand !== 2 ? (
-                     item.recommand !== 1 ? (
+                  {item.recommand !== 3 ? (
+                     item.recommand !== 2 ? (
                         <div className={classes.secondaryContent}>
                            <ThumbDown color="secondary" />
                         </div>
@@ -132,7 +145,7 @@ function Review({ reviews }) {
                      : item.detail}
                </Typography>
                <Typography className={classes.secondaryHeading}>
-                  {item.UserId}
+                  {hideUserName(item.UserId)}
                   <br />
                   {MiliToyymmdd(item.createdAt)}
                </Typography>
@@ -143,10 +156,11 @@ function Review({ reviews }) {
          </Accordion>
       );
    };
+
    return (
       <article className="card mt-5">
          <div className="card-body">
-            {list ? (
+            {list.length !== 0 ? (
                <>
                   <Typography variant="h5">상품평</Typography>
 

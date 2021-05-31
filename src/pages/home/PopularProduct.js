@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { ThousandSeperator } from "../../utils/ThousandSeperator";
 
 const PopularProduct = () => {
    const [list, setList] = useState([]);
@@ -14,9 +15,13 @@ const PopularProduct = () => {
                )}&endDate=${new Date()}`
             )
             .then((res) => {
+               console.log(res.data.data.Product);
                setList(() =>
                   res.data.data
-                     .filter((item) => !item.isDeleted && item.count !== 0)
+                     .filter(
+                        (item) =>
+                           !item.Product.isDeleted && item.Product.count !== 0
+                     )
                      .slice(0, 4)
                );
             })
@@ -26,7 +31,6 @@ const PopularProduct = () => {
       };
       getList();
    }, []);
-
    const goDetail = (item) => {
       history.push({ pathname: "/detail", state: item });
    };
@@ -48,14 +52,16 @@ const PopularProduct = () => {
                      <div
                         className="col-md-3"
                         key={idx}
-                        onClick={() => goDetail(item)}>
+                        onClick={() => goDetail(item.Product)}>
                         <div className="card card-product-grid">
                            <span className="img-wrap">
-                              <img src={item.img1} alt="img" />{" "}
+                              <img src={item.Product.img1} alt="img" />{" "}
                            </span>
                            <figcaption className="info-wrap">
-                              {item.name}
-                              <div className="price mt-1">{item.price}</div>
+                              {item.Product.name}
+                              <div className="price mt-1">
+                                 {ThousandSeperator(item.Product.price)}
+                              </div>
                            </figcaption>
                         </div>
                      </div>

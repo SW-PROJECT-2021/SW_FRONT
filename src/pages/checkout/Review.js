@@ -13,7 +13,7 @@ import {
    TextField,
 } from "@material-ui/core";
 import CustomModal from "../../commons/CustomModal";
-import { TextFields } from "@material-ui/icons";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
    listItem: {
@@ -61,22 +61,29 @@ export default function Review({
    total,
    couponApply,
    discount,
+   couponApplied,
 }) {
    const classes = useStyles();
    const [open, setOpen] = useState(false);
    const [coupon, setCoupon] = useState("");
-
+   const checkCoupon = async () => {
+      await axios.get("/api/coupon/all").then((data) => {
+         console.log(data.data.data);
+      });
+   };
    return (
       <React.Fragment>
          <Typography variant="h6" gutterBottom>
             주문 내역
-            <Button
-               variant="outlined"
-               color="primary"
-               onClick={() => setOpen(true)}
-               className={classes.button}>
-               쿠폰등록
-            </Button>
+            {!couponApplied && (
+               <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => setOpen(true)}
+                  className={classes.button}>
+                  쿠폰등록
+               </Button>
+            )}
          </Typography>
          <List disablePadding>
             {list.map((item) => {
@@ -114,12 +121,6 @@ export default function Review({
                   <ListItem className={classes.listItem}>
                      <ListItemText primary="쿠폰 적용 : " />
                      <Typography variant="subtitle1">
-                        {discount.message}
-                     </Typography>
-                  </ListItem>
-
-                  <ListItem className={classes.listItem}>
-                     <Typography variant="subtitle1">
                         {ThousandSeperator(discount.price)}원
                      </Typography>
                   </ListItem>
@@ -152,6 +153,7 @@ export default function Review({
                className={classes.couponButton}>
                적용
             </Button>
+            <Button onClick={checkCoupon}>쿠폰확인</Button>
          </CustomModal>
       </React.Fragment>
    );

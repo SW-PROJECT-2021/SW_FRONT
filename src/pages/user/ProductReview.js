@@ -43,14 +43,11 @@ const useStyles = makeStyles((theme) => ({
 function ProductReview({ list, setOpen, OrderHistoryId }) {
    const classes = useStyles();
    const [loading, setLoading] = useState(false);
-   const userName = useSelector(
-      (state) => state.UserReducer.users.data.userName
-   );
    const [review, setReview] = useState({
       ProductId: list.Ordered[0].id,
-      delivery: 2,
+      delivery: 3,
       star: 5,
-      recommand: 2,
+      recommand: 3,
       detail: "",
    });
    const handleChange = (event) => {
@@ -70,39 +67,25 @@ function ProductReview({ list, setOpen, OrderHistoryId }) {
          window.alert("최대 100자까지 입력 가능합니다.");
       }
    };
-   const hideUserName = (name) => {
-      let newName = "";
-      let i = 0;
-      for (let v of name) {
-         if (i % 2 === 1) {
-            newName += "*";
-         } else {
-            newName += v;
-         }
-         i++;
-      }
-      return newName;
-   };
    const onClickSubmit = async () => {
       if (review.detail.length !== 0) {
          setLoading(true);
          await axios
             .post("/api/review", {
                ...review,
-               userName: hideUserName(userName),
                OrderHistoryId: OrderHistoryId,
             })
             .then(() => {
                setReview({
                   ProductId: list.Ordered[0].id,
-                  delivery: 2,
+                  delivery: 3,
                   star: 5,
-                  recommand: 2,
+                  recommand: 3,
                   detail: "",
                });
             })
             .catch((err) => {
-               console.log(err);
+               console.log(err.response.message);
             });
          setLoading(false);
       } else {
@@ -142,9 +125,9 @@ function ProductReview({ list, setOpen, OrderHistoryId }) {
                      name: "recommand",
                      id: "recommand",
                   }}>
-                  <option value={2}>추천</option>
-                  <option value={1}>보통</option>
-                  <option value={0}>비추천</option>
+                  <option value={3}>추천</option>
+                  <option value={2}>보통</option>
+                  <option value={1}>비추천</option>
                </Select>
             </FormControl>
 
@@ -158,9 +141,9 @@ function ProductReview({ list, setOpen, OrderHistoryId }) {
                      name: "delivery",
                      id: "delivery",
                   }}>
-                  <option value={2}>빠름</option>
-                  <option value={1}>보통</option>
-                  <option value={0}>느림</option>
+                  <option value={3}>빠름</option>
+                  <option value={2}>보통</option>
+                  <option value={1}>느림</option>
                </Select>
             </FormControl>
 

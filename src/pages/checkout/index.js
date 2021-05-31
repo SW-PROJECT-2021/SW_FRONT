@@ -16,6 +16,7 @@ import PaymentApproved from "./PaymentApproved";
 import axios from "axios";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
 import { CategoryMappingById } from "../../utils/CategoryMapping";
+import { DiscFullRounded } from "@material-ui/icons";
 
 function Copyright() {
    return (
@@ -96,6 +97,23 @@ export default function Checkout() {
       message: "",
       price: 0,
    });
+   const [couponApplied, setCouponApplied] = useState(false);
+
+   useEffect(() => {
+      setInfo((prev) => ({
+         ...prev,
+         productList: history.location.state.orderProduct,
+         delivery: history.location.state.delivery,
+      }));
+      //기본 배송지 정보 불러오기
+   }, [history.location.state]);
+   useEffect(() => {
+      let price = 0;
+      info.productList.forEach((item) => {
+         price += (item.productPrice || item.price) * item.count;
+      });
+      setTotal(price + info.delivery - discount.price);
+   }, [info, discount]);
 
    const handleNext = () => {
       if (activeStep === 1) {
@@ -118,76 +136,76 @@ export default function Checkout() {
    };
 
    const couponApply = async (coupon, setOpen) => {
-      await axios
-         .post("/api/isAvailable", {
-            code: coupon,
-         })
-         .then((res) => {
-            const data = res.data.data;
-            if (data.isAllCoupon) {
-               const price = total - info.delivery;
-               if (price >= data.minimumPrice) {
-                  setDiscount({
-                     message: `${data.couponName} : ${
-                        data.minimumPrice
-                     } 이상 구매 시, ${ThousandSeperator(
-                        data.discount
-                     )}원 할인`,
-                     price: data.discount,
-                  });
-                  setTotal((prev) => prev - data.discount);
-                  setOpen(false);
-               } else {
-                  window.alert(
-                     `배송비 제외, 최소 ${data.minimumPrice}원 이상 구매하셔야 적용 가능합니다.`
-                  );
-               }
-            } else {
-               let price = 0;
-               info.productList.forEach((item) => {
-                  if (item.CategoryId === data.categoryId) {
-                     price += Math.floor(
-                        (item.productPrice || item.price) *
-                           item.count *
-                           (1 - data.discount / 100)
-                     );
+      if (
+         window.confirm(
+            "한번 쿠폰을 적용하면, 취소할 수 없습니다. 적용하시겠습니까?"
+         )
+      ) {
+         await axios
+            .get(`/api/coupon/isAvailable/${coupon}`)
+            .then((res) => {
+               const data = res.data.data;
+               if (data.isAllCoupon) {
+                  const price = total - info.delivery;
+                  if (price >= data.minimumPrice) {
+                     setDiscount({
+                        message: `${data.couponName} : ${ThousandSeperator(
+                           data.minimumPrice
+                        )}원 이상 구매 시, ${ThousandSeperator(
+                           data.discount
+                        )}원 할인`,
+                        price: data.discount,
+                     });
+                     setTotal((prev) => prev - data.discount);
+                     setOpen(false);
+                     setCouponApplied(true);
                   } else {
-                     price += (item.productPrice || item.price) * item.count;
+                     window.alert(
+                        `배송비 제외, 최소 ${data.minimumPrice}원 이상 구매하셔야 적용 가능합니다.`
+                     );
                   }
-               });
-               setDiscount({
-                  message: `${data.couponName} : ${
-                     CategoryMappingById[data.CategoryId]
-                  }을 구매하시면, ${data.discount}% 할인됩니다.`,
-                  price: total - price - info.delivery,
-               });
-               setTotal(price + info.delivery);
-               setOpen(false);
-            }
-         })
-         .catch((err) => {
-            window.alert("유효한 쿠폰이 아닙니다.");
-         });
+               } else {
+                  let price = 0;
+                  info.productList.forEach((item) => {
+                     if (item.CategoryId === data.categoryId) {
+                        price += Math.floor(
+                           (item.productPrice || item.price) *
+                              item.count *
+                              (1 - data.discount / 100)
+                        );
+                     } else {
+                        price += (item.productPrice || item.price) * item.count;
+                     }
+                  });
+                  if (total - price - info.delivery > 0) {
+                     setDiscount({
+                        message: `${data.couponName} : ${
+                           CategoryMappingById[data.CategoryId]
+                        }을 구매하시면, ${data.discount}% 할인됩니다.`,
+                        price: total - price - info.delivery,
+                     });
+                     setTotal(price + info.delivery);
+                     setOpen(false);
+                     setCouponApplied(true);
+                  } else {
+                     window.alert(
+                        "해당되는 카테고리가 없어 쿠폰을 적용하지 않았습니다!"
+                     );
+                  }
+               }
+            })
+            .catch((err) => {
+               if (err.response.data.message === "해당 쿠폰 소지하지 않음") {
+                  window.alert("해당 쿠폰을 소지하고 있지 않습니다.");
+               } else if (
+                  err.response.data.message === "사용 불가능한 쿠폰 코드"
+               ) {
+                  window.alert("사용 불가능한 쿠폰입니다.");
+               }
+            });
+      }
    };
 
-   useEffect(() => {
-      setInfo((prev) => ({
-         ...prev,
-         productList: history.location.state.orderProduct,
-         delivery: history.location.state.delivery || 0,
-      }));
-      //기본 배송지 정보 불러오기
-   }, [history.location.state]);
-   useEffect(() => {
-      let price = 0;
-      info.productList.forEach((item) => {
-         price += (item.productPrice || item.price) * item.count;
-      });
-      setTotal(price + info.delivery);
-      if (price > 1000000) {
-         setTotal(1000000);
-      }
-   }, [info]);
    return (
       <React.Fragment>
          <CssBaseline />
@@ -235,6 +253,7 @@ export default function Checkout() {
                               delivery={info.delivery}
                               couponApply={couponApply}
                               discount={discount}
+                              couponApplied={couponApplied}
                            />
                         )}
 

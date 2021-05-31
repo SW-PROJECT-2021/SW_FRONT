@@ -153,8 +153,11 @@ export default function Review({
                className={classes.couponButton}>
                적용
             </Button>
-            <Button onClick={checkCoupon}>쿠폰확인</Button>
          </CustomModal>
       </React.Fragment>
    );
 }
+/*
+
+            <Button onClick={checkCoupon}>쿠폰확인</Button>
+*/

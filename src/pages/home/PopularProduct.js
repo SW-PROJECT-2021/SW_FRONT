@@ -1,23 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import OrderList from "../../utils/OrderList";
 
-const RecentProduct = () => {
+const PopularProduct = () => {
    const [list, setList] = useState([]);
    const history = useHistory();
    useEffect(() => {
       const getList = async () => {
          await axios
-            .get(`/api/product/`)
+            .get(
+               `/api/sold/rank/product?startDate=${new Date(
+                  0
+               )}&endDate=${new Date()}`
+            )
             .then((res) => {
-               setList(
-                  OrderList(
-                     res.data.data.filter(
-                        (item) => !item.isDeleted && item.count !== 0
-                     ),
-                     { orderBy: "updatedAt", cmp: "less" }
-                  ).slice(0, 4)
+               setList(() =>
+                  res.data.data
+                     .filter((item) => !item.isDeleted && item.count !== 0)
+                     .slice(0, 4)
                );
             })
             .catch((error) => {
@@ -34,7 +34,12 @@ const RecentProduct = () => {
       <section className="section-name padding-y-sm">
          <div className="container">
             <header className="section-heading">
-               <h3 className="section-title">최신 상품</h3>
+               <a
+                  href="/list?range=전체보기"
+                  className="btn btn-outline-primary float-right">
+                  전체보기
+               </a>
+               <h3 className="section-title">인기 상품</h3>
             </header>
 
             <div className="row">
@@ -62,4 +67,4 @@ const RecentProduct = () => {
    );
 };
 
-export default RecentProduct;
+export default PopularProduct;

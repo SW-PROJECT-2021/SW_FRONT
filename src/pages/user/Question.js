@@ -4,6 +4,9 @@ import {
    AccordionSummary,
    Button,
    Divider,
+   FormControl,
+   InputLabel,
+   Select,
    TextField,
    Typography,
 } from "@material-ui/core";
@@ -11,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { MiliToyymmdd } from "../../utils/MiliToyymmdd";
 import CustomPagination from "../../commons/CustomPagination";
+import axios from "axios";
 const useStyles = makeStyles((theme) => ({
    root: {
       width: "100%",
@@ -42,22 +46,6 @@ const useStyles = makeStyles((theme) => ({
       textAlign: "center",
    },
 }));
-const temp = [
-   {
-      id: 1,
-      subject: "배송이 느려요.",
-      detail: "3달째 안오고 있어요",
-      answer: "",
-      createdAt: 1619344686153,
-   },
-   {
-      id: 2,
-      subject: "배송이 느려요. 몇번째임 이게?",
-      detail: "빨리좀 해주세요",
-      answer: "즐",
-      createdAt: 1619350000000,
-   },
-];
 
 function Question({ productList, setOpen }) {
    const [list, setList] = useState([]);
@@ -70,19 +58,27 @@ function Question({ productList, setOpen }) {
    const [pageNum, setPageNum] = useState(1);
    const [page, setPage] = useState(1);
    const [newQuestion, setNewQuestion] = useState({
-      subject: "",
+      title: "",
       detail: "",
+      ProductId: productList.Ordered[0].id,
    });
-
    //먼저 문의 내역 확인
    useEffect(() => {
       //받고 0개이면 OnAdd true
-      setList(temp);
-      if (temp.length === 0) {
-         setOnAdd(true);
-      }
-      setPageNum(Math.floor(temp.length / 6 + 1));
-   }, []);
+      const getQuestions = async () => {
+         await axios
+            .get(`/api/question/user/all/${productList.id}`)
+            .then((res) => {
+               const data = res.data.data;
+               setList(data);
+               if (data.length === 0) {
+                  setOnAdd(true);
+               }
+               setPageNum(Math.floor(data.length / 6 + 1));
+            });
+      };
+      getQuestions();
+   }, [productList]);
 
    const AccordionItem = (item, idx) => {
       return (
@@ -93,11 +89,9 @@ function Question({ productList, setOpen }) {
                <Typography className={classes.secondaryHeading}>
                   {MiliToyymmdd(item.createdAt)}
                </Typography>
-               <Typography className={classes.heading}>
-                  {item.subject}
-               </Typography>
+               <Typography className={classes.heading}>{item.title}</Typography>
                <Typography className={classes.secondaryHeading}>
-                  {item.answer ? <>답변등록</> : <>답변미등록</>}
+                  {item.isAnswer ? <>답변등록</> : <>답변미등록</>}
                </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -116,24 +110,42 @@ function Question({ productList, setOpen }) {
          </Accordion>
       );
    };
-
    const onChange = (e) => {
-      const {
+      let {
          target: { name, value },
       } = e;
+      if (name === "ProductId") {
+         value = parseInt(value);
+      } else if (name === "title" && value.length > 50) {
+         window.alert("제목은 최대 50자까지 입력 가능합니다.");
+         return;
+      }
       setNewQuestion((prev) => ({ ...prev, [name]: value }));
    };
-   const onClickSubmit = () => {
-      let newObj = {
-         ...newQuestion,
-         createdAt: Date.now(),
-         answer: "",
-      };
-      setList((prev) => [...prev, newObj]);
-      setOnAdd(false);
+   const onClickSubmit = async () => {
+      await axios
+         .post("/api/question", {
+            ...newQuestion,
+            OrderHistoryId: productList.id,
+         })
+         .then(() => {
+            setNewQuestion({
+               title: "",
+               detail: "",
+               ProductId: productList.Ordered[0].id,
+            });
+            setOnAdd(false);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
    };
    const onClickCancel = () => {
-      setNewQuestion({ subject: "", detail: "" });
+      setNewQuestion({
+         title: "",
+         detail: "",
+         ProductId: productList.Ordered[0].id,
+      });
       setOnAdd(false);
    };
    return (
@@ -141,11 +153,26 @@ function Question({ productList, setOpen }) {
          {onAdd ? (
             <div style={{ padding: "10px" }}>
                <Typography variant="h5">문의 등록</Typography>
+               <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="age-native-simple">상품선택</InputLabel>
+                  <Select
+                     native
+                     value={newQuestion.ProductId}
+                     onChange={onChange}
+                     inputProps={{
+                        name: "ProductId",
+                        id: "ProductId",
+                     }}>
+                     {productList.Ordered.map((item) => {
+                        return <option value={item.id}>{item.name}</option>;
+                     })}
+                  </Select>
+               </FormControl>
                <TextField
-                  id="new-subject"
-                  value={newQuestion.subject}
+                  id="new-title"
+                  value={newQuestion.title}
                   margin="normal"
-                  name="subject"
+                  name="title"
                   onChange={onChange}
                   fullWidth
                   label="제목"

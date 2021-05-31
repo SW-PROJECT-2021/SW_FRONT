@@ -17,6 +17,7 @@ import ProductReview from "./ProductReview";
 import Question from "./Question";
 import CustomPagination from "../../commons/CustomPagination";
 import { MiliToyymmdd } from "../../utils/MiliToyymmdd";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
    font: { fontFamily: "NanumSquareRegular !important" },
@@ -118,11 +119,12 @@ function OrderRecord({ originalList }) {
       setPageNum(Math.floor(length % 10 === 0 ? length / 10 : length / 10 + 1));
    };
 
-   const moveStatus = (idx, status) => {
+   const moveStatus = async (idx, id) => {
+      //await axios.put("/api/orderHitory/raiseStatus", { id: id });
       setOrderRecordList((prev) =>
          prev.map((item, index) => {
             if (idx === index) {
-               return { ...item, orderStatus: item.orderStatus + status };
+               return { ...item, orderStatus: item.orderStatus + 1 };
             }
             return item;
          })
@@ -134,7 +136,7 @@ function OrderRecord({ originalList }) {
       if (orderStatus === 3) {
          const ok = window.confirm("구매 확정 하시겠습니까?");
          if (ok) {
-            moveStatus(idx, 1);
+            moveStatus(idx, id);
          }
       } else {
          setOpen(true);
@@ -171,7 +173,8 @@ function OrderRecord({ originalList }) {
                      : "결제완료"}
                </Typography>
                <Typography className={classes.secondaryHeading}>
-                  Total : {ThousandSeperator(totalPrice)} 원
+                  Total :{" "}
+                  {ThousandSeperator(item.totalCost - item.discountCost)} 원
                </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -230,12 +233,7 @@ function OrderRecord({ originalList }) {
                      &nbsp;&nbsp;&nbsp;&nbsp;
                      <button
                         className="btn btn-secondary"
-                        onClick={() => moveStatus(idx, -1)}>
-                        테스트 버튼 상태 - 1
-                     </button>
-                     <button
-                        className="btn btn-secondary"
-                        onClick={() => moveStatus(idx, 1)}>
+                        onClick={() => moveStatus(idx)}>
                         테스트 버튼 상태 + 1
                      </button>
                      <div className={`${classes.totalPrice} col-3`}>

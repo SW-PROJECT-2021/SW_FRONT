@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
       left: "47%",
    },
 }));
-function PaymentApproved({ list, address }) {
+function PaymentApproved({ list, address, total, discount }) {
    const history = useHistory();
    const [loading, setLoading] = useState(false);
    const classes = useStyles();
@@ -36,6 +36,8 @@ function PaymentApproved({ list, address }) {
                orderDate: MiliToyymmdd(Date.now()),
                orderDestination: `${address.addressName}`,
                productList: productList,
+               totalCost: parseInt(total),
+               discountCost: parseInt(discount),
             })
             .then((data) => console.log(data))
             .catch((err) => {

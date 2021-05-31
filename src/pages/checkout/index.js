@@ -139,7 +139,7 @@ export default function Checkout() {
                   setOpen(false);
                } else {
                   window.alert(
-                     `최소 ${data.minimumPrice}원 이상 구매하셔야 적용 가능합니다.`
+                     `배송비 제외, 최소 ${data.minimumPrice}원 이상 구매하셔야 적용 가능합니다.`
                   );
                }
             } else {
@@ -161,7 +161,8 @@ export default function Checkout() {
                   }을 구매하시면, ${data.discount}% 할인됩니다.`,
                   price: total - price - info.delivery,
                });
-               setTotal(price);
+               setTotal(price + info.delivery);
+               setOpen(false);
             }
          })
          .catch((err) => {
@@ -211,6 +212,8 @@ export default function Checkout() {
                                  <PaymentApproved
                                     list={info.productList}
                                     address={info.addressInfo}
+                                    total={total + discount.price}
+                                    discount={discount.price}
                                  />
                               ) : (
                                  <PaymentForm

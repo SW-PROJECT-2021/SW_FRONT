@@ -13,7 +13,6 @@ import {
    TextField,
 } from "@material-ui/core";
 import CustomModal from "../../commons/CustomModal";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
    listItem: {
@@ -66,11 +65,6 @@ export default function Review({
    const classes = useStyles();
    const [open, setOpen] = useState(false);
    const [coupon, setCoupon] = useState("");
-   const checkCoupon = async () => {
-      await axios.get("/api/coupon/all").then((data) => {
-         console.log(data.data.data);
-      });
-   };
    return (
       <React.Fragment>
          <Typography variant="h6" gutterBottom>
@@ -90,7 +84,10 @@ export default function Review({
                return (
                   <ListItem key={item.name} className={classes.listItem}>
                      <ListItemAvatar className="col-2">
-                        <Avatar src={item.img || item.productImg} alt="error" />
+                        <Avatar
+                           src={item.img1 || item.productImg}
+                           alt="error"
+                        />
                      </ListItemAvatar>
                      <ListItemText
                         primary={item.name || item.productName}

@@ -1,5 +1,5 @@
 import { makeStyles, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import Iamport from "react-iamport";
 import { useHistory } from "react-router";
 
@@ -23,7 +23,6 @@ export default function PaymentForm({ setActiveStep, productList, total }) {
       setActiveStep((prev) => prev + 1);
    };
    const handleFail = (err) => {
-      console.log(err);
       window.alert(`결제가 취소되었습니다.\n
       이유 : ${err.error_msg}`);
       history.push("/");

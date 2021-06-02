@@ -16,7 +16,6 @@ import PaymentApproved from "./PaymentApproved";
 import axios from "axios";
 import { ThousandSeperator } from "../../utils/ThousandSeperator";
 import { CategoryMappingById } from "../../utils/CategoryMapping";
-import { DiscFullRounded } from "@material-ui/icons";
 
 function Copyright() {
    return (
@@ -134,7 +133,7 @@ export default function Checkout() {
          history.goBack();
       } else return;
    };
-
+   console.log(info);
    const couponApply = async (coupon, setOpen) => {
       if (
          window.confirm(
@@ -178,13 +177,17 @@ export default function Checkout() {
                      }
                   });
                   if (total - price - info.delivery > 0) {
+                     let discountPrice = total - price - info.delivery;
+                     if (discountPrice > data.maximumDiscount) {
+                        discountPrice = data.maximumDiscount;
+                     }
                      setDiscount({
                         message: `${data.couponName} : ${
                            CategoryMappingById[data.CategoryId]
                         }을 구매하시면, ${data.discount}% 할인됩니다.`,
-                        price: total - price - info.delivery,
+                        price: discountPrice,
                      });
-                     setTotal(price + info.delivery);
+                     setTotal((prev) => prev - discountPrice + info.delivery);
                      setOpen(false);
                      setCouponApplied(true);
                   } else {
@@ -201,6 +204,8 @@ export default function Checkout() {
                   err.response.data.message === "사용 불가능한 쿠폰 코드"
                ) {
                   window.alert("사용 불가능한 쿠폰입니다.");
+               } else {
+                  window.alert("서버에 오류가 생겼습니다.");
                }
             });
       }

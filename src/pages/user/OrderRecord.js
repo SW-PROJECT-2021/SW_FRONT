@@ -145,10 +145,6 @@ function OrderRecord({ originalList, setRefresh }) {
       setExpanded(isExpanded ? panel : false);
    };
    const singleOrderRecordAccordian = (item, idx) => {
-      let totalPrice = 0;
-      item.Ordered.forEach((item) => {
-         totalPrice += item.count * item.price;
-      });
       return (
          <Accordion expanded={expanded === idx} onChange={handleChange(idx)}>
             <AccordionSummary

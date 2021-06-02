@@ -47,7 +47,11 @@ function ProductList() {
       };
 
       if (location.state) {
-         setList([...location.state.data]);
+         setList([
+            ...location.state.data.filter(
+               (item) => !item.isDeleted && item.count !== 0
+            ),
+         ]);
          setTitle({ range: "검색", category: location.state.keyword });
       } else if (location.search) {
          const query = qs.parse(location.search, {

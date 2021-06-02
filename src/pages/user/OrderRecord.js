@@ -249,7 +249,8 @@ function OrderRecord({ originalList, setRefresh }) {
                            <></>
                         )}
                         Total :{" "}
-                        {ThousandSeperator(totalPrice - item.discountCost)} 원
+                        {ThousandSeperator(item.totalCost - item.discountCost)}{" "}
+                        원
                      </div>
                   </div>
                </div>

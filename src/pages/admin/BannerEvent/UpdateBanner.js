@@ -8,7 +8,6 @@ import Title from "../Title";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -36,6 +35,22 @@ const Form = styled.form`
   }
 `;
 
+const Block = styled.div`
+  display: flex;
+  width: 100%;
+  span {
+    width: 200px;
+    text-align: center;
+    padding-top: 25px;
+    margin-right: 10px;
+    font-family: NanumSquareRegular;
+    font-size: 16px;
+  }
+  img {
+    width: 300px;
+    height: 200px;
+  }
+`;
 function UpdateBanner({ match }) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -52,6 +67,7 @@ function UpdateBanner({ match }) {
   const [bannerEnd, setBannerEnd] = useState(null);
   const [bannerImg, setBannerImg] = useState(null);
   const [bannerDetail, setBannerDetail] = useState(null);
+  const [viewImg, setViewImg] = useState(null);
   useEffect(() => {
     dispatch(getbanner(match.params.id));
   }, []);
@@ -59,10 +75,13 @@ function UpdateBanner({ match }) {
     if (data) {
       serBannerId(data.id);
       setBannerName(data.bannerName);
-      setBannerStart(data.bannerStartDate);
-      setBannerEnd(data.bannerEndDate);
+      setBannerStart(data.bannerStartDate.substring(0, 10));
+      setBannerEnd(data.bannerEndDate.substring(0, 10));
       setBannerImg(data.bannerImg);
+      setViewImg(data.bannerImg);
       setBannerDetail(data.bannerDetail);
+      console.log("test");
+      console.log(data.bannerImg);
     }
   }, [data]);
   useEffect(() => {
@@ -80,12 +99,18 @@ function UpdateBanner({ match }) {
   });
   const onBannerStartHandler = useCallback((e) => {
     setBannerStart(e.target.value);
+    console.log(e.target.value);
   });
   const onBannerEndHandler = useCallback((e) => {
     setBannerEnd(e.target.value);
   });
   const onBannerImgHandler = useCallback((e) => {
     setBannerImg(e.target.files[0]);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setViewImg(reader.result);
+    };
+    reader.readAsDataURL(e.target.files[0]);
   });
   const onSubmitHandler = useCallback((e) => {
     e.preventDefault();
@@ -185,6 +210,12 @@ function UpdateBanner({ match }) {
                   />
                 </span>
               </div>
+              {viewImg && (
+                <Block>
+                  <span>이미지 미리보기</span>
+                  <img src={viewImg} alt="banner"></img>
+                </Block>
+              )}
               <Button id="Submit" type="submit" variant="contained">
                 배너 등록
               </Button>
@@ -195,5 +226,4 @@ function UpdateBanner({ match }) {
     </main>
   );
 }
-
 export default UpdateBanner;

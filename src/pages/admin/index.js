@@ -28,6 +28,7 @@ import PostProduct from "./ProductManage/PostProduct";
 import ProductDetail from "./ProductManage/ProductDetail";
 import UpdateProduct from "./ProductManage/UpdateProduct";
 import UpdateBanner from "./BannerEvent/UpdateBanner";
+import OrderList from "./Order/OrderList";
 function Copyright() {
   return (
     <Typography>
@@ -232,6 +233,7 @@ export default function Admin() {
         path="/admin/ProductManage/UpdateProduct/:id"
         component={UpdateProduct}
       />
+      <Route path="/admin/Order" component={OrderList} />
     </div>
   );
 }

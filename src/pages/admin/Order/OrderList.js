@@ -13,6 +13,7 @@ import {
   getOrderListAllAction,
   filterOrderListAllAction,
   updateOrderStateAction,
+  getOrderReivewsAction,
 } from "../../../stores/actions/orderAction";
 import { DateChange } from "../../../utils/DateChange";
 import Pagination from "../ProductManage/Pagination";
@@ -66,11 +67,16 @@ function OrderList() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleClickOpen = (id, userid) => {
-    setOpen(true);
-    setModalId(id);
-    setUserId(userid);
-  };
+  const handleClickOpen = useCallback(
+    (id, userid) => {
+      setOpen(true);
+      setModalId(id);
+      setUserId(userid);
+      console.log(id);
+      dispatch(getOrderReivewsAction(id));
+    },
+    [open]
+  );
   const handleClose = () => {
     setOpen(false);
   };

@@ -28,7 +28,7 @@ export const UpdateOrderState = async (id) => {
 
 export const OrderReview = async (id) => {
   const response = await axios({
-    url: `${process.env.REACT_APP_API_BASEURL}/api/review/:${id}`,
+    url: `${process.env.REACT_APP_API_BASEURL}/api/review/${id}`,
     method: "get",
   });
   return response;

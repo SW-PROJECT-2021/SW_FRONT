@@ -60,10 +60,6 @@ function ReviewModal({ open, handleClose, modalId, userId }) {
   const { loading, data, error } = useSelector(
     (state) => state.OrderReducer.orderreview
   );
-  useEffect(() => {
-    dispatch(getOrderReivewsAction(modalId));
-  }, [modalId]);
-
   if (loading) return <div>loading</div>;
   if (error) return <div>error</div>;
   if (!data) return null;

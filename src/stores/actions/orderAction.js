@@ -56,6 +56,6 @@ export const getOrderReivewsAction = (id) => async (dispatch) => {
     console.log(response);
     dispatch({ type: GET_ORDER_REVIEWS_SUCCESS, payload: response.data.data });
   } catch (err) {
-    dispatch({ type: GET_ORDER_REVIEWS, payload: err, error: true });
+    dispatch({ type: GET_ORDER_REVIEWS_ERROR, payload: err, error: true });
   }
 };

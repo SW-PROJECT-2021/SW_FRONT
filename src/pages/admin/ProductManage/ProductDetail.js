@@ -12,7 +12,7 @@ import { useStyles } from "../index";
 import Container from "@material-ui/core/Container";
 import { Key, Value, ImgBlock, HeaderBlock } from "./ManageStyle";
 import { CategoryMappingById } from "../../../utils/CategoryMapping";
-
+import Review from "../../productDetail/Review";
 const Body = styled.div`
   width: 100%;
   height: auto;
@@ -136,6 +136,7 @@ function ProductDetail({ match }) {
                   </div>
                 </div>
               </HeaderBlock>
+              <Review reviews={data.data.reviews}></Review>
             </Body>
           </Paper>
         </Grid>

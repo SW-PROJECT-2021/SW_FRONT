@@ -158,7 +158,7 @@ export const Value = styled.div`
 
 export const ImgBlock = styled.div`
   width: 100%;
-  height: auto;
+  height: 350px;
   display: inline-block;
   border: 1px solid rgb(225, 225, 225);
   border-radius: 10px;

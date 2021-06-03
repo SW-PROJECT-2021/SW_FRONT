@@ -1,65 +1,44 @@
 import React from "react";
 import { useTheme } from "@material-ui/core/styles";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
+  Cell,
   XAxis,
   YAxis,
-  Label,
+  CartesianGrid,
+  Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
+import { CategoryMappingReverse } from "../../utils/CategoryMapping";
 import Title from "./Title";
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
-
-const data = [
-  createData("00:00", 0),
-  createData("03:00", 300),
-  createData("06:00", 600),
-  createData("09:00", 800),
-  createData("12:00", 1500),
-  createData("15:00", 2000),
-  createData("18:00", 2400),
-  createData("21:00", 2400),
-  createData("24:00", undefined),
-];
-
-export default function Chart() {
+export default function Chart({ data }) {
   const theme = useTheme();
-
+  console.log(data);
   return (
     <React.Fragment>
-      <Title>Today</Title>
-      <ResponsiveContainer>
-        <LineChart
+      <Title>가장 많이 팔린 카테고리(5개)</Title>
+      <ResponsiveContainer width="80%">
+        <BarChart
+          width={50}
+          height={30}
           data={data}
           margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
+            top: 5,
+            right: 30,
+            left: 50,
+            bottom: 5,
           }}
         >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
-            <Label
-              angle={270}
-              position="left"
-              style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
-            >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line
-            type="monotone"
-            dataKey="amount"
-            stroke={theme.palette.primary.main}
-            dot={false}
-          />
-        </LineChart>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="CategoryName" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="total" fill="#8884d8" />
+        </BarChart>
       </ResponsiveContainer>
     </React.Fragment>
   );

@@ -37,7 +37,19 @@ export const CategoryMapping = {
   폼롤러: "roller",
   요가매트: "mat",
 };
-
+export const CategoryMappingReverse = {
+  running: "러닝머신",
+  cycle: "사이클",
+  babel: "바벨",
+  dumbbell: "덤벨",
+  plate: "원판",
+  machine: "기구",
+  band: "밴드",
+  strap: "스트랩",
+  belt: "밸트",
+  roller: "폼롤러",
+  mat: " 요가매트",
+};
 export const CategoryMappingByIdPosted = {
   1: "러닝머신",
   2: "사이클",

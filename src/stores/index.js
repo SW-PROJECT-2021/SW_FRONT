@@ -11,6 +11,7 @@ import { ProductReducer } from "./reducers/ProductReducer";
 import { CartReducer } from "./reducers/CartReducer";
 import { BannerReducer } from "./reducers/BannerReducer";
 import { OrderReducer } from "./reducers/OrderReducer";
+import { StatsReducer } from "./reducers/StatsReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   CartReducer,
   BannerReducer,
   OrderReducer,
+  StatsReducer,
 });
 
 const enhancedReducer = persistReducer(persistConfig, rootReducer);

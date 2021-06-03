@@ -7,7 +7,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signup, signupClear, logined } from "../../stores/actions/actions";
 import * as UserApi from "../../stores/api/userApi";
-import { checkEmail, checkPassword, checkId } from "../../utils/RegExpCheck";
+import {
+  checkEmail,
+  checkPassword,
+  checkId,
+  checkName,
+} from "../../utils/RegExpCheck";
 const ReadMe = styled.p`
   font-family: NanumSquareRegular;
   padding: 20px;
@@ -79,6 +84,8 @@ function SignUp() {
   const [emailOverLapCheck, setEmailOverLapCheck] = useState(false);
   //패스워드체크 확인
   const [warningState, setWarningState] = useState(false);
+  //이름체크
+  const [nameCheck, setNameCheck] = useState(data);
 
   //inputhandling
   const onIdHandler = useCallback(
@@ -97,6 +104,8 @@ function SignUp() {
   const onNameHandler = useCallback(
     (e) => {
       setName(e.target.value);
+      setNameCheck(checkName(e.target.value));
+      console.log(nameCheck);
     },
     [name]
   );
@@ -205,7 +214,8 @@ function SignUp() {
           setWarningState(true);
         } else {
           setWarningState(false);
-          if (idOverLapCheck && emailOverLapCheck && name) {
+          if (idOverLapCheck && emailOverLapCheck && nameCheck && name) {
+            console.log(checkName(name));
             //서버에 회원가입요청
             console.log("회원가입 요청");
             let body = {
@@ -216,12 +226,14 @@ function SignUp() {
             };
             console.log("123");
             dispatch(signup(body));
-          } else if (!name) {
-            alert("이름을 적어야 합니다");
+          } else if (!nameCheck) {
+            alert("올바른 이름이 아닙니다");
           } else if (!idOverLapCheck) {
             alert("id 중복확인을 해야합니다 ");
           } else if (!emailOverLapCheck) {
             alert("email 중복확인을 해야합니다 ");
+          } else if (!name) {
+            alert("이름을 입력하세요");
           }
         }
       } else {
@@ -242,6 +254,7 @@ function SignUp() {
       id,
       name,
       email,
+      nameCheck,
     ]
   );
   return (

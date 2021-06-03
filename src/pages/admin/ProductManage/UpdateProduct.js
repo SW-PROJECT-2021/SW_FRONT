@@ -18,6 +18,7 @@ import {
   CategoryMappingById,
   CategoryList,
   CategoryMapping,
+  CategoryMappingByIdPosted,
 } from "../../../utils/CategoryMapping";
 import {
   UpdateProductId,
@@ -109,6 +110,7 @@ function UpdateProduct({ match }) {
   const [productImg, setProductImg] = useState({ ImgFile: null });
   const [productDetail, setProductDetail] = useState(null);
   const [postImgs, setpostImgs] = useState([]);
+  const [delivery, setDelivery] = useState(null);
 
   const dispatch = useDispatch();
   const { loading, data, error } = useSelector(
@@ -116,19 +118,28 @@ function UpdateProduct({ match }) {
   );
   const updatedata = useSelector((state) => state.ProductReducer.postproduct);
   const updatedData = updatedata.data;
-
+  const history = useHistory();
+  const [category, setCategory] = useState({
+    age: "",
+    name: "hai",
+  });
   useEffect(() => {
     dispatch(getProductById(match.params.id));
   }, []);
   useEffect(() => {
     console.log("test2");
     if (data) {
-      console.log(data.data.img);
       setProductName(data.data.name);
       setProductPrice(data.data.price);
       setProductCount(data.data.count);
       setProductImg(data.data.img);
       setProductDetail(data.data.detail);
+      setDelivery(data.data.delivery);
+      setCategory({
+        ...category,
+        age: CategoryMappingByIdPosted[data.data.CategoryId],
+      });
+      console.log(category);
     }
   }, [data]);
   useEffect(() => {
@@ -140,11 +151,6 @@ function UpdateProduct({ match }) {
   }, [updatedData]);
   const imgId = useRef(0);
 
-  const history = useHistory();
-  const [category, setCategory] = useState({
-    age: "",
-    name: "hai",
-  });
   const deleteImg = useCallback((id) => {
     setpostImgs(postImgs.filter((imgs) => imgs.id !== id));
   });
@@ -154,7 +160,14 @@ function UpdateProduct({ match }) {
       ...category,
       [name]: event.target.value,
     });
+    console.log(category);
   };
+  const onDeliveryHandler = useCallback(
+    (e) => {
+      setDelivery(e.target.value);
+    },
+    [delivery]
+  );
   const onNameHandler = useCallback(
     (e) => {
       setProductName(e.target.value);
@@ -199,7 +212,8 @@ function UpdateProduct({ match }) {
       productPrice &&
       productCount &&
       productDetail &&
-      category.age
+      category.age &&
+      delivery
     ) {
       const formData = new FormData();
       formData.append("id", match.params.id);
@@ -211,6 +225,7 @@ function UpdateProduct({ match }) {
       formData.append("count", productCount);
       formData.append("detail", productDetail);
       formData.append("category", CategoryMapping[category.age]);
+      formData.append("delivery", delivery);
 
       dispatch(UpdateProductId(formData));
     } else {
@@ -293,6 +308,23 @@ function UpdateProduct({ match }) {
                       autoFocus
                       value={productDetail}
                       onChange={onDetailHandler}
+                    />
+                  </div>
+                  <div>
+                    <span>배송비</span>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={1}
+                      id="배송비"
+                      label="배송비"
+                      name="배송비"
+                      type="number"
+                      autoComplete="count"
+                      autoFocus
+                      value={delivery}
+                      onChange={onDeliveryHandler}
                     />
                   </div>
                   <div>

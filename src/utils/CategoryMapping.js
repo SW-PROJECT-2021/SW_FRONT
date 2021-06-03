@@ -37,3 +37,17 @@ export const CategoryMapping = {
   폼롤러: "roller",
   요가매트: "mat",
 };
+
+export const CategoryMappingByIdPosted = {
+  1: "러닝머신",
+  2: "사이클",
+  3: "바벨",
+  4: "덤벨",
+  5: "원판",
+  6: "머신",
+  7: "밴드",
+  8: "스트랩",
+  9: "벨트",
+  10: "폼롤러",
+  11: "요가매트",
+};

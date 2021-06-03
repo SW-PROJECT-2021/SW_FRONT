@@ -78,6 +78,7 @@ function PostProduct() {
   const [productImg, setProductImg] = useState({ ImgFile: null });
   const [productDetail, setProductDetail] = useState(null);
   const [postImgs, setpostImgs] = useState([]);
+  const [delivery, setDelivery] = useState(null);
   const imgId = useRef(0);
 
   const handleChange = (event) => {
@@ -111,7 +112,12 @@ function PostProduct() {
     },
     [productDetail]
   );
-
+  const onDeliveryHandler = useCallback(
+    (e) => {
+      setDelivery(e.target.value);
+    },
+    [delivery]
+  );
   const onImgHandler = useCallback(
     (e) => {
       const img = e.target.files[0];
@@ -140,7 +146,8 @@ function PostProduct() {
       productPrice &&
       productCount &&
       productDetail &&
-      category.age
+      category.age &&
+      delivery
     ) {
       const formData = new FormData();
       formData.append("imgs", postImgs[0].img);
@@ -151,7 +158,7 @@ function PostProduct() {
       formData.append("count", productCount);
       formData.append("detail", productDetail);
       formData.append("category", CategoryMapping[category.age]);
-
+      formData.append("delivery", delivery);
       dispatch(postProduct(formData));
     } else if (!(postImgs.length === 3)) {
       alert("이미지 3장을 등록해야 합니다");
@@ -236,6 +243,23 @@ function PostProduct() {
                   autoFocus
                   value={productDetail}
                   onChange={onDetailHandler}
+                />
+              </div>
+              <div>
+                <span>배송비</span>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={1}
+                  id="배송비"
+                  label="배송비"
+                  name="배송비"
+                  type="number"
+                  autoComplete="count"
+                  autoFocus
+                  value={delivery}
+                  onChange={onDeliveryHandler}
                 />
               </div>
               <div>

@@ -130,6 +130,10 @@ function ProductDetail({ match }) {
                     <Key>최근 수정 날짜:</Key>
                     <Value>{DateChange(data.data.updatedAt)}</Value>
                   </div>
+                  <div className="line">
+                    <Key>배송비:</Key>
+                    <Value>{data.data.delivery}</Value>
+                  </div>
                 </div>
               </HeaderBlock>
             </Body>

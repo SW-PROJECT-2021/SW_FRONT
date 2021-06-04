@@ -32,8 +32,11 @@ function CouponList() {
   const { loading, data, error } = useSelector(
     (state) => state.CouponReducer.couponlist
   );
-  const registeState = useSelector(
+  const registeStateData = useSelector(
     (state) => state.CouponReducer.registecoupon.data
+  );
+  const registeStateError = useSelector(
+    (state) => state.CouponReducer.registecoupon.error
   );
   const onCouponIdHandler = useCallback(
     (e) => {
@@ -71,7 +74,7 @@ function CouponList() {
         if (couponId && userId) {
           let data = {
             couponId: couponId,
-            userId: userId,
+            userLoginId: userId,
           };
           console.log(data);
           dispatch(registeCouponByUserAction(data));
@@ -86,12 +89,16 @@ function CouponList() {
     dispatch(getCouponAllAction());
   }, []);
   useEffect(() => {
-    if (registeState) {
+    if (registeStateData) {
       alert("쿠폰 발급 성공");
       dispatch(registeCouponClear());
       window.location.reload();
+    } else if (registeStateError) {
+      alert("이미 발급된 쿠폰입니다.");
+      dispatch(registeCouponClear());
+      window.location.reload();
     }
-  }, [registeState]);
+  }, [registeStateData, registeStateError]);
   if (loading) return <div>loading</div>;
   if (error) return <div>error</div>;
   if (!data) return null;

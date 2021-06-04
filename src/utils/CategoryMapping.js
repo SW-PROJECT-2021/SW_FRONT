@@ -24,6 +24,19 @@ export const CategoryList = [
   "폼롤러",
   "요가매트",
 ];
+export const CategoryListMapping = {
+  런닝머신: 1,
+  사이클: 2,
+  바벨: 3,
+  덤벨: 4,
+  원판: 5,
+  기구: 6,
+  밴드: 7,
+  스트랩: 8,
+  벨트: 9,
+  폼롤러: 10,
+  요가매트: 11,
+};
 export const CategoryMapping = {
   런닝머신: "running",
   사이클: "cycle",

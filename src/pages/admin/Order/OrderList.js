@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Title from "../Title";
-import { Link } from "react-router-dom";
 import { Header, FilterText, SearchButton } from "../ProductManage/ManageStyle";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
@@ -20,7 +19,7 @@ import Pagination from "../ProductManage/Pagination";
 import { OrderMappingById } from "../../../utils/OrderMapping";
 import ReviewModal from "./ReviewModal";
 
-const Body = styled.div`
+export const Body = styled.div`
   ul {
     padding: 0;
     width: 100%;
@@ -44,6 +43,9 @@ const Body = styled.div`
   }
   .list-small {
     width: 15%;
+  }
+  .list-verysmall {
+    width: 7%;
   }
   .list-large {
     width: 40%;

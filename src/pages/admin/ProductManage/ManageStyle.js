@@ -59,9 +59,9 @@ const UploadBtn = styled.button`
   }
 `;
 
-export const UploadButton = ({ children }) => {
+export const UploadButton = ({ children, onSubmit }) => {
   return (
-    <UploadBtn>
+    <UploadBtn onClick={onSubmit}>
       <div className="svg">
         <PublishIcon />
       </div>

@@ -18,7 +18,7 @@ export const mainListItems = (
     <Link to="/admin" style={{ textDecoration: "none", color: "black" }}>
       <ListItem button>
         <ListItemIcon>
-          <DashboardIcon />
+          <BarChartIcon />
         </ListItemIcon>
         <ListItemText primary="메인" />
       </ListItem>
@@ -60,12 +60,17 @@ export const mainListItems = (
         <ListItemText primary="쿠폰관리" />
       </ListItem>
     </Link>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="보고서" />
-    </ListItem>
+    <Link
+      to="/admin/Inquire"
+      style={{ textDecoration: "none", color: "black" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="문의관리" />
+      </ListItem>
+    </Link>
   </div>
 );
 /*

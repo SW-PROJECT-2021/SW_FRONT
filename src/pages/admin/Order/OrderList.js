@@ -31,6 +31,7 @@ export const Body = styled.div`
     list-style: none;
     font-family: "NanumSquareBold";
     margin-top: 10px;
+    margin-right: 0;
   }
   li {
     margin-bottom: 10px;
@@ -51,6 +52,7 @@ export const Body = styled.div`
     width: 40%;
   }
   .list-middle {
+    width: 25%;
   }
   .list-body {
     color: #2f4f4f;

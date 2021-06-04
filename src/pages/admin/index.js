@@ -31,6 +31,7 @@ import UpdateBanner from "./BannerEvent/UpdateBanner";
 import OrderList from "./Order/OrderList";
 import CouponList from "./Coupon/CouponList";
 import PostCoupon from "./Coupon/PostCoupon";
+import InquireList from "./Inquire/InquireList";
 const drawerWidth = 240;
 const LogoutButton = styled.button`
   border: 1px solid rgb(86, 100, 134);
@@ -228,6 +229,7 @@ export default function Admin() {
       <Route path="/admin/Order" exact component={OrderList} />
       <Route path="/admin/Coupon" exact component={CouponList} />
       <Route path="/admin/Coupon/PostCoupon" exact component={PostCoupon} />
+      <Route path="/admin/Inquire" exact component={InquireList} />
     </div>
   );
 }

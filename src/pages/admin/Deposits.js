@@ -1,35 +1,31 @@
 import React from "react";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
-
-function preventDefault(event) {
-  event.preventDefault();
-}
-
+import { DateChange } from "../../utils/DateChange";
 const useStyles = makeStyles({
   depositContext: {
     flex: 1,
   },
 });
 
-export default function Deposits() {
+export default function Deposits({ data, startDate, endDate }) {
   const classes = useStyles();
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  if (!data) return null;
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Title>판매 금액 통계</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+        {numberWithCommas(data.totalCost)} 원
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+        <p>{DateChange(startDate)} </p> ~{DateChange(endDate)}
       </Typography>
-      <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
-        </Link>
-      </div>
     </React.Fragment>
   );
 }

@@ -59,9 +59,9 @@ const UploadBtn = styled.button`
   }
 `;
 
-export const UploadButton = ({ children }) => {
+export const UploadButton = ({ children, onSubmit }) => {
   return (
-    <UploadBtn>
+    <UploadBtn onClick={onSubmit}>
       <div className="svg">
         <PublishIcon />
       </div>
@@ -158,7 +158,7 @@ export const Value = styled.div`
 
 export const ImgBlock = styled.div`
   width: 100%;
-  height: auto;
+  height: 350px;
   display: inline-block;
   border: 1px solid rgb(225, 225, 225);
   border-radius: 10px;

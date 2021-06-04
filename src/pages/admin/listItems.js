@@ -5,6 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
+import CallToActionIcon from "@material-ui/icons/CallToAction";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import LayersIcon from "@material-ui/icons/Layers";
 import EventNoteIcon from "@material-ui/icons/EventNote";
@@ -17,7 +18,7 @@ export const mainListItems = (
     <Link to="/admin" style={{ textDecoration: "none", color: "black" }}>
       <ListItem button>
         <ListItemIcon>
-          <DashboardIcon />
+          <BarChartIcon />
         </ListItemIcon>
         <ListItemText primary="메인" />
       </ListItem>
@@ -43,24 +44,33 @@ export const mainListItems = (
         <ListItemText primary="상품관리" />
       </ListItem>{" "}
     </Link>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="주문관리" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="회원관리" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="보고서" />
-    </ListItem>
+    <Link to="/admin/Order" style={{ textDecoration: "none", color: "black" }}>
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="주문관리" />
+      </ListItem>
+    </Link>
+    <Link to="/admin/Coupon" style={{ textDecoration: "none", color: "black" }}>
+      <ListItem button>
+        <ListItemIcon>
+          <CallToActionIcon />
+        </ListItemIcon>
+        <ListItemText primary="쿠폰관리" />
+      </ListItem>
+    </Link>
+    <Link
+      to="/admin/Inquire"
+      style={{ textDecoration: "none", color: "black" }}
+    >
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="문의관리" />
+      </ListItem>
+    </Link>
   </div>
 );
 /*

@@ -12,3 +12,9 @@ export const checkPassword = function (str) {
   const regExp = /^(?=.*[!@#$%^&*])(?=.*[a-zA-Z])(?=.*[0-9]).{8,30}$/i;
   return regExp.test(str) ? true : false;
 };
+
+export const checkName = (str) => {
+  console.log(str);
+  const regExp = /^[a-zA-Z가-힣_]*$/i;
+  return regExp.test(str) ? true : false;
+};

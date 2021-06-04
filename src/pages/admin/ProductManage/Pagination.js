@@ -5,7 +5,8 @@ const PageUl = styled.ul`
   list-style: none;
   text-align: center;
   border-radius: 3px;
-
+  display: flex;
+  justify-content: center;
   padding: 1px;
   background-color: rgb(232, 237, 244);
 `;
@@ -42,7 +43,6 @@ function Pagination({ postsPerPage, totalPost, setCurrentPage }) {
     pageNumbers.push(i);
   }
 
-  console.log(pageNumbers);
   return (
     <div>
       <PageUl>

@@ -12,7 +12,7 @@ import { useStyles } from "../index";
 import Container from "@material-ui/core/Container";
 import { Key, Value, ImgBlock, HeaderBlock } from "./ManageStyle";
 import { CategoryMappingById } from "../../../utils/CategoryMapping";
-
+import Review from "../../productDetail/Review";
 const Body = styled.div`
   width: 100%;
   height: auto;
@@ -130,8 +130,13 @@ function ProductDetail({ match }) {
                     <Key>최근 수정 날짜:</Key>
                     <Value>{DateChange(data.data.updatedAt)}</Value>
                   </div>
+                  <div className="line">
+                    <Key>배송비:</Key>
+                    <Value>{data.data.delivery}</Value>
+                  </div>
                 </div>
               </HeaderBlock>
+              <Review reviews={data.data.reviews}></Review>
             </Body>
           </Paper>
         </Grid>

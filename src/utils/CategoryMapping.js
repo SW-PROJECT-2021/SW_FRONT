@@ -24,6 +24,19 @@ export const CategoryList = [
   "폼롤러",
   "요가매트",
 ];
+export const CategoryListMapping = {
+  런닝머신: 1,
+  사이클: 2,
+  바벨: 3,
+  덤벨: 4,
+  원판: 5,
+  기구: 6,
+  밴드: 7,
+  스트랩: 8,
+  벨트: 9,
+  폼롤러: 10,
+  요가매트: 11,
+};
 export const CategoryMapping = {
   런닝머신: "running",
   사이클: "cycle",
@@ -36,4 +49,30 @@ export const CategoryMapping = {
   벨트: "belt",
   폼롤러: "roller",
   요가매트: "mat",
+};
+export const CategoryMappingReverse = {
+  running: "러닝머신",
+  cycle: "사이클",
+  babel: "바벨",
+  dumbbell: "덤벨",
+  plate: "원판",
+  machine: "기구",
+  band: "밴드",
+  strap: "스트랩",
+  belt: "밸트",
+  roller: "폼롤러",
+  mat: " 요가매트",
+};
+export const CategoryMappingByIdPosted = {
+  1: "러닝머신",
+  2: "사이클",
+  3: "바벨",
+  4: "덤벨",
+  5: "원판",
+  6: "머신",
+  7: "밴드",
+  8: "스트랩",
+  9: "벨트",
+  10: "폼롤러",
+  11: "요가매트",
 };

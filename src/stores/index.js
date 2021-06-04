@@ -10,6 +10,10 @@ import { UserReducer } from "./reducers/UserReducer";
 import { ProductReducer } from "./reducers/ProductReducer";
 import { CartReducer } from "./reducers/CartReducer";
 import { BannerReducer } from "./reducers/BannerReducer";
+import { OrderReducer } from "./reducers/OrderReducer";
+import { StatsReducer } from "./reducers/StatsReducer";
+import { CouponReducer } from "./reducers/CouponReducer";
+import { InquireReducer } from "./reducers/InquireReducer";
 const persistConfig = {
   key: "root",
   storage,
@@ -20,6 +24,10 @@ const rootReducer = combineReducers({
   ProductReducer,
   CartReducer,
   BannerReducer,
+  OrderReducer,
+  StatsReducer,
+  CouponReducer,
+  InquireReducer,
 });
 
 const enhancedReducer = persistReducer(persistConfig, rootReducer);

@@ -13,7 +13,7 @@ import Badge from "@material-ui/core/Badge";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems } from "./listItems";
 import styled from "styled-components";
 import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,16 +28,10 @@ import PostProduct from "./ProductManage/PostProduct";
 import ProductDetail from "./ProductManage/ProductDetail";
 import UpdateProduct from "./ProductManage/UpdateProduct";
 import UpdateBanner from "./BannerEvent/UpdateBanner";
-function Copyright() {
-  return (
-    <Typography>
-      {"Copyright © "}
-      {new Date().getFullYear()}
-      {"."}
-      SW 6팀
-    </Typography>
-  );
-}
+import OrderList from "./Order/OrderList";
+import CouponList from "./Coupon/CouponList";
+import PostCoupon from "./Coupon/PostCoupon";
+import InquireList from "./Inquire/InquireList";
 const drawerWidth = 240;
 const LogoutButton = styled.button`
   border: 1px solid rgb(86, 100, 134);
@@ -232,6 +226,10 @@ export default function Admin() {
         path="/admin/ProductManage/UpdateProduct/:id"
         component={UpdateProduct}
       />
+      <Route path="/admin/Order" exact component={OrderList} />
+      <Route path="/admin/Coupon" exact component={CouponList} />
+      <Route path="/admin/Coupon/PostCoupon" exact component={PostCoupon} />
+      <Route path="/admin/Inquire" exact component={InquireList} />
     </div>
   );
 }

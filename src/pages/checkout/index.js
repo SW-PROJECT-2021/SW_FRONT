@@ -114,10 +114,21 @@ export default function Checkout() {
       setTotal(price + info.delivery - discount.price);
    }, [info, discount]);
 
+   const checkAddress = () => {
+      if (info.addressInfo.addressName === "") {
+         window.alert(
+            "배송정보를 입력해주세요! \n배송정보는 배송지 등록 버튼을 누르고, 적용버튼을 눌러 입력하실 수 있습니다."
+         );
+         return false;
+      }
+      return true;
+   };
    const handleNext = () => {
       if (activeStep === 1) {
          if (window.confirm("결제 금액, 배송지 정보가 정확합니까?")) {
-            setActiveStep(activeStep + 1);
+            if (checkAddress()) {
+               setActiveStep(activeStep + 1);
+            }
          }
       } else {
          setActiveStep(activeStep + 1);
@@ -128,12 +139,11 @@ export default function Checkout() {
       setActiveStep(activeStep - 1);
    };
 
-   const cancelPay = () => {
-      if (window.confirm("결제를 취소하시겠습니까?")) {
+   const cancelPay = (e, onCheck) => {
+      if (onCheck || window.confirm("결제를 취소하시겠습니까?")) {
          history.goBack();
       } else return;
    };
-   console.log(info);
    const couponApply = async (coupon, setOpen) => {
       if (
          window.confirm(
@@ -243,6 +253,7 @@ export default function Checkout() {
                                     setActiveStep={setActiveStep}
                                     productList={info.productList}
                                     total={total}
+                                    cancelPay={cancelPay}
                                  />
                               )
                            ) : (
@@ -268,7 +279,7 @@ export default function Checkout() {
                                  variant="contained"
                                  color="secondary"
                                  className={classes.cancelButton}
-                                 onClick={cancelPay}>
+                                 onClick={(e) => cancelPay(e, false)}>
                                  취소
                               </Button>{" "}
                               <div className={classes.buttons}>

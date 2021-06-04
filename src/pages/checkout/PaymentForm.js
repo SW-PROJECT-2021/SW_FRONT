@@ -22,10 +22,17 @@ export default function PaymentForm({ setActiveStep, productList, total }) {
    const handleSuccess = (res) => {
       setActiveStep((prev) => prev + 1);
    };
-   const handleFail = (err) => {
+   function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+   }
+
+   const handleFail = async (err) => {
       window.alert(`결제가 취소되었습니다.\n
       이유 : ${err.error_msg}`);
-      history.push("/");
+      while (history.location.pathname === "/checkout") {
+         history.goBack();
+         await sleep(100);
+      }
    };
    return (
       <div>

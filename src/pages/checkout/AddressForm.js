@@ -52,7 +52,6 @@ export default function AddressForm({ info, setInfo }) {
                   name="addressName"
                   label="배송지 이름"
                   value={info.addressName}
-                  onChange={onChange}
                   fullWidth
                   autoComplete="given-name"
                />
@@ -62,8 +61,7 @@ export default function AddressForm({ info, setInfo }) {
                   variant="outlined"
                   color="primary"
                   onClick={() => setOpen(true)}
-                  className={classes.button}
-               >
+                  className={classes.button}>
                   배송지 등록
                </Button>
             </Grid>
@@ -74,7 +72,6 @@ export default function AddressForm({ info, setInfo }) {
                   name="name"
                   label="성함"
                   value={info.name}
-                  onChange={onChange}
                   fullWidth
                   autoComplete="given-name"
                />
@@ -105,7 +102,6 @@ export default function AddressForm({ info, setInfo }) {
                   id="detail"
                   name="detail"
                   value={info.detail}
-                  onChange={onChange}
                   label="상세주소"
                   fullWidth
                />
@@ -117,7 +113,6 @@ export default function AddressForm({ info, setInfo }) {
                   label="연락처"
                   required
                   value={info.phone}
-                  onChange={onChange}
                   fullWidth
                />
             </Grid>

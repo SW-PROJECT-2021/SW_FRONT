@@ -223,12 +223,6 @@ function OrderRecord({ originalList, setRefresh }) {
                            <>상품평</>
                         )}
                      </button>
-                     &nbsp;&nbsp;&nbsp;&nbsp;
-                     <button
-                        className="btn btn-secondary"
-                        onClick={() => moveStatus(item.id)}>
-                        테스트 버튼 상태 + 1
-                     </button>
                      <div
                         className={`${
                            item.discountCost

@@ -19,13 +19,14 @@ import { Header, FilterText, SearchButton } from "./ProductManage/ManageStyle";
 import { CategoryMappingReverse } from "../../utils/CategoryMapping";
 
 import clsx from "clsx";
-function Copyright() {
+export function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       {new Date().getFullYear()}
       {"."}
       SW 6팀
+      {"info@com +020-0000-0000 서울시 노원구 공릉로 232 서울과학기술대학교"}
     </Typography>
   );
 }

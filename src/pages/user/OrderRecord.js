@@ -124,7 +124,6 @@ function OrderRecord({ originalList, setRefresh }) {
    };
 
    const moveStatus = async (id) => {
-      console.log(id);
       await axios.put("/api/orderHistory/raiseStatus", { id: id });
       setRefresh((prev) => prev + 1);
    };

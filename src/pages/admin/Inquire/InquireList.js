@@ -4,6 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Title from "../Title";
+import Box from "@material-ui/core/Box";
+
 import styled from "styled-components";
 import { Header, FilterText, SearchButton } from "../ProductManage/ManageStyle";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +16,8 @@ import {
 } from "../../../stores/actions/inquireAction";
 import { DateChange } from "../../../utils/DateChange";
 import AnswerModal from "./AnswerModal";
+import { Copyright } from "../AdminMain";
+
 function InquireList() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -109,6 +113,9 @@ function InquireList() {
             </Body>
           </Paper>
         </Grid>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
       </Container>
     </main>
   );

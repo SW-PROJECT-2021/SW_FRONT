@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Title from "../Title";
+import Box from "@material-ui/core/Box";
 import { Header, FilterText, SearchButton } from "../ProductManage/ManageStyle";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
@@ -18,6 +19,7 @@ import { DateChange } from "../../../utils/DateChange";
 import Pagination from "../ProductManage/Pagination";
 import { OrderMappingById } from "../../../utils/OrderMapping";
 import ReviewModal from "./ReviewModal";
+import { Copyright } from "../AdminMain";
 
 export const Body = styled.div`
   ul {
@@ -62,7 +64,7 @@ export const Body = styled.div`
 
 function OrderList() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [postsPerPage, setPostsPerPage] = useState(8);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [open, setOpen] = useState(false);
@@ -126,7 +128,9 @@ function OrderList() {
         id: id,
       };
       dispatch(updateOrderStateAction(data));
-      window.location.reload();
+      setTimeout(function () {
+        window.location.reload();
+      }, 300);
     },
     [dispatch]
   );
@@ -283,7 +287,8 @@ function OrderList() {
                             <div>
                               {" "}
                               <span>{item.name}</span>{" "}
-                              <span>{item.count}개</span>
+                              <span>{item.count}개</span>{" "}
+                              <span>상품가격 :{item.price}</span>
                             </div>
                           );
                         })}
@@ -300,6 +305,9 @@ function OrderList() {
             </Body>
           </Paper>
         </Grid>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
       </Container>
     </main>
   );

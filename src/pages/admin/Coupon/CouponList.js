@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Title from "../Title";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
+import Box from "@material-ui/core/Box";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -22,6 +23,7 @@ import {
   registeCouponClear,
 } from "../../../stores/actions/couponAction";
 import { registeCouponByUser } from "../../../stores/api/couponApi";
+import { Copyright } from "../AdminMain";
 
 function CouponList() {
   const classes = useStyles();
@@ -217,6 +219,9 @@ function CouponList() {
             </Body>
           </Paper>
         </Grid>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
       </Container>
     </main>
   );

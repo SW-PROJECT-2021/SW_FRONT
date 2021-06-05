@@ -25,6 +25,8 @@ import {
   detailbannerClear,
 } from "../../../stores/actions/bannerActions";
 import BannerList from "./BannerList";
+import Box from "@material-ui/core/Box";
+import { Copyright } from "../AdminMain";
 
 function Banner() {
   const classes = useStyles();
@@ -119,6 +121,9 @@ function Banner() {
             </Table>
           </Paper>
         </Grid>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
       </Container>
     </main>
   );

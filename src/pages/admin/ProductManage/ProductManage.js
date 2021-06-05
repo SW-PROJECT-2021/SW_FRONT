@@ -4,6 +4,7 @@ import { useStyles } from "../index";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 
 import Title from "../Title";
 import {
@@ -31,6 +32,7 @@ import {
 import OrderList from "../../../utils/OrderList";
 import ProductList from "./ProductList";
 import Pagination from "./Pagination";
+import { Copyright } from "../AdminMain";
 const changeValue = (value) => {
   if (value === "younger") {
     return { orderBy: "updatedAt", cmp: "lower" };
@@ -180,6 +182,9 @@ function ProductManage() {
             </React.Fragment>
           </Paper>
         </Grid>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
       </Container>
     </main>
   );

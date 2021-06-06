@@ -65,12 +65,6 @@ const mainListItems = (history) => {
             </ListItemIcon>
             <ListItemText primary="주문 내역" />
          </ListItem>
-         <ListItem button onClick={() => history.push("/user/coupon")}>
-            <ListItemIcon>
-               <AttachMoneyIcon />
-            </ListItemIcon>
-            <ListItemText primary="쿠폰" />
-         </ListItem>
       </div>
    );
 };
@@ -118,9 +112,6 @@ function User() {
             </Drawer>
             <main className={`${classes.content} col-9`}>
                <Switch>
-                  <Route path="/user/coupon">
-                     <CouponList />
-                  </Route>
                   <Route path="/user">
                      <OrderRecord
                         originalList={originalList}

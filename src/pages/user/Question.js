@@ -15,6 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { MiliToyymmdd } from "../../utils/MiliToyymmdd";
 import CustomPagination from "../../commons/CustomPagination";
 import axios from "axios";
+import CustomModal from "../../commons/CustomModal";
+import SingleOrderRecord from "./SingleOrderRecord";
 const useStyles = makeStyles((theme) => ({
    root: {
       width: "100%",
@@ -45,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
    buttonAlign: {
       textAlign: "center",
    },
+   modal: {
+      backgroundColor: theme.palette.background.paper,
+      borderRadius: "10px",
+      width: "800px",
+      height: "500px",
+      padding: theme.spacing(2, 4, 3),
+      overflowY: "scroll",
+   },
 }));
 
 function Question({ productList, setOpen }) {
@@ -63,6 +73,8 @@ function Question({ productList, setOpen }) {
       ProductId: productList.Ordered[0].id,
    });
    const [refresh, setRefresh] = useState(0);
+   const [openOrderRec, setOpenOrderRec] = useState(false);
+
    //먼저 문의 내역 확인
    useEffect(() => {
       //받고 0개이면 OnAdd true
@@ -97,7 +109,22 @@ function Question({ productList, setOpen }) {
             </AccordionSummary>
             <AccordionDetails>
                <div>
-                  문의 상품 : {item.ProductName}
+                  <div>
+                     문의 상품 : {item.ProductName}{" "}
+                     <div
+                        style={{
+                           float: "right",
+                           position: "relative",
+                           left: "150px",
+                        }}>
+                        <Button
+                           color="primary"
+                           variant="outlined"
+                           onClick={() => setOpenOrderRec(true)}>
+                           주문내역
+                        </Button>
+                     </div>
+                  </div>
                   <br />
                   <br />
                   {item.detail}
@@ -235,6 +262,12 @@ function Question({ productList, setOpen }) {
                />
             </>
          )}
+         <CustomModal
+            open={openOrderRec}
+            setOpen={setOpenOrderRec}
+            styles={classes.modal}>
+            <SingleOrderRecord item={productList} />
+         </CustomModal>
       </div>
    );
 }
